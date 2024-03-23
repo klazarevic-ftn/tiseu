@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from 'react-router-dom'; 
 
 function App() {
   const [items, setItems] = useState([]);
@@ -24,7 +25,12 @@ function App() {
     <main>
       <h1>EUprava - Tuzilastvo</h1>
       {renderItems()}
-      </main>
+      <div>
+        <Link to="/login">Login</Link> 
+        <Link to="/register">Register</Link> 
+      </div>
+
+    </main>
   );
 }
 
