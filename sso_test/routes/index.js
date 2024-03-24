@@ -1,5 +1,17 @@
 var router = require('express').Router();
 const { requiresAuth } = require('express-openid-connect');
+const jwt = require('jsonwebtoken');
+
+
+// router.get('/login/callback', function (req, res, next) {
+//   if (req.oidc.isAuthenticated()) {
+//     const user = req.oidc.user;
+//     const token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: '1h' });
+//     res.json({ token });
+//   } else {
+//     res.status(401).json({ error: 'Unauthorized' });
+//   }
+// });
 
 router.get('/', function (req, res, next) {
   res.render('index', {

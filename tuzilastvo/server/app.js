@@ -1,13 +1,32 @@
+require('dotenv').config();
 const express = require("express");
 const app = express();
+const { auth } = require('express-openid-connect');
 
-// const PORT = process.env.PORT || 8080;
-// app.listen(PORT, () => {
-//     console.log(`Server is running on port ${PORT}`);
-//   });
+const config = {
+  authRequired: false,
+  auth0Logout: true,
+  secret: process.env.SECRET,
+  baseURL: 'http://localhost:8080', 
+  clientID: process.env.CLIENT_ID,
+  issuerBaseURL: process.env.ISSUER_BASE_URL,
+};
 
-//build folder
-// app.use(express.static("build"));
+app.use(auth(config));
+
+app.get('/', (req, res) => {
+  res.send(req.oidc.isAuthenticated() ? 'Ulogovani ste' : 'Niste ulogovani');
+});
+
+app.get('/notification', (req, res) => {
+  if (req.oidc.isAuthenticated()) {
+    const userInfo = req.oidc.user;
+    const message = `Dobrodošli, ${userInfo.name}!`;
+    res.send(message);
+  } else {
+    res.send('Niste autentifikovani.');
+  }
+});
 
 const items = [
     { description: "Opis1" },
@@ -27,5 +46,7 @@ app.get('/login', (req, res) => {
 app.get('/register', (req, res) => {
     res.redirect(`https://${DOMAIN}/REGISTER`);
 });
+
+
 
 module.exports = app;
