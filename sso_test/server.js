@@ -22,8 +22,8 @@ const config = {
   auth0Logout: true
 };
 
-const port = process.env.PORT || 8000;
-if (!config.baseURL && !process.env.BASE_URL && process.env.PORT && process.env.NODE_ENV !== 'production') {
+const port = process.env.SSO_PORT || 8000;
+if (!config.baseURL && !process.env.BASE_URL && process.env.SSO_PORT && process.env.NODE_ENV !== 'production') {
   config.baseURL = `http://localhost:${port}`;
 }
 

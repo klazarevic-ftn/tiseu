@@ -1,0 +1,32 @@
+version: '3'
+services:
+  sso_mikroservis:
+    image: sso_mikroservis
+    container_name: sso_mikroservis
+    build:
+      context: .
+      dockerfile: ./sso_test/Dockerfile
+    restart: on-failure
+    ports:
+      # - "8000:${SSO_PORT}"
+      - "8000:8000"
+    env_file:
+      - ./sso_test/.env
+    networks:
+      - app-network
+  tuzilastvo_server:
+    image: tuzilastvo
+    container_name: tuzilastvo
+    build:
+      context: .
+      dockerfile: ./tuzilastvo/server/Dockerfile
+    restart: on-failure
+    ports:
+      - "8080:8080"
+    env_file:
+      - ./tuzilastvo/server/.env
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge
