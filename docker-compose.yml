@@ -15,14 +15,27 @@ services:
     networks:
       - app-network
   tuzilastvo_server:
-    image: tuzilastvo
-    container_name: tuzilastvo
+    image:   tuzilastvo_server
+    container_name:   tuzilastvo_server
     build:
       context: .
       dockerfile: ./tuzilastvo/server/Dockerfile
     restart: on-failure
     ports:
-      - "8080:8080"
+      - "8010:8010"
+    env_file:
+      - ./tuzilastvo/server/.env
+    networks:
+      - app-network
+  tuzilastvo:
+    image: tuzilastvo
+    container_name: tuzilastvo
+    build:
+      context: .
+      dockerfile: ./tuzilastvo/Dockerfile
+    restart: on-failure
+    ports:
+      - "8015:8015"
     env_file:
       - ./tuzilastvo/server/.env
     networks:

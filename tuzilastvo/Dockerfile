@@ -2,13 +2,13 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-COPY ./tuzilastvo/server/ .
+COPY ./tuzilastvo/ .
 
 COPY package*.json ./
 RUN npm install
 
 COPY . .
 
-EXPOSE 8010
+EXPOSE 8015
 
-CMD ["node", "server.js"]
+CMD ["npm", "start"]

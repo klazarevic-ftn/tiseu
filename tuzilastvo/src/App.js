@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Link } from 'react-router-dom'; 
 
 function App() {
   const [items, setItems] = useState([]);
@@ -7,8 +6,11 @@ function App() {
   useEffect(() => {
     fetch("api/items")
     .then(res => res.json())
-    .then(data => setItems(data));
-  }, [])
+    .then(data => {
+        setItems(data);
+      })
+    }, []);
+  
 
   function renderItems(){
     return items.map((item, i) => {
@@ -26,8 +28,8 @@ function App() {
       <h1>EUprava - Tuzilastvo</h1>
       {renderItems()}
       <div>
-        <Link to="/login">Login</Link> 
-        <Link to="/register">Register</Link> 
+        {/* <Link to="/login">Login</Link> 
+        <Link to="/register">Register</Link>  */}
       </div>
 
     </main>

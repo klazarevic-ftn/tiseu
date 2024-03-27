@@ -7,12 +7,12 @@ const config = {
   authRequired: false,
   auth0Logout: true,
   secret: process.env.SECRET,
-  baseURL: 'http://localhost:8080', 
+  baseURL: 'http://localhost:8010', 
   clientID: process.env.CLIENT_ID,
   issuerBaseURL: process.env.ISSUER_BASE_URL,
 };
 
-app.use(auth(config));
+// app.use(auth(config));
 
 app.get('/', (req, res) => {
   res.send(req.oidc.isAuthenticated() ? 'Ulogovani ste' : 'Niste ulogovani');
