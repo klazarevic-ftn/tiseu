@@ -12,7 +12,7 @@ const config = {
   issuerBaseURL: process.env.ISSUER_BASE_URL,
 };
 
-// app.use(auth(config));
+app.use(auth(config));
 
 app.get('/', (req, res) => {
   res.send(req.oidc.isAuthenticated() ? 'Ulogovani ste' : 'Niste ulogovani');
