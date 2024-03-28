@@ -1,0 +1,10 @@
+{
+  "home": {
+    "title": "Bienvenue sur la page d'accueil",
+    "description": "Il s'agit de la page d'accueil de notre application React."
+  },
+  "about": {
+    "title": "À propos de nous",
+    "description": "Apprenez-en davantage sur notre équipe et ..."
+  }
+}

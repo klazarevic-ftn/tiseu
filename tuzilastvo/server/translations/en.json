@@ -1,0 +1,10 @@
+{
+    "home": {
+        "title": "Welcome to the Home Page",
+        "description": "This is the home page ouf our React app"
+    },
+    "about": {
+        "title": "About us",
+        "description": "Learn more about our team and ...."
+    }
+}
