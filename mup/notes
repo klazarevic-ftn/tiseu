@@ -1,0 +1,3 @@
+docker run --name mup-postgres -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root --publish 127.0.0.1:5432:5432 -d postgres
+
+docker inspect mup-postgres| grep IPAddress
