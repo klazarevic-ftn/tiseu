@@ -149,7 +149,7 @@
 											"top": 325,
 											"width": 159.60888671875,
 											"height": 13,
-											"text": "+jmbg: string",
+											"text": "+umcn: string",
 											"horizontalAlignment": 0
 										},
 										{
@@ -166,7 +166,7 @@
 											"top": 340,
 											"width": 159.60888671875,
 											"height": 13,
-											"text": "+brlk: string",
+											"text": "+idcn: string",
 											"horizontalAlignment": 0
 										},
 										{
@@ -183,7 +183,7 @@
 											"top": 355,
 											"width": 159.60888671875,
 											"height": 13,
-											"text": "+ime: string",
+											"text": "+firstName",
 											"horizontalAlignment": 0
 										},
 										{
@@ -200,7 +200,7 @@
 											"top": 370,
 											"width": 159.60888671875,
 											"height": 13,
-											"text": "+devojacko_prezime: string",
+											"text": "+maidenLastName: string",
 											"horizontalAlignment": 0
 										},
 										{
@@ -217,7 +217,7 @@
 											"top": 385,
 											"width": 159.60888671875,
 											"height": 13,
-											"text": "+prezime: string",
+											"text": "+lastName",
 											"horizontalAlignment": 0
 										}
 									],
@@ -480,47 +480,11 @@
 									"model": {
 										"$ref": "AAAAAAGOipbKg1JT+lY="
 									},
-									"subViews": [
-										{
-											"_type": "UMLOperationView",
-											"_id": "AAAAAAGOipkSJlKS0p8=",
-											"_parent": {
-												"$ref": "AAAAAAGOipbKhFJcG1s="
-											},
-											"model": {
-												"$ref": "AAAAAAGOipkSHVKPLlg="
-											},
-											"font": "Arial;13;0",
-											"left": 621,
-											"top": 378,
-											"width": 189.9189453125,
-											"height": 13,
-											"text": "+print()",
-											"horizontalAlignment": 0
-										},
-										{
-											"_type": "UMLOperationView",
-											"_id": "AAAAAAGOipk2R1KZtqU=",
-											"_parent": {
-												"$ref": "AAAAAAGOipbKhFJcG1s="
-											},
-											"model": {
-												"$ref": "AAAAAAGOipk2P1KW6Hs="
-											},
-											"font": "Arial;13;0",
-											"left": 621,
-											"top": 393,
-											"width": 189.9189453125,
-											"height": 13,
-											"text": "+print_to_pdf()",
-											"horizontalAlignment": 0
-										}
-									],
 									"font": "Arial;13;0",
 									"left": 616,
 									"top": 373,
 									"width": 199.9189453125,
-									"height": 38
+									"height": 10
 								},
 								{
 									"_type": "UMLReceptionCompartmentView",
@@ -560,7 +524,7 @@
 							"left": 616,
 							"top": 280,
 							"width": 198.9189453125,
-							"height": 146,
+							"height": 103,
 							"nameCompartment": {
 								"$ref": "AAAAAAGOipbKhFJWBuc="
 							},
@@ -1074,7 +1038,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"left": 702,
-									"top": 491,
+									"top": 469,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 15,
@@ -1095,7 +1059,7 @@
 									"visible": null,
 									"font": "Arial;13;0",
 									"left": 687,
-									"top": 491,
+									"top": 469,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 30,
@@ -1116,7 +1080,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"left": 731,
-									"top": 490,
+									"top": 468,
 									"height": 13,
 									"alpha": -1.5707963267948966,
 									"distance": 15,
@@ -1201,7 +1165,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"left": 701,
-									"top": 447,
+									"top": 404,
 									"height": 13,
 									"alpha": -0.5235987755982988,
 									"distance": 30,
@@ -1221,7 +1185,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"left": 688,
-									"top": 449,
+									"top": 406,
 									"height": 13,
 									"alpha": -0.7853981633974483,
 									"distance": 40,
@@ -1240,7 +1204,7 @@
 									},
 									"font": "Arial;13;0",
 									"left": 718,
-									"top": 442,
+									"top": 399,
 									"width": 21.68359375,
 									"height": 13,
 									"alpha": 0.5235987755982988,
@@ -1287,7 +1251,7 @@
 								"$ref": "AAAAAAGOnk79XCZbU0k="
 							},
 							"lineStyle": 1,
-							"points": "718:567;716:427",
+							"points": "718:567;716:384",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAGOnl0bEi49LK8="
@@ -1682,7 +1646,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGOipbBzVIqTmc="
 							},
-							"name": "jmbg",
+							"name": "umcn",
 							"type": "string"
 						},
 						{
@@ -1691,7 +1655,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGOipbBzVIqTmc="
 							},
-							"name": "brlk",
+							"name": "idcn",
 							"type": "string"
 						},
 						{
@@ -1700,8 +1664,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGOipbBzVIqTmc="
 							},
-							"name": "ime",
-							"type": "string"
+							"name": "firstName"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -1709,7 +1672,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGOipbBzVIqTmc="
 							},
-							"name": "devojacko_prezime",
+							"name": "maidenLastName",
 							"type": "string"
 						},
 						{
@@ -1718,8 +1681,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGOipbBzVIqTmc="
 							},
-							"name": "prezime",
-							"type": "string"
+							"name": "lastName"
 						}
 					]
 				},
@@ -1879,7 +1841,8 @@
 							"_parent": {
 								"$ref": "AAAAAAGOipbKg1JT+lY="
 							},
-							"name": "foreign_id"
+							"name": "foreign_id",
+							"type": ""
 						},
 						{
 							"_type": "UMLAttribute",
@@ -1907,24 +1870,6 @@
 							},
 							"name": "date_fulfilled",
 							"type": "datetime?"
-						}
-					],
-					"operations": [
-						{
-							"_type": "UMLOperation",
-							"_id": "AAAAAAGOipkSHVKPLlg=",
-							"_parent": {
-								"$ref": "AAAAAAGOipbKg1JT+lY="
-							},
-							"name": "print"
-						},
-						{
-							"_type": "UMLOperation",
-							"_id": "AAAAAAGOipk2P1KW6Hs=",
-							"_parent": {
-								"$ref": "AAAAAAGOipbKg1JT+lY="
-							},
-							"name": "print_to_pdf"
 						}
 					]
 				},

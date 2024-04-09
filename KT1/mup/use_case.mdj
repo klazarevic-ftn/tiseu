@@ -1068,7 +1068,7 @@
 											"top": 340,
 											"width": 118,
 											"height": 13,
-											"text": "Informacije o osobi"
+											"text": "Pristup dosijeu"
 										},
 										{
 											"_type": "LabelView",
@@ -1101,7 +1101,7 @@
 									"font": "Arial;13;0",
 									"left": 467,
 									"top": 333,
-									"width": 129.18359375,
+									"width": 128,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGOZpyAv6Wl0RU="
@@ -5207,7 +5207,7 @@
 					"_parent": {
 						"$ref": "AAAAAAGOZpuaKKSJjMs="
 					},
-					"name": "Informacije o osobi"
+					"name": "Pristup dosijeu"
 				},
 				{
 					"_type": "UMLUseCase",
