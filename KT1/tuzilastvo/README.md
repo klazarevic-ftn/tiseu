@@ -1,0 +1,1 @@
+Ostavljeni su slike dijagrama u slucaju da se dijagrami ne ocitaju
