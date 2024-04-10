@@ -5853,7 +5853,36 @@
 					"_parent": {
 						"$ref": "AAAAAAGOZpuaKKSJjMs="
 					},
-					"name": "Uvid u nekažnjavanje"
+					"name": "Uvid u nekažnjavanje",
+					"ownedElements": [
+						{
+							"_type": "UMLAssociation",
+							"_id": "AAAAAAGOZp5Zp6apRgM=",
+							"_parent": {
+								"$ref": "AAAAAAGOZp1IjqYJeS4="
+							},
+							"end1": {
+								"_type": "UMLAssociationEnd",
+								"_id": "AAAAAAGOZp5Zp6aqSDU=",
+								"_parent": {
+									"$ref": "AAAAAAGOZp5Zp6apRgM="
+								},
+								"reference": {
+									"$ref": "AAAAAAGOZp1IjqYJeS4="
+								}
+							},
+							"end2": {
+								"_type": "UMLAssociationEnd",
+								"_id": "AAAAAAGOZp5Zp6arV+Y=",
+								"_parent": {
+									"$ref": "AAAAAAGOZp5Zp6apRgM="
+								},
+								"reference": {
+									"$ref": "AAAAAAGOZp5ZiKaAwLk="
+								}
+							}
+						}
+					]
 				},
 				{
 					"_type": "UMLUseCase",
@@ -5862,6 +5891,14 @@
 						"$ref": "AAAAAAGOZpuaKKSJjMs="
 					},
 					"name": "Zahtev za intervenciju"
+				},
+				{
+					"_type": "UMLActor",
+					"_id": "AAAAAAGOZp5ZiKaAwLk=",
+					"_parent": {
+						"$ref": "AAAAAAGOZpuaKKSJjMs="
+					},
+					"name": "Actor1"
 				},
 				{
 					"_type": "UMLActor",
