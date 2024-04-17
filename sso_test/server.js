@@ -29,6 +29,14 @@ if (!config.baseURL && !process.env.BASE_URL && process.env.SSO_PORT && process.
 
 app.use(auth(config));
 
+app.get('/login', (req, res) => {
+  res.render('login', {
+    title: 'Login',
+    lock: lock // Prosledite Lock objekat u vaš template engine
+  });
+});
+
+
 // Middleware to make the `user` object available for all views
 app.use(function (req, res, next) {
   res.locals.user = req.oidc.user;

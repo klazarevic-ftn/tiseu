@@ -1,16 +1,22 @@
 <%- include('partials/header') -%>
 
-  <h1 class="text-4xl mb-4">Welcome <%= user.nickname %></h1>
+<h1 class="text-4xl mb-4">Welcome <%= user.nickname %></h1>
 
-  <% if (user.picture) { %>
-    <img class="block py-3" src="<%= user.picture %>" width="300">
-  <% } %>
-  
-  <p class="py-3">
-    This is the content of <code class="bg-gray-200">req.user</code>.<br>
-    <strong>Note:</strong> <code class="bg-gray-200">_raw</code> and <code class="bg-gray-200">_json</code> properties have been omitted.
-  </p>
+<% if (user.picture) { %>
+  <img class="block py-3" src="<%= user.picture %>" width="300">
+<% } %>
 
-  <pre class="block bg-gray-300 p-4 text-sm overflow-scroll"><%= userProfile %></pre>
+<p class="py-3">
+  <strong style="display: inline-block; min-width: 150px;">Nickname:</strong> <%= user.nickname %>
+</p>
+<p class="py-3">
+  <strong style="display: inline-block; min-width: 150px;">Name:</strong> <%= user.name %>
+</p>
+<p class="py-3">
+  <strong style="display: inline-block; min-width: 150px;">Email:</strong> <%= user.email %>
+</p>
+<p class="py-3">
+  <strong style="display: inline-block; min-width: 150px;">Account Verified:</strong> <%= user.email_verified %>
+</p>
 
 <%- include('partials/footer') -%>

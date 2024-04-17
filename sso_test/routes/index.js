@@ -13,6 +13,7 @@ const jwt = require('jsonwebtoken');
 //   }
 // });
 
+
 router.get('/', function (req, res, next) {
   res.render('index', {
     title: 'Auth0 Webapp sample Nodejs',
