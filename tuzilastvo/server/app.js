@@ -4,30 +4,68 @@ const app = express();
 const { auth } = require('express-openid-connect');
 const fs = require("fs");
 const path = require("path");
-const cors = require('cors');
-const logger = require('morgan');
+const paths = require('./common/paths/paths');
+
+const authentication = require(paths.mw.at);
+const cors = require(paths.mw.cr);
+const logger = require(paths.mw.lg); 
+const bodyParser = require('body-parser');
+
+app.use(authentication); 
+app.use(cors); 
+app.use(logger);
+app.use(bodyParser.json());
+
+// app.use('/users', require('./modules/user'));
+// const userModule = require('./modules/user');
+// app.use('/users', userModule);
 
 
-const corsOptions = {
-  origin: "http://localhost:8015",
-  optionsSuccessStatus: 200,
-}
-app.use(cors(corsOptions));
-app.use(logger('common'));
 
-// const config = {
-//   authRequired: false,
-//   auth0Logout: true,
-//   secret: process.env.SECRET,
-//   baseURL: 'http://localhost:8010', 
-//   clientID: process.env.CLIENT_ID,
-//   issuerBaseURL: process.env.ISSUER_BASE_URL,
-// };
-// app.use(auth(config));
-
+////////////////////////
 // app.get('/', (req, res) => {
 //   res.send(req.oidc.isAuthenticated() ? 'Ulogovani ste' : 'Niste ulogovani');
 // });
+///////////////////////////
+const userRoutes = require('./modules/user/routes/user.routes');
+app.use('/users', userRoutes);
+
+// mongoose.connect("mongodb+srv://admin:" + process.env.MONGO_PASS + "@backenddb.asaeiqd.mongodb.net/Node-API?retryWrites=true&w=majority&appName=BackendDB")
+// .then(() => {
+//     console.log('Connected to MongoDB');
+// })
+// .catch((err) => {
+//     console.error('Error connecting to MongoDB:', err);
+// });
+
+// app.get('/', (req, res) => {
+//   // Dekodiranje JWT tokena
+//   const token = req.oidc.accessToken;
+//   const decodedToken = req.oidc.user;
+
+//   console.log('Dekodirani podaci korisnika:', decodedToken);
+
+//   res.send(`Dekodirani podaci korisnika: ${JSON.stringify(decodedToken)}`);
+// });
+
+
+
+// app.get('/check-auth', async (req, res) => {
+//   try {
+//     if (!req.oidc.user) {
+//       console.error('Error while checking authentication:');
+
+//       return res.status(401).json({ isAuthenticated: false, message: "User is not authenticated." });
+//     }
+//     console.error('Error while checking authentication:');
+
+//     res.status(200).json({ isAuthenticated: true, user: req.oidc.user });
+//   } catch (error) {
+//     console.error('Error while checking authentication:', error);
+//     res.status(500).json({ isAuthenticated: false, message: "Error while checking authentication." });
+//   }
+// });
+
 
 // app.get('/notification', (req, res) => {
 //   if (req.oidc.isAuthenticated()) {
@@ -56,22 +94,13 @@ app.use(logger('common'));
 //     res.redirect(`https://${DOMAIN}/REGISTER`);
 // });
 
-app.get("/translations/:lang", (req, res) => {
-  const lang = req.params.lang;
-  const filePath = path.join(__dirname, "translations", `${lang.split('-')[0]}.json`)
-  fs.readFile(filePath, "utf-8", (err, data) => {
-    if(err){
-      return res.status(404).json({ error: "Translation file not found."});
-    }
-    try {
-        const jsonData = JSON.parse(data);
-        res.set("Cache-control", "public, max-age=3600");
-        res.json(jsonData);
-    } catch(parseError) {
-        res.status(500).json({ error: "Error parsing translation file." })
-    }
-  })
-})
 
+
+
+// const PORT = process.env.PORT || 8010;
+// app.listen(PORT, () => {
+//     console.log(`Server is running on port ${PORT}`);
+//   });
 
 module.exports = app;
+
