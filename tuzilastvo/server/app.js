@@ -29,6 +29,8 @@ app.use(bodyParser.json());
 ///////////////////////////
 const userRoutes = require('./modules/user/routes/user.routes');
 app.use('/users', userRoutes);
+const orderRoutes = require('./modules/order/routes/order.routes');
+app.use('/orders', orderRoutes);
 
 // mongoose.connect("mongodb+srv://admin:" + process.env.MONGO_PASS + "@backenddb.asaeiqd.mongodb.net/Node-API?retryWrites=true&w=majority&appName=BackendDB")
 // .then(() => {

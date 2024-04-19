@@ -81,7 +81,7 @@ const Form = ({ onClose, formType }) => {
 
     console.log("AAAA" + formData.userEmail);
     if (isSecondForm) {
-      formData.accountType = 'PROSECUTER';
+      formData.accountType = 'PROSECUTOR';
       const specialization = document.getElementById('specialization').value;
       const license = document.getElementById('license').value;
       formData.specialization = specialization;

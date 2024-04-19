@@ -9,6 +9,7 @@ import {
 import { 
   Account,
   Profile,
+  Orders,
 } from "./_root/pages/index";
 
 import axios from 'axios'; 
@@ -83,6 +84,7 @@ const App = () => {
         <Route element={<RootLayout />}>
           <Route path="/account-config" element={<Account />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/orders" element={<Orders />} />
         </Route>
 
       </Routes>

@@ -9,18 +9,24 @@ export const ConfigProvider = ({ children }) => {
   const [configured, setConfigured] = useState(false);
   const [userData, setUserData] = useState(null);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   useEffect(() => {
     const checkConfig = async () => {
       try {
         const response = await fetch("http://localhost:8010/users/account-config", {
           method: "GET",
           credentials: "include",
+          headers: {
+            "Cache-Control": "no-cache",
+          },
         });
   
         if (response.ok) {
           const data = await response.json();
           if (data.configured) {
+            // console.log("configured: " + data.configured);
+            // console.log("userData: " + data.user);
+            // console.log("userData: " + data.user.email);
             setConfigured(true);
             setUserData(data.user);
             // console.log(configured)
@@ -28,12 +34,14 @@ export const ConfigProvider = ({ children }) => {
             // console.log(data.user.email);
 
             // navigate("/profile");
+            // console.log("configured: " + configured);
+            // console.log("userData: " + userData);
           } else {
             setConfigured(false);
             setUserData(data.user);
 
-            console.log(configured)
-            console.log(data)
+            // console.log(configured)
+            // console.log(data)
 
             // console.log(data.configured)
             // console.log(data.user.email);
@@ -52,7 +60,7 @@ export const ConfigProvider = ({ children }) => {
       }
     };
     checkConfig();
-  }, [navigate]);
+  }, []);
   
   return (
     <ConfigContext.Provider value={{ configured, userData }}>

@@ -1,31 +1,38 @@
 const User = require('../models/user.model');
 const userService = require('../services/user.service');
 
-// async function checkAuthentication(req, res) {
-//   try {
-//     if (!req.oidc.user) {
-//       return res.status(401).json({ isAuthenticated: false, message: "User is not authenticated." });
-//     }
-//     const userEmail = req.oidc.user.email;
-//     let user = await User.findOne({ email: userEmail });
-//     if (user) {
-//       console.log('User already exists in the database:', user);
-//       return res.status(200).json({ isAuthenticated: true, user });
-//     }
-//     user = await User.create({
-//       nickname: req.oidc.user.nickname,
-//       name: req.oidc.user.name,
-//       email: req.oidc.user.email,
-//       type: 'CIVIL', 
-//       configured: false 
-//     });
-//     console.log('New user created:', user);
-//     return res.status(200).json({ isAuthenticated: true, user });
-//   } catch (error) {
-//     console.error('Error while checking authentication:', error);
-//     return res.status(500).json({ isAuthenticated: false, message: "Error while checking authentication." });
-//   }
-// }
+async function checkAuthentication(req, res) {
+  try {
+    if (!req.oidc.user) {
+      // console.log('CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC');
+      // console.log('CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC:');
+      return res.status(401).json({ isAuthenticated: false, message: "User is not authenticated." });
+    }
+    const userEmail = req.oidc.user.email;
+    let user = await User.findOne({ email: userEmail });
+    if (user) {
+      // console.log('User already exists in the database:', user);
+      // console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA:');
+      // console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+      // console.log('RES:', res);
+      return res.status(200).json({ isAuthenticated: true, user });
+    }
+    user = await User.create({
+      nickname: req.oidc.user.nickname,
+      name: req.oidc.user.name,
+      email: req.oidc.user.email,
+      // type: 'CIVIL', 
+      configured: false 
+    });
+    // console.log('New user created:', user);
+    return res.status(200).json({ isAuthenticated: true, user });
+  } catch (error) {
+    // console.log('bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb:');
+    // console.log('BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB');
+    // console.error('Error while checking authentication:', error);
+    return res.status(500).json({ isAuthenticated: false, message: "Error while checking authentication." });
+  }
+}
 
 
 // async function checkAccountConfig(req, res) {
@@ -49,29 +56,19 @@ async function checkAccountConfig(req, res) {
     }
     // console.log(req.oidc.user)
     const userEmail = req.oidc.user.email;
-    
     let user = await User.findOne({ email: userEmail });
-        console.log(user)
-
+        // console.log(user)
     if (!user) {
       // console.log(req.oidc.user)
       // console.log(req.oidc.user.email)
-      // console.log("BBBBBBBBBBBBB")
 
       return res.status(404).json({ message: "User not found." });
     }
-    
     if (!user.configured) {
-      // let conf =!user.configured;
-      
-      // console.log(conf)
       // console.log(user.configured)
       // console.log(user)
-      // console.log("AAAAAAAAAAAAAAA")
-
-      return res.status(200).json({ configured: false, user });
+      return res.status(201).json({ configured: false, user });
     }
-
     return res.status(200).json({ configured: true, user });
   } catch (error) {
     console.error("Error while checking account:", error);
@@ -143,6 +140,7 @@ async function register(req, res) {
 
 
 module.exports = { 
+  checkAuthentication,
   checkAccountConfig,
   register 
 };

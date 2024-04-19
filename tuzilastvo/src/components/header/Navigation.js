@@ -1,10 +1,31 @@
 import React, { useState } from 'react';
+import { useConfigContext } from "../../context/ConfigContext";
+import { useNavigate } from 'react-router-dom';
 
 const Navigation = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
+  const [isOpen, setIsOpen] = useState(false);
+  const {configured, userData} = useConfigContext();
+
+  
+  
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  };
+  
+  const routes = [
+    { path: '/orders', label: 'Orders/Warrants/Docs', accessible: configured && userData.type === 'PROSECUTOR' },
+    // { path: '/case-overview', label: 'Case Overview', accessible: true },
+    // { path: '/trial-overview', label: 'Trial Overview', accessible: true },
+    // { path: '/cases', label: 'Cases', accessible: true },
+    // { path: '/documents', label: 'Documents', accessible: true },
+    // { path: '/orders', label: 'Orders', accessible: true },
+    // { path: '/statutory-repository', label: 'Statutory Repository', accessible: true },
+  ];
+  const handleRouteClick = (path) => {
+    navigate(path);
+    setIsOpen(false); 
   };
 
   return (
@@ -22,32 +43,60 @@ const Navigation = () => {
               </svg>
             </button>
             <div className="nav-fixed hidden  lg:hidden xl:hidden 2xl:flex  space-x-14 tracking-wide ml-3 ">
-              <a  className="flex items-center space-x-3">
-                <span className="self-center  whitespace-normal">Case Overview</span>
-              </a>
+              {/* {configured && userData.type === 'PROSECUTOR' && (
+                  <>
+                    <a  className="flex items-center space-x-3">
+                      <span className="self-center  whitespace-normal">Orders/Warrants/Docs</span>
+                    </a>
+                  </>
+                )} */}
+
+              {routes.filter(route => route.accessible).map((route, index) => (
+                <a key={index} onClick={() => handleRouteClick(route.path)} className="flex items-center space-x-3 cursor-pointer">
+                  <span className="self-center whitespace-normal">{route.label}</span>
+                </a>
+              ))}
+              {/* 
               <a className="flex items-center space-x-3">
-                <span className="self-center whitespace-nowrap">Trial Overview </span>
+              <span className="self-center whitespace-nowrap">Trial Overview </span>
               </a>
               <a  className="flex items-center space-x-3">
-                <span className="self-center  whitespace-nowrap">Trials</span>
+              <span className="self-center  whitespace-nowrap">Trials</span>
               </a>
               <a  className="flex items-center space-x-3">
-                <span className="self-center  whitespace-nowrap">Cases</span>
+              <span className="self-center  whitespace-nowrap">Cases</span>
               </a>
               <a  className="flex items-center space-x-3">
-                <span className="self-center  whitespace-nowrap">Documents</span>
+              <span className="self-center  whitespace-nowrap">Documents</span>
               </a>
               <a  className="flex items-center space-x-3">
-                <span className="self-center  whitespace-nowrap">Orders</span>
+              <span className="self-center  whitespace-nowrap">Orders</span>
               </a>
               <a  className="flex items-center space-x-3">
-                <span className="self-center whitespace-nowrap">Statutory Repository</span>
-              </a>
+              <span className="self-center whitespace-nowrap">Statutory Repository</span>
+            </a> */}
+
+            
             </div>
+
             <div className="hamb-wrap w-full max-w-full " >
               <div className={`w-2/3  ${isOpen ? 'absolute shadow' : 'hidden'}`} id="navbar-hamburger">
                 <ul className="flex flex-col  bg-white  font-light tracking-wide border " style={{ fontFamily: 'Roboto, sans-serif' }}>
-                  <li>
+                  {routes.filter(route => route.accessible).map((route, index) => (
+                    <li key={index}>
+                      <a onClick={() => handleRouteClick(route.path)} className="block py-3 pl-4 px-3 bg-white text-black hover:bg-gray-50 hover:text-black cursor-pointer">{route.label}</a>
+                    </li>
+                  ))}
+
+
+
+                  {/* {configured && userData.type === 'PROSECUTOR' && (
+                        <li>
+                          <a className="block py-3 pl-4 px-3 bg-white  text-black hover:bg-gray-50 hover:text-black" >Orders/Warrants/Docs</a>
+                        </li>
+                    )} */}
+                    
+                  {/* <li>
                     <a  className="block py-3 pl-4 px-3 bg-white  text-black hover:bg-gray-50 hover:text-black" >Case Overview</a>
                   </li>
                   <li>
@@ -64,7 +113,7 @@ const Navigation = () => {
                   </li>
                   <li>
                     <a  className="block py-3 pl-4 px-3 bg-white  text-black hover:bg-gray-50 hover:text-black" >Statutory Repository</a>
-                  </li>
+                  </li> */}
         
                   
                 </ul>

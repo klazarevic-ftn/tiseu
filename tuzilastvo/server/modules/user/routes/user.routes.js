@@ -8,6 +8,8 @@ const userController = require('../controllers/user.controller');
 //   await userController.checkAuthentication(req, res);
 // });
 
+router.get('/check-auth', userController.checkAccountConfig);
+
 router.get('/account-config', userController.checkAccountConfig);
 
 router.post('/register', userController.register);
