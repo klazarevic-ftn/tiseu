@@ -1,0 +1,7 @@
+version: "3.8"
+services:
+  back:
+    build: ./back
+    container_name: mup_back_container
+    ports: 
+      - "8777:8086"
