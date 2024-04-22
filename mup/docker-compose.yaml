@@ -1,7 +1,24 @@
-version: "3.8"
 services:
+  db:
+    image: mysql:latest
+    container_name: mup_db_c    
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - 8888:3306
+
   back:
     build: ./back
-    container_name: mup_back_container
+    container_name: mup_back_c
     ports: 
       - "8777:8086"
+  
+  front:
+    build: 
+      context: ./front
+      dockerfile: ./Dockerfile
+    container_name: mup_front_c
+    command: pnpm run dev
+    ports:
+      - "8999:5173"
+  
