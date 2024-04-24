@@ -10,11 +10,15 @@ import {
   Account,
   Profile,
   Orders,
+  Cases,
 } from "./_root/pages/index";
 
 import axios from 'axios'; 
 import "./i18";
 import "./style/globals.css";
+import AuthLayout from "./_auth/AuthLayout";
+import RequireAuth from "./context/RequireAuth";
+import RequireConfig from "./context/RequireConfig";
 
 // const AppContent = () => {
 //   let routes = useRoutes([
@@ -74,12 +78,12 @@ const App = () => {
 
   return (
     <main >
-      <Routes>
+      {/* <Routes> */}
         {/* public routes */}
-        <Route element={<HomeLayout />}>
-          <Route index element={<Home />} />
+        {/* <Route element={<HomeLayout />}> */}
+          {/* <Route path="/" element={<Home />} /> */}
           {/* <Route path="/account-config" element={<Account />} /> */}
-        </Route>
+        {/* </Route>
 
         <Route element={<RootLayout />}>
           <Route path="/account-config" element={<Account />} />
@@ -87,8 +91,27 @@ const App = () => {
           <Route path="/orders" element={<Orders />} />
         </Route>
 
-      </Routes>
+      </Routes> */}
+      <Routes>
+ 
+        <Route path="/" element={<HomeLayout />}>
+          <Route path="/" element={<Home />} />
+        </Route>
 
+        <Route  element={<RequireAuth />}>
+          <Route path="/account-config" element={<Account />} />
+        </Route>
+
+        <Route element={<RequireConfig />}>
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/cases" element={<Cases />} />
+       </Route>
+
+
+
+
+      </Routes>
     </main>
   );
 };

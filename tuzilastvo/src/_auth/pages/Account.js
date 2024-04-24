@@ -15,15 +15,15 @@ const Account = () => {
   const { configured } = useConfigContext();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (configured) {
-      console.log(configured)
-      navigate('/profile');
-    }
-    else {
-      navigate('/account-config');
-    }
-  }, [configured, navigate]);
+  // useEffect(() => {
+  //   if (configured) {
+  //     console.log(configured)
+  //     navigate('/profile');
+  //   }
+  //   else {
+  //     navigate('/account-config');
+  //   }
+  // }, [configured, navigate]);
 
   const handleCardClick = (title, content, type) => {
     setShowConfirmation(true);

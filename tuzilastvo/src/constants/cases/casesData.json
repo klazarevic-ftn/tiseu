@@ -1,0 +1,17 @@
+[
+    {
+      "id": 1,
+      "caseId": "CASE001",
+      "caseNo": "001",
+      "creationDate": "2024-04-20",
+      "about": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    },
+    {
+      "id": 2,
+      "caseId": "CASE002",
+      "caseNo": "002",
+      "creationDate": "2024-04-21",
+      "about": "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    }
+]
+  

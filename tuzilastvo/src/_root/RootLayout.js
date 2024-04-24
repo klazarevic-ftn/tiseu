@@ -10,20 +10,21 @@ const RootLayout = () => {
   return (
     <>
       {configured ? (
-        <div className="root-layout h-screen overflow-y-auto">
+        <div className="root-layout h-screen flex flex-col">
           <Header />
-          <section className=""> 
-            <Outlet />
+          <section className="flex-grow overflow-hidden">
+            <Outlet className="flex-grow" />
           </section>
         </div>
       ) : (
-        
-        <div className="root-layout h-screen overflow-y-auto">
-        <Header />
-        <section className=""> 
-          <Outlet />
-        </section>
-      </div>
+        <div className="root-layout h-screen flex flex-col">
+          <Header />
+          <section className="flex-grow overflow-hidden">
+            {/* <Navigate to="/account-config" /> */}
+            <Outlet className="flex-grow" />
+          </section>
+        </div>
+
       )}
     </>
   );

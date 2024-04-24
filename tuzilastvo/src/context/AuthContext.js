@@ -27,8 +27,8 @@ export const AuthProvider = ({ children }) => {
           setIsAuthenticated(true);
           const data = await response.json();
           setAuthData(data.user);
-          console.log("isAuthenticatedAAA: " + true);
-          console.log("authData: " + data.user);
+          // console.log("isAuthenticatedAAA: " + true);
+          // console.log("authData: " + data.user);
           // console.log("isAuthenticatedAAA: " + isAuthenticated);
           // console.log("authData: " + authData);
 
@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }) => {
           // navigate("/login"); 
           // window.location.href = "http://localhost:8000"; 
           // navigate("/"); 
-          console.log("isAuthenticatedBBB: " + false);
+          // console.log("isAuthenticatedBBB: " + false);
           // console.log("authData: " + authData);
 
 
@@ -109,29 +109,35 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(true);
         const data = await response.json();
         setAuthData(data.user);
-        console.log("isAuthenticatedAAA: " + isAuthenticated);
-        console.log("authData: " + authData);
+        // console.log("tt: " + true);
+
+        // console.log("isAuthenticatedAAA: " + isAuthenticated);
+        // console.log("authData: " + authData);
 
         // navigate("/"); 
-
+        // navigate("/account-config"); 
+        return true; // Return true if authentication is successful
+        
       } else {
         setIsAuthenticated(false);
         // navigate("/login"); 
         // window.location.href = "http://localhost:8000"; 
+        // console.log("cc: " + isAuthenticated);
+        // console.log("authData: " + authData);
         // navigate("/"); 
-        console.log("isAuthenticatedBBB: " + isAuthenticated);
-        console.log("authData: " + authData);
-
-
+        return false; // Return false if authentication fails
+        
       }
     } catch (error) {
       console.error("Error while checking authentication:", error);
       setIsAuthenticated(false);
       setAuthData(null);
-    // } finally {
+      // } finally {
     //   setTimeout(() => {
     //     setIsLoading(false); 
     //   }, 3000);
+    return false; // Return false if there's an error
+
     }
   };
 

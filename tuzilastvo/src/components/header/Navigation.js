@@ -15,10 +15,10 @@ const Navigation = () => {
   };
   
   const routes = [
-    { path: '/orders', label: 'Orders/Warrants/Docs', accessible: configured && userData.type === 'PROSECUTOR' },
+    { path: '/orders', label: 'Orders', accessible: configured && userData.type === 'PROSECUTOR' },
+    { path: '/cases', label: 'Cases', accessible: configured && userData.type === 'PROSECUTOR' },
     // { path: '/case-overview', label: 'Case Overview', accessible: true },
     // { path: '/trial-overview', label: 'Trial Overview', accessible: true },
-    // { path: '/cases', label: 'Cases', accessible: true },
     // { path: '/documents', label: 'Documents', accessible: true },
     // { path: '/orders', label: 'Orders', accessible: true },
     // { path: '/statutory-repository', label: 'Statutory Repository', accessible: true },
@@ -80,7 +80,7 @@ const Navigation = () => {
             </div>
 
             <div className="hamb-wrap w-full max-w-full " >
-              <div className={`w-2/3  ${isOpen ? 'absolute shadow' : 'hidden'}`} id="navbar-hamburger">
+              <div className={`w-full  ${isOpen ? 'md:w-5/6 lg:w-2/3 absolute shadow ' : 'hidden'}`} id="navbar-hamburger">
                 <ul className="flex flex-col  bg-white  font-light tracking-wide border " style={{ fontFamily: 'Roboto, sans-serif' }}>
                   {routes.filter(route => route.accessible).map((route, index) => (
                     <li key={index}>

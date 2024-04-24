@@ -1,0 +1,24 @@
+.section-side-left {
+    background-color: #171a29;
+}
+
+/* .item1, .item4 {
+    border-bottom: 1px solid #c89c64;
+  }
+   */
+
+.section-side-left  {
+    border-right: 2px solid #c89c64;
+} 
+
+@media (max-width: 640px) {
+    .section-side-left  {
+        border-right: none;
+        border-top: 2px solid #c89c64;
+    } 
+    
+}
+
+.case-icon {
+    color: #c89c64;
+  }
