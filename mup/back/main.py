@@ -71,12 +71,13 @@ async def execute_order(form_id):
 
 @app.get('/order/{order_id}')
 async def get_order_status(order_id):
-    query = f'SELECT content FROM forms WHERE foreign_id=\'{order_id}\''
+    query = f'SELECT content, date_created, date_fulfilled FROM forms WHERE foreign_id=\'{order_id}\''
     with connection.cursor() as cursor:
         try:
             cursor.execute(query)
             obj = cursor.fetchone()
-            return loads(obj['content'])
+            obj['content'] = loads(obj['content'])
+            return obj
         except Exception as err:
             print(err)
             connection.rollback()
