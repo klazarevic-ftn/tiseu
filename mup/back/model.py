@@ -12,9 +12,9 @@ class Role(PythonEnum):
 
 
 class FormType(PythonEnum):
-    REPORT = 0
-    ORDER = 1
-    REQUEST = 2
+    REPORT = 'REPORT'
+    ORDER = 'ORDER'
+    REQUEST = 'REQUEST'
 
 
 class User(Base):
@@ -34,7 +34,7 @@ class Form(Base):
     content = Column(Text)
     date_created = Column(DateTime, server_default=text('(NOW())'))
     date_fulfilled = Column(DateTime)
-    form_type = Column(SQLEnum(FormType), name='form_type')
+    form_type = Column(SQLEnum(FormType, length=10), name='form_type')
 
 
 ENGINE_URL = 'mysql+pymysql://root:root@localhost'
