@@ -1,30 +1,29 @@
 <script>
-	export let name;
 </script>
 
-<main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-</main>
+<div class="mupFlagPattern"></div>
+
+<div style="display: flex; flex-direction: row; height: 140px; padding: 15px;">
+    <img src="../build/src/grb-srbije.png" alt="grb" style="margin-right: 15px;">
+    <div style="display: flex; flex-direction: column; justify-content: center; ">
+        <a style="font-weight: 300;
+    font-size: 1.6em;
+    padding-top: 40px;
+    margin-top: 2px;
+    margin-bottom: 2px;">Република Србија</a>
+        <a style="font-weight: bold;
+    font-size: 1.6em;
+    margin-top: 2px;">Министарство унутрашњих послова</a>
+    </div>
+</div>
+
+<div>
+
+</div>
 
 <style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
-
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
+	.mupFlagPattern {
+		background: url("../build/src/flag-pattern.png") #fff;
+		height: 38px;
 	}
 </style>
