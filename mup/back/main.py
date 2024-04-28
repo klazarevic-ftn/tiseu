@@ -11,7 +11,8 @@ from pymysql.cursors import DictCursor
 init_db()
 app = FastAPI()
 
-connection = connect(host='localhost', user='root', password='root', charset='utf8', db='mup', cursorclass=DictCursor)
+# connection = connect(host='localhost', port='8888', user='root', password='root', charset='utf8', cursorclass=DictCursor)
+connection = connect(host='10.5.0.2', port=3333, user='root', password='root', charset='utf8', cursorclass=DictCursor)
 
 
 def to_json(obj):

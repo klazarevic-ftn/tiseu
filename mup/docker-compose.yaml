@@ -1,24 +1,77 @@
 services:
   db:
-    image: mysql:latest
-    container_name: mup_db_c    
+    container_name: mup_db_c   
+    image: mysql:latest 
     environment:
+      MYSQL_DATABASE: mup
       MYSQL_ROOT_PASSWORD: root
+      MYSQL_TCP_PORT: 3333
     ports:
-      - 8888:3306
+      - 8888:3333
+    expose:
+      - 3333
+    networks:
+      mupnet:
+        ipv4_address: 10.5.0.2
 
   back:
-    build: ./back
     container_name: mup_back_c
+    build: ./back
+    depends_on: 
+      - db
     ports: 
-      - "8777:8086"
-  
+      - 8777:8086
+    expose:
+      - 8086
+    networks:
+        mupnet:
+          ipv4_address: 10.5.0.3
+
   front:
-    build: 
+    container_name: mup_front_c
+    build:
       context: ./front
       dockerfile: ./Dockerfile
-    container_name: mup_front_c
     command: pnpm run dev
     ports:
-      - "8999:5173"
-  
+      - 8999:5173
+    expose: 
+      - 5173
+    networks:
+      mupnet:
+        ipv4_address: 10.5.0.4
+
+  keycloak:
+    container_name: mup_sso_c
+    build:
+      context: ./sso
+      dockerfile: ./Dockerfile
+    ports:
+        - 9000:8080
+        - 9111:8443
+    expose:
+        - 8080
+        - 8443
+    environment:
+        - KC_DB=postgres
+        - KC_DB_URL=postgres://ufb9h9v2kun074:p887fcbb09897379ee4ec3e1e806ff1b97bb1d8884610abb041f408ac2ecabff7@cfs632mn9c82a7.cluster-czz5s0kz4scl.eu-west-1.rds.amazonaws.com:5432/d72ebrog3fni2q
+        - KC_DB_USERNAME=ufb9h9v2kun074
+        - KC_DB_PASSWORD=p887fcbb09897379ee4ec3e1e806ff1b97bb1d8884610abb041f408ac2ecabff7
+
+        - KEYCLOAK_ADMIN=admin
+        - KEYCLOAK_ADMIN_PASSWORD=admin
+
+        - KC_HEALTH_ENABLED=true
+        - KC_METRICS_ENABLED=true
+    command: start-dev
+    networks:
+      mupnet:
+        ipv4_address: 10.5.0.5
+
+networks:
+  mupnet:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.5.0.0/16
+          gateway: 10.5.0.1
