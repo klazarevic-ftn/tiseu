@@ -20,14 +20,14 @@ const RequireAuth = () => {
                 setAuthStatus(status);
                 if (status) {
                     const configStatus = await checkConfig();
-                    if (!configStatus) {
+                    if (!configStatus.configured) {
                         setConfigStatus(false);
                         console.log("cccccCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC: " + false);
                     } else {
                         console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAconfigStatusAAAAAA: " + configStatus);
                         console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA: " + true);
                         setConfigStatus(true);
-                        console.log("cccccccccccc: " + configStatus);
+                        console.log("cccccccccccc: " + configStatus.configured);
                     }
 
                 }
@@ -46,7 +46,7 @@ const RequireAuth = () => {
                 <Header />
                 <section className="flex-grow overflow-hidden">
                     {authStatus === true ? (
-                        configStatus === true ? ( // Check if config status is true
+                        configStatus === true ? ( 
                         <Navigate to="/"  replace />
                     ) : (
                         <Outlet className="flex-grow" />

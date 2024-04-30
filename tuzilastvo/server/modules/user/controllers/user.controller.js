@@ -136,11 +136,25 @@ async function register(req, res) {
   }
 }
 
+async function findProsecutors(req, res) {
+  try {
+    const users = await userService.findAll();
+    const prosecutors = users
+      .filter(user => user.type === 'PROSECUTOR')
+      .map(({ UPIN, firstName, lastName, specialization }) => ({ UPIN, firstName, lastName, specialization }));
+    return res.status(200).json(prosecutors);
+  } catch (error) {
+    console.error("Error while fetching prosecutors:", error);
+    return res.status(500).json({ message: "Error while fetching prosecutors." });
+  }
+}
+
 
 
 
 module.exports = { 
   checkAuthentication,
   checkAccountConfig,
-  register 
+  register,
+  findProsecutors,
 };
