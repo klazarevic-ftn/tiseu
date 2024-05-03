@@ -1,6 +1,11 @@
 <script>
 </script>
 
+<div class='redirect_nav'>
+    <a>Tuzilastvo</a>
+    <a>Sudstvo</a>
+    <a>Pogranicna policija</a>
+</div>
 <div class="mupFlagPattern"></div>
 
 <div class="header">
@@ -60,8 +65,11 @@
     .header:hover a {
         color: #00466D;
     }
+
     .header-link {
-        display: flex; flex-direction: column; justify-content: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 
     .header-link a:hover {
@@ -121,5 +129,23 @@
     .dropdown:hover .dropbtn {
         color: white;
         background-color: darkgray;
+    }
+
+    .redirect_nav {
+        padding: 10px 20px;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: flex-end;
+        gap: 12px;
+    }
+
+    .redirect_nav a {
+        font-size: small;
+        font-weight: bold;
+    }
+
+    .redirect_nav a:hover {
+        cursor: pointer;
+        color: black;
     }
 </style>

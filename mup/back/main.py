@@ -7,14 +7,17 @@ from dto import OrderDTO
 from pymysql import connect
 from pymysql.cursors import DictCursor
 
+from routers import user
 
 init_db()
 app = FastAPI()
 
-# connection = connect(host='localhost', port=8888, user='root', password='root', charset='utf8', database='mup',
-#                      cursorclass=DictCursor)
-connection = connect(host='10.5.0.2', port=3333, user='root', password='root', charset='utf8', database='mup',
-cursorclass=DictCursor)
+app.include_router(user.router)
+
+connection = connect(host='localhost', port=8888, user='root', password='root', charset='utf8', database='mup',
+                     cursorclass=DictCursor)
+# connection = connect(host='10.5.0.2', port=3333, user='root', password='root', charset='utf8', database='mup',
+# cursorclass=DictCursor)
 
 
 def to_json(obj):
