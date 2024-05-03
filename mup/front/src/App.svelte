@@ -6,11 +6,11 @@
 <div class="header">
     <img src="../build/src/grb-srbije.png" alt="grb" style="margin-right: 15px;">
     <div class="header-link">
-        <a style="font-weight: 300;
+        <a href='#' style="font-weight: 300;
     padding-top: 40px;
     margin-top: 2px;
     margin-bottom: 2px;">Република Србија</a>
-        <a style="font-weight: bold;
+        <a href='#' style="font-weight: bold;
     margin-top: 2px;">Министарство унутрашњих послова</a>
     </div>
 </div>
@@ -95,7 +95,7 @@
         position: absolute;
         background-color: #f1f1f1;
         min-width: 160px;
-        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
         z-index: 1;
     }
 

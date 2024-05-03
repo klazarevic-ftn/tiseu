@@ -37,7 +37,7 @@ class Form(Base):
     form_type = Column(SQLEnum(FormType, length=10), name='form_type')
 
 
-# ENGINE_URL = 'mysql+pymysql://root:root@localhost'
+# ENGINE_URL = 'mysql+pymysql://root:root@localhost:8888'
 ENGINE_URL = 'mysql+pymysql://root:root@10.5.0.2:3333'
 DATABASE_NAME = 'mup'
 CREATE_DB_DDL = DDL(f'CREATE DATABASE IF NOT EXISTS `{DATABASE_NAME}`')

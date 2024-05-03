@@ -6,8 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="5284aade-90ee-424b-b3a3-2690787a3891" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/../back/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../back/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/../back/model.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../docker-compose.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sso/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/../sso/Dockerfile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,6 +56,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "test",
+    "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/konstantinlazarevic/Documents/faks/tiseu/mup/front/public/build/src",
     "node.js.detected.package.eslint": "true",
@@ -86,6 +90,8 @@
       <workItem from="1714199068958" duration="3069000" />
       <workItem from="1714224198052" duration="22000" />
       <workItem from="1714286191462" duration="17000" />
+      <workItem from="1714662551475" duration="623000" />
+      <workItem from="1714728480425" duration="31000" />
     </task>
     <servers />
   </component>

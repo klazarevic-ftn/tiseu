@@ -49,21 +49,24 @@ services:
     ports:
         - 9000:8080
         - 9111:8443
+        - 9222:5432
     expose:
         - 8080
         - 8443
+        - 5432
     environment:
-        - KC_DB=postgres
-        - KC_DB_URL=postgres://ufb9h9v2kun074:p887fcbb09897379ee4ec3e1e806ff1b97bb1d8884610abb041f408ac2ecabff7@cfs632mn9c82a7.cluster-czz5s0kz4scl.eu-west-1.rds.amazonaws.com:5432/d72ebrog3fni2q
-        - KC_DB_USERNAME=ufb9h9v2kun074
-        - KC_DB_PASSWORD=p887fcbb09897379ee4ec3e1e806ff1b97bb1d8884610abb041f408ac2ecabff7
+      - KC_DB=postgres
+      - KC-DB_URL=jdbc:postgresql://cfs632mn9c82a7.cluster-czz5s0kz4scl.eu-west-1.rds.amazonaws.com:5432/d72ebrog3fni2q
+      - KC_DB_USERNAME=ufb9h9v2kun074
+      - KC_DB_PASSWORD=p887fcbb09897379ee4ec3e1e806ff1b97bb1d8884610abb041f408ac2ecabff7
 
-        - KEYCLOAK_ADMIN=admin
-        - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
 
-        - KC_HEALTH_ENABLED=true
-        - KC_METRICS_ENABLED=true
-    command: start-dev
+      - KC_HEALTH_ENABLED=true
+      - KC_METRICS_ENABLED=true
+    command: start-dev --verbose
+    restart: always
     networks:
       mupnet:
         ipv4_address: 10.5.0.5
