@@ -11,7 +11,7 @@ const RequireConfig = () => {
 
     const ADMIN_ = ['/cases'];
     const CIVIL_ = ['/profile', '/cases'];
-    const PROSECUTOR_ = ['/profile', '/cases'];
+    const PROSECUTOR_ = ['/profile', '/cases', '/new-case', '/new-document', '/new-trial'];
 
     useEffect(() => {
         const fetchData = async () => {
@@ -25,6 +25,8 @@ const RequireConfig = () => {
                 const userRoutes = getUserRoutes(userData.type);
                 const routes = userRoutes.map(route => route.toLowerCase());
                 setAllowedRoutes(routes);
+                console.log('Allowed Routes:', routes);
+                console.log('Current Route:', location.pathname.toLowerCase());
 
             } catch (error) {
                 console.error('Error while checking configuration:', error);

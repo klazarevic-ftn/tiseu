@@ -31,6 +31,10 @@ const userRoutes = require('./modules/user/routes/user.routes');
 app.use('/users', userRoutes);
 const orderRoutes = require('./modules/order/routes/order.routes');
 app.use('/orders', orderRoutes);
+const caseRoutes = require('./modules/case/routes/case.routes');
+app.use('/cases', caseRoutes);
+const documentRoutes = require('./modules/document/routes/document.routes');
+app.use('/docs', documentRoutes);
 
 // mongoose.connect("mongodb+srv://admin:" + process.env.MONGO_PASS + "@backenddb.asaeiqd.mongodb.net/Node-API?retryWrites=true&w=majority&appName=BackendDB")
 // .then(() => {

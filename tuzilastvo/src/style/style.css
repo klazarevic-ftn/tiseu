@@ -21,4 +21,17 @@
 
 .case-icon {
     color: #c89c64;
-  }
+}
+
+.table-wrap {
+    height: 200px;
+    overflow-y: auto;
+}
+
+/* .table-assign tbody tr:hover {
+    background-color: #96717128;
+}
+
+.table-assign tbody tr:active {
+    background-color: #08b32d28;
+} */

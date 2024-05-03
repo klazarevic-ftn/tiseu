@@ -3,16 +3,17 @@ const router = express.Router();
 const userController = require('../controllers/user.controller');
 
 
+router.get('/check-auth', userController.checkAccountConfig);
+router.get('/account-config', userController.checkAccountConfig);
+router.post('/register', userController.register);
+router.get('/prosecutors', userController.findProsecutors);
+
+
 
 // router.get('/check-auth', async (req, res) => {
 //   await userController.checkAuthentication(req, res);
 // });
 
-router.get('/check-auth', userController.checkAccountConfig);
-
-router.get('/account-config', userController.checkAccountConfig);
-
-router.post('/register', userController.register);
 // router.post('/register', (req, res) => {
 //   const { firstName, lastName, UPIN, dateOfBirth, streetAddress, aptNumber, city, country, phone, specialization, license, accountType } = req.body;
 

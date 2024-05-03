@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useConfigContext } from '../../context/ConfigContext'; 
-import { isFormValid } from '../../validations/configFormV';
+import { isFormValid } from '../../utils/validations/configFormV';
 import Notification from '../../components/pop-up/Notification';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css"

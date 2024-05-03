@@ -11,11 +11,15 @@ import {
   Profile,
   Orders,
   Cases,
+  CaseForm,
+  DocForm,
+  TrialForm,
 } from "./_root/pages/index";
 
 import axios from 'axios'; 
 import "./i18";
 import "./style/globals.css";
+import "./style/style.css";
 import AuthLayout from "./_auth/AuthLayout";
 import RequireAuth from "./context/RequireAuth";
 import RequireConfig from "./context/RequireConfig";
@@ -106,6 +110,9 @@ const App = () => {
           <Route path="/profile" element={<Profile />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/cases" element={<Cases />} />
+          <Route path="/new-case" element={<CaseForm />} />
+          <Route path="/new-document" element={<DocForm />} />
+          <Route path="/new-trial" element={<TrialForm />} />
        </Route>
 
 

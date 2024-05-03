@@ -17,6 +17,9 @@ const Navigation = () => {
   const routes = [
     { path: '/orders', label: 'Orders', accessible: configured && userData.type === 'PROSECUTOR' },
     { path: '/cases', label: 'Cases', accessible: configured && userData.type === 'PROSECUTOR' },
+    { path: '/new-case', label: 'New Case', accessible: configured && userData.type === 'PROSECUTOR' },
+    { path: '/new-document', label: 'New Document', accessible: configured && userData.type === 'PROSECUTOR' },
+    { path: '/new-trial', label: 'New Trial', accessible: configured && userData.type === 'PROSECUTOR' },
     // { path: '/case-overview', label: 'Case Overview', accessible: true },
     // { path: '/trial-overview', label: 'Trial Overview', accessible: true },
     // { path: '/documents', label: 'Documents', accessible: true },

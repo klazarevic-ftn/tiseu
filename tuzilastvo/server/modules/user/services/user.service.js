@@ -20,8 +20,29 @@ async function checkAccountConfig(userEmail) {
     }
 }
 
+async function findAll() {
+  try {
+    const users = await User.find();
+    return users;
+  } catch (error) {
+    console.error("Error while fetching all users:", error);
+    throw error;
+  }
+}
+
+const findByUPIN = async (upin) => {
+  try {
+    const user = await User.findOne({ UPIN: upin });
+    return user;
+  } catch (error) {
+    console.error('Error finding user by UPIN:', error);
+    throw new Error('Failed to find user by UPIN');
+  }
+};
 
 module.exports = { 
     checkAccountConfig,
+    findAll,
+    findByUPIN,
  };
   
