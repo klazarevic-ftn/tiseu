@@ -1,11 +1,10 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
 from fastapi.responses import RedirectResponse
 
 from keycloak.keycloak_openid import KeycloakOpenID
 
 import json
 
-keycloak_json = ''
 with open('./keycloak.json') as json_file:
     keycloak_json = json.load(json_file)
 
@@ -17,7 +16,7 @@ keycloak_client = KeycloakOpenID(server_url='http://localhost:9000/',
 
 
 @router.get('/login')
-async def login():
+async def login(request: Request):
     try:
         token = keycloak_client.token(username='test', password='test')
         print(token)
