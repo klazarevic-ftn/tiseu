@@ -1,4 +1,23 @@
 <script>
+    import Keycloak from 'keycloak-js';
+    import {onMount} from "svelte";
+
+    let keycloak;
+
+    onMount(_ => {
+        try {
+            keycloak = new Keycloak({
+                url: 'http://localhost:9000/',
+                realm: 'tiseu',
+                clientId: 'mup'
+            });
+            keycloak.init({ checkLoginIframe: false, redirectUri: 'http://0.0.0.0:5173/' });
+        } catch (error) {
+            console.log('error: ', error);
+        }
+
+        console.log('keycloak: ', JSON.stringify(keycloak));
+    });
 </script>
 
 <div class='redirect_nav'>
@@ -34,7 +53,7 @@
     </div>
 
     <div class="dropdown" style="margin-left: auto;">
-        <button class="dropbtn">Prijava</button>
+        <button class="dropbtn" on:click={keycloak.login}>Prijava</button>
     </div>
 </div>
 
