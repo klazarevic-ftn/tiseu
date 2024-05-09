@@ -1,23 +1,31 @@
 <script>
+    import flag_pattern_img from '$lib/assets/flag-pattern.png';
+    import grb_srbije_img from '$lib/assets/grb-srbije.png';
+    import keycloak_json from '$lib/keycloak.json';
+
     import Keycloak from 'keycloak-js';
-    import {onMount} from "svelte";
+    import { onMount } from "svelte";
 
     let keycloak;
 
     onMount(_ => {
         try {
-            keycloak = new Keycloak({
-                url: 'http://localhost:9000/',
-                realm: 'tiseu',
-                clientId: 'mup'
-            });
-            keycloak.init({ checkLoginIframe: false, redirectUri: 'http://0.0.0.0:5173/' });
+            console.log('json: ', keycloak_json)
+            keycloak = new Keycloak(keycloak_json);
+            keycloak.init({ checkLoginIframe: false, redirectUri: 'http://localhost:5173/'})
+                .then(data => {
+                    console.log('auth: ', data);
+                })
+                .catch(error => {
+                    console.log('caught error: ', error);
+                })
         } catch (error) {
             console.log('error: ', error);
         }
 
         console.log('keycloak: ', JSON.stringify(keycloak));
     });
+
 </script>
 
 <div class='redirect_nav'>
@@ -25,10 +33,10 @@
     <a>Sudstvo</a>
     <a>Pogranicna policija</a>
 </div>
-<div class="mupFlagPattern"></div>
+<div style='background: url({flag_pattern_img}) #fff; height: 38px;'></div>
 
 <div class="header">
-    <img src="../build/src/grb-srbije.png" alt="grb" style="margin-right: 15px;">
+    <img src="{grb_srbije_img}" alt="grb" style="margin-right: 15px;">
     <div class="header-link">
         <a href='#' style="font-weight: 300;
     padding-top: 40px;
@@ -96,10 +104,6 @@
         text-decoration: none;
     }
 
-	.mupFlagPattern {
-		background: url("../build/src/flag-pattern.png") #fff;
-		height: 38px;
-	}
     /* Dropdown Button */
     .dropbtn {
         background-color: #fff;
