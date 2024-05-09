@@ -14,6 +14,8 @@ import {
   CaseForm,
   DocForm,
   TrialForm,
+  CaseInfo,
+  LawForm,
 } from "./_root/pages/index";
 
 import axios from 'axios'; 
@@ -109,10 +111,13 @@ const App = () => {
         <Route element={<RequireConfig />}>
           <Route path="/profile" element={<Profile />} />
           <Route path="/orders" element={<Orders />} />
-          <Route path="/cases" element={<Cases />} />
-          <Route path="/new-case" element={<CaseForm />} />
-          <Route path="/new-document" element={<DocForm />} />
-          <Route path="/new-trial" element={<TrialForm />} />
+          <Route path="/cases/all" element={<Cases />} />
+          <Route path="/cases/new-case" element={<CaseForm />} />
+          <Route path="/docs/new-document" element={<DocForm />} />
+          <Route path="/trials/new-trial" element={<TrialForm />} />
+          <Route path="/cases/case/:caseNo" element={<CaseInfo />} />
+          <Route path="/laws/new-law" element={<LawForm />} />
+ 
        </Route>
 
 

@@ -35,3 +35,13 @@
 .table-assign tbody tr:active {
     background-color: #08b32d28;
 } */
+/* 
+.notification-div {
+    border: 2px solid #c89c64;
+
+} */
+
+.notification-container, .updates-container {
+    border: 1px solid #c89c64;
+}
+

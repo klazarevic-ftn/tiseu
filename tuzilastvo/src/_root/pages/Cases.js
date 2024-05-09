@@ -10,46 +10,46 @@ const Cases = () => {
     const { configured } = useConfigContext();
     const navigate = useNavigate();
     const [showAssignCase, setShowAssignCase] = useState(null);
-    const [cases, setCases] = useState([]); 
+    // const [cases, setCases] = useState([]); 
     // const [selectedCase, setSelectedCase] = useState(null);
     const [selectedProsecutor, setSelectedProsecutor] = useState(null);
     const [selectedAssigneeRow, setSelectedAssigneeRow] = useState(null);
     const [showNotification, setShowNotification] = useState(false);
     const [message, setMessage] = useState(null);
     
-    const [prosecutors, setProsecutors] = useState([]);
-  //   const [prosecutors, setProsecutors] = useState([
-  //     { firstName: 'John', lastName: 'Doe', specialization: 'Criminal Law' },
-  //     { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
-  //     { firstName: 'Alice', lastName: 'Johnson', specialization: 'Family Law' },
-  //     { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
-  //     { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
-  //     { firstName: 'Alice', lastName: 'Johnson', specialization: 'Family Law' },
-  //     { firstName: 'John', lastName: 'Doe', specialization: 'Criminal Law' },
-  //     { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
-  //     { firstName: 'Alice', lastName: 'Johnson', specialization: 'Family Law' },
-  //     { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
-  //     { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
-  //     { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
-  //     { firstName: 'Alice', lastName: 'Johnson', specialization: 'Family Law' },
-  //     { firstName: 'John', lastName: 'Doe', specialization: 'Criminal Law' },
-  //     { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
-  //     { firstName: 'Alice', lastName: 'Johnson', specialization: 'Family Law' },
-  //     { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
-  //     { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
-  //     { firstName: 'Alice', lastName: 'Johnson', specialization: 'Family Law' },
-  //     { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
-  //     { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
-  //     { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
-  //     { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
-  //     { firstName: 'Alice', lastName: 'Johnson', specialization: 'Family Law' }
-  // ]);
+    // const [prosecutors, setProsecutors] = useState([]);
+    const [prosecutors, setProsecutors] = useState([
+      { firstName: 'John', lastName: 'Doe', specialization: 'Criminal Law' },
+      { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
+      { firstName: 'Alice', lastName: 'Johnson', specialization: 'Family Law' },
+      { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
+      { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
+      { firstName: 'Alice', lastName: 'Johnson', specialization: 'Family Law' },
+      { firstName: 'John', lastName: 'Doe', specialization: 'Criminal Law' },
+      { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
+      { firstName: 'Alice', lastName: 'Johnson', specialization: 'Family Law' },
+      { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
+      { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
+      { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
+      { firstName: 'Alice', lastName: 'Johnson', specialization: 'Family Law' },
+      { firstName: 'John', lastName: 'Doe', specialization: 'Criminal Law' },
+      { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
+      { firstName: 'Alice', lastName: 'Johnson', specialization: 'Family Law' },
+      { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
+      { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
+      { firstName: 'Alice', lastName: 'Johnson', specialization: 'Family Law' },
+      { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
+      { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
+      { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
+      { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
+      { firstName: 'Alice', lastName: 'Johnson', specialization: 'Family Law' }
+  ]);
 
     useEffect(() => {
         const fetchData = async () => {
           try {
-            await fetchCases();
-            await fetchProsecutorsInfo();
+            // await fetchCases();
+            // await fetchProsecutorsInfo();
           } catch (error) {
             console.error('Error fetching data:', error);
           }
@@ -58,51 +58,51 @@ const Cases = () => {
         fetchData();
       }, []);
 
-      const fetchCases = async () => {
-        try {
-          const response = await fetch("http://localhost:8010/cases/", {
-            method: "GET",
-            credentials: "include",
-            headers: {
-              "Cache-Control": "no-cache",
-            },
-          });
+      // const fetchCases = async () => {
+      //   try {
+      //     const response = await fetch("http://localhost:8010/cases/", {
+      //       method: "GET",
+      //       credentials: "include",
+      //       headers: {
+      //         "Cache-Control": "no-cache",
+      //       },
+      //     });
       
-          if (!response.ok) {
-            throw new Error('Failed to fetch cases');
-          }
+      //     if (!response.ok) {
+      //       throw new Error('Failed to fetch cases');
+      //     }
           
-          const data = await response.json();
-          setCases(data.cases);
-          console.log(data); 
-          // console.log(data.cases.caseAssignee); 
+      //     const data = await response.json();
+      //     setCases(data.cases);
+      //     console.log(data); 
+      //     // console.log(data.cases.caseAssignee); 
 
-        } catch (error) {
-          console.error('Error fetching cases:', error);
-        }
-      };
+      //   } catch (error) {
+      //     console.error('Error fetching cases:', error);
+      //   }
+      // };
 
-      const fetchProsecutorsInfo = async () => {
-        try {
-          const response = await fetch("http://localhost:8010/users/prosecutors", {
-            method: "GET",
-            credentials: "include",
-            headers: {
-              "Cache-Control": "no-cache",
-            },
-          });
+      // const fetchProsecutorsInfo = async () => {
+      //   try {
+      //     const response = await fetch("http://localhost:8010/users/prosecutors", {
+      //       method: "GET",
+      //       credentials: "include",
+      //       headers: {
+      //         "Cache-Control": "no-cache",
+      //       },
+      //     });
       
-          if (!response.ok) {
-            throw new Error('Failed to fetch prosecutors info');
-          }
+      //     if (!response.ok) {
+      //       throw new Error('Failed to fetch prosecutors info');
+      //     }
       
-          const data = await response.json();
-          setProsecutors(data);
-            console.log(data);
-        } catch (error) {
-          console.error('Error fetching prosecutors info:', error);
-        }
-      };
+      //     const data = await response.json();
+      //     setProsecutors(data);
+      //       console.log(data);
+      //   } catch (error) {
+      //     console.error('Error fetching prosecutors info:', error);
+      //   }
+      // };
 
 
     // useEffect(() => {
@@ -153,20 +153,31 @@ const Cases = () => {
       const headerTitles = ['#', 'Case NO', 'Case Title', 'Type', 'Created At', 'Last Update', 'Assignee', 'Action'];
 
 
-    //   const cases = [
-    //     { id: 56456, status: "New", createdAt: "2024-04-20 T08:00:00", lastUpdate: "2024-04-21 T10:30:00", responsible: "John Doe" },
-    //     { id: 5645, status: "InProgress", createdAt: "2024-04-19 T09:15:00", lastUpdate: "2024-04-20 T11:45:00", responsible: "Jane Smith" },
-    //     { id: 564, status: "Resolved", createdAt: "2024-04-18 T10:45:00", lastUpdate: "2024-04-19 T12:20:00", responsible: "Alex Johnson" },
-    //     { id: 1, status: "New", createdAt: "2024-04-20 T08:00:00", lastUpdate: "2024-04-21 T10:30:00", responsible: "John Doe" },
-    //     { id: 2, status: "InProgress", createdAt: "2024-04-19 T09:15:00", lastUpdate: "2024-04-20 T11:45:00", responsible: "Jane Smith" },
-    //     { id: 54645, status: "Resolved", createdAt: "2024-04-18 T10:45:00", lastUpdate: "2024-04-19 T12:20:00", responsible: "Alex Johnson" },
-    //     { id: 1, status: "New", createdAt: "2024-04-20 T08:00:00", lastUpdate: "2024-04-21 T10:30:00", responsible: "John Doe" },
-    //     { id: 2, status: "InProgress", createdAt: "2024-04-19 T09:15:00", lastUpdate: "2024-04-20 T11:45:00", responsible: "Jane Smith" },
-    //     { id: 3, status: "Resolved", createdAt: "2024-04-18 T10:45:00", lastUpdate: "2024-04-19 T12:20:00", responsible: "Alex Johnson" },
-    //     { id: 1, status: "New", createdAt: "2024-04-20 T08:00:00", lastUpdate: "2024-04-21 T10:30:00", responsible: "John Doe" },
-    //     { id: 2, status: "InProgress", createdAt: "2024-04-19 T09:15:00", lastUpdate: "2024-04-20 T11:45:00", responsible: "Jane Smith" },
-    //     { id: 3, status: "Resolved", createdAt: "2024-04-18 T10:45:00", lastUpdate: "2024-04-19 T12:20:00", responsible: "Alex Johnson" },
-    // ];
+      const cases = [
+        // { id: 56456, status: "New", createdAt: "2024-04-20 T08:00:00", lastUpdate: "2024-04-21 T10:30:00", caseAssignee: "John Doe" },
+        // { id: 5645, status: "InProgress", createdAt: "2024-04-19 T09:15:00", lastUpdate: "2024-04-20 T11:45:00", responsible: "Jane Smith" },
+        // { id: 564, status: "Resolved", createdAt: "2024-04-18 T10:45:00", lastUpdate: "2024-04-19 T12:20:00", responsible: "Alex Johnson" },
+        // { id: 1, status: "New", createdAt: "2024-04-20 T08:00:00", lastUpdate: "2024-04-21 T10:30:00", responsible: "John Doe" },
+        // { id: 2, status: "InProgress", createdAt: "2024-04-19 T09:15:00", lastUpdate: "2024-04-20 T11:45:00", responsible: "Jane Smith" },
+        // { id: 54645, status: "Resolved", createdAt: "2024-04-18 T10:45:00", lastUpdate: "2024-04-19 T12:20:00", responsible: "Alex Johnson" },
+        // { id: 1, status: "New", createdAt: "2024-04-20 T08:00:00", lastUpdate: "2024-04-21 T10:30:00", responsible: "John Doe" },
+        // { id: 2, status: "InProgress", createdAt: "2024-04-19 T09:15:00", lastUpdate: "2024-04-20 T11:45:00", responsible: "Jane Smith" },
+        // { id: 3, status: "Resolved", createdAt: "2024-04-18 T10:45:00", lastUpdate: "2024-04-19 T12:20:00", responsible: "Alex Johnson" },
+        // { id: 1, status: "New", createdAt: "2024-04-20 T08:00:00", lastUpdate: "2024-04-21 T10:30:00", responsible: "John Doe" },
+        // { id: 2, status: "InProgress", createdAt: "2024-04-19 T09:15:00", lastUpdate: "2024-04-20 T11:45:00", responsible: "Jane Smith" },
+        // { id: 3, status: "Resolved", createdAt: "2024-04-18 T10:45:00", lastUpdate: "2024-04-19 T12:20:00", responsible: "Alex Johnson" },
+        { 
+          caseNo: "12345", caseTitle: "Sample Case Title 2", caseDescription: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", caseType: "Civil", 
+          plaintiff: "Eve Johnson", defendant: "Charlie Brown", witness: ["Witness 3", "Witness 4"], 
+          createdAt: "2024-05-03T10:45:00.123+00:00", updatedAt: "2024-05-06T08:20:00.456+00:00", caseAssignee: "" 
+        },
+        { 
+          caseNo: "12345", caseTitle: "Sample Case Title 2", caseDescription: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", caseType: "Civil", 
+          plaintiff: "Eve Johnson", defendant: "Charlie Brown", witness: ["Witness 3", "Witness 4"], 
+          createdAt: "2024-05-03T10:45:00.123+00:00", updatedAt: "2024-05-06T08:20:00.456+00:00", caseAssignee: "Jane Smith" 
+        }
+    
+      ];
     
     const handleRowClick = (prosecutor, index) => {
       console.log(prosecutor)
