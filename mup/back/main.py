@@ -51,12 +51,11 @@ async def valid_access_token(
             access_token,
             signing_key.key,
             algorithms=["RS256"],
-            audience="api",
+            audience="account",
             options={"verify_exp": True},
         )
         return data
     except jwt.exceptions.InvalidTokenError as error:
-        print('error: ', error)
         raise HTTPException(status_code=401, detail="Not authenticated")
 
 
@@ -64,8 +63,7 @@ def has_role(role_name: str):
     async def check_role(
             token_data: Annotated[dict, Depends(valid_access_token)]
     ):
-        roles = token_data["resource_access"]["api"]["roles"]
-        print('roles: ', roles)
+        roles = token_data["resource_access"]["mup"]["roles"]
         if role_name not in roles:
             raise HTTPException(status_code=403, detail="Unauthorized access")
 
