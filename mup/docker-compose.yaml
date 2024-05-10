@@ -1,45 +1,46 @@
 services:
-  # db:
-  #   container_name: mup_db_c   
-  #   image: mysql:latest 
-  #   environment:
-  #     MYSQL_DATABASE: mup
-  #     MYSQL_ROOT_PASSWORD: root
-  #     MYSQL_TCP_PORT: 3333
-  #   ports:
-  #     - 8888:3333
-  #   expose:
-  #     - 3333
-  #   networks:
-  #     mupnet:
-  #       ipv4_address: 10.5.0.2
-
-  # back:
-  #   container_name: mup_back_c
-  #   build: ./back
-  #   depends_on: 
-  #     - db
-  #   ports: 
-  #     - 8777:8086
-  #   expose:
-  #     - 8086
-  #   networks:
-  #       mupnet:
-  #         ipv4_address: 10.5.0.3
-
-  front:
-    container_name: mup_front_c
-    build:
-      context: ./front
-      dockerfile: ./Dockerfile
-    command: 'npm run dev -- --host'
+  db:
+    container_name: mup_db_c   
+    image: mysql:latest 
+    environment:
+      MYSQL_DATABASE: mup
+      MYSQL_ROOT_PASSWORD: root
+    command:
+      '--bind-address=10.5.0.2'
     ports:
-      - 8999:5173
-    expose: 
-      - 5173
+      - 8888:3306
+    expose:
+      - 3306
     networks:
       mupnet:
-        ipv4_address: 10.5.0.4
+        ipv4_address: 10.5.0.2
+
+  back:
+    container_name: mup_back_c
+    build: ./back
+    depends_on: 
+      - db
+    ports: 
+      - 8777:8086
+    expose:
+      - 8086
+    networks:
+      mupnet:
+        ipv4_address: 10.5.0.3
+
+  # front:
+  #   container_name: mup_front_c
+  #   build:
+  #     context: ./front
+  #     dockerfile: ./Dockerfile
+  #   command: 'npm run dev -- --host'
+  #   ports:
+  #     - 8999:5173
+  #   expose: 
+  #     - 5173
+  #   networks:
+  #     mupnet:
+  #       ipv4_address: 10.5.0.4
 
   # keycloak:
   #   container_name: mup_sso_c

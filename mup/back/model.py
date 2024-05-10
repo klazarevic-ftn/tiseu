@@ -38,7 +38,7 @@ class Form(Base):
 
 
 ENGINE_URL = 'mysql+pymysql://root:root@localhost:8888'
-# ENGINE_URL = 'mysql+pymysql://root:root@10.5.0.2:3333'
+# ENGINE_URL = 'mysql+pymysql://root:root@10.5.0.2:3306'
 DATABASE_NAME = 'mup'
 CREATE_DB_DDL = DDL(f'CREATE DATABASE IF NOT EXISTS `{DATABASE_NAME}`')
 DROP_DB_DDL = DDL(f'DROP DATABASE IF EXISTS `{DATABASE_NAME}`')
@@ -46,12 +46,14 @@ DROP_DB_DDL = DDL(f'DROP DATABASE IF EXISTS `{DATABASE_NAME}`')
 
 def init_db():
     engine_with_no_db = create_engine(ENGINE_URL, future=True)
-
-    with engine_with_no_db.connect() as conn:
-        with conn.begin():
-            conn.execute(DROP_DB_DDL)
-            conn.execute(CREATE_DB_DDL)
-        conn.close()
+    try:
+        with engine_with_no_db.connect() as conn:
+            with conn.begin():
+                conn.execute(DROP_DB_DDL)
+                conn.execute(CREATE_DB_DDL)
+            conn.close()
+    except Exception as ex:
+        print(ex)
 
     engine = create_engine(f'{ENGINE_URL}/{DATABASE_NAME}', future=True)
 
