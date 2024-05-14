@@ -66,15 +66,15 @@
 </div>
 
 <div id="nav_bar" style="display: flex; justify-content: center; border: 2px solid lightgray; padding: 0 20px;">
-    <div data-stage="pocetna" on:click={changeStage} class="dropdown">
-        <button class="drop_btn">Pocetna</button>
+    <div class="dropdown">
+        <button class="drop_btn" data-stage="pocetna" on:click={changeStage} >Pocetna</button>
     </div>
 
     <div class="dropdown">
         <button class="drop_btn">Dokumenti</button>
         <div class="drop_content">
-            <span data-stage="izrada" on:click={changeStage}>Izrada licnih dokumenata</span>
-            <span data-stage="uvid" on:click={changeStage}>Uvid u nekaznjavanje</span>
+            <button data-stage="izrada" on:click={changeStage}>Izrada licnih dokumenata</button>
+            <button data-stage="uvid" on:click={changeStage}>Uvid u nekaznjavanje</button>
         </div>
     </div>
 
@@ -83,8 +83,8 @@
     </div>
 
     {#if keycloak?.authenticated && keycloak?.resourceAccess.mup.roles.includes('mup_zaposleni')}
-        <div data-stage="obrada" on:click={changeStage} class="dropdown">
-            <button class="drop_btn">Obrada</button>
+        <div class="dropdown">
+            <button data-stage="obrada" on:click={changeStage} class="drop_btn">Obrada</button>
         </div>
     {/if}
 
@@ -175,15 +175,15 @@
     }
 
     /* Links inside the dropdown */
-    .drop_content span {
+    .drop_content button {
         color: black;
         padding: 12px 16px;
         text-decoration: none;
-        display: block;
+        border: 1px solid lightgray;
     }
 
     /* Change color of dropdown links on hover */
-    .drop_content span:hover {
+    .drop_content button:hover {
         color: white;
         background-color: dimgray;
         cursor: pointer;
