@@ -71,9 +71,9 @@ const DocForm = () => {
     
     const validateForm = () => {
       const { docTitle, docDescription, docType } = formData;
-      console.log('d Title:', docTitle);
-      console.log('d Description:', docDescription);
-      console.log('d Type:', docType);
+      // console.log('d Title:', docTitle);
+      // console.log('d Description:', docDescription);
+      // console.log('d Type:', docType);
     
       const upinRegex = /^\d{13}$/;
     

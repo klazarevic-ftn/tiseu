@@ -16,10 +16,13 @@ const Navigation = () => {
   
   const routes = [
     { path: '/orders', label: 'Orders', accessible: configured && userData.type === 'PROSECUTOR' },
-    { path: '/cases', label: 'Cases', accessible: configured && userData.type === 'PROSECUTOR' },
-    { path: '/new-case', label: 'New Case', accessible: configured && userData.type === 'PROSECUTOR' },
-    { path: '/new-document', label: 'New Document', accessible: configured && userData.type === 'PROSECUTOR' },
-    { path: '/new-trial', label: 'New Trial', accessible: configured && userData.type === 'PROSECUTOR' },
+    { path: '/cases/all', label: 'Cases', accessible: configured && userData.type === 'PROSECUTOR' },
+    { path: '/cases/new-case', label: 'New Case', accessible: configured && userData.type === 'PROSECUTOR' },
+    { path: '/docs/new-document', label: 'New Document', accessible: configured && userData.type === 'PROSECUTOR' },
+    { path: '/trials/new-trial', label: 'New Trial', accessible: configured && userData.type === 'PROSECUTOR' },
+    { path: '/trials/all', label: 'Trials', accessible: configured && userData.type === 'PROSECUTOR' },
+    { path: '/laws/new-law', label: 'New Legislation', accessible: configured && userData.type === 'PROSECUTOR' },
+    { path: '/laws/all', label: 'Legislations', accessible: configured && userData.type === 'PROSECUTOR' },
     // { path: '/case-overview', label: 'Case Overview', accessible: true },
     // { path: '/trial-overview', label: 'Trial Overview', accessible: true },
     // { path: '/documents', label: 'Documents', accessible: true },
@@ -83,7 +86,7 @@ const Navigation = () => {
             </div>
 
             <div className="hamb-wrap w-full max-w-full " >
-              <div className={`w-full  ${isOpen ? 'md:w-5/6 lg:w-2/3 absolute shadow ' : 'hidden'}`} id="navbar-hamburger">
+              <div className={`w-full  ${isOpen ? 'md:w-5/6 lg:w-2/3 absolute shadow z-40' : 'hidden'}`} id="navbar-hamburger">
                 <ul className="flex flex-col  bg-white  font-light tracking-wide border " style={{ fontFamily: 'Roboto, sans-serif' }}>
                   {routes.filter(route => route.accessible).map((route, index) => (
                     <li key={index}>

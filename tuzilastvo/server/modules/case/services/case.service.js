@@ -1,17 +1,17 @@
 const Case = require('../models/case.model');
 
-const findById = async (caseId) => {
-  try {
-    const existingCase = await Case.findById(caseId);
-    return existingCase;
-  } catch (error) {
-    throw new Error(`Error finding case by ID: ${error.message}`);
-  }
-};
+// const findById = async (caseId) => {
+//   try {
+//     const existingCase = await Case.findById(caseId);
+//     return existingCase;
+//   } catch (error) {
+//     throw new Error(`Error finding case by ID: ${error.message}`);
+//   }
+// };
 
 async function findLast() {
   try {
-    const latestCase = await Case.findOne().sort({ createdAt: -1 });
+    const latestCase = await Case.findOne().sort({ createdOn: -1 });
     return latestCase;
   } catch (error) {
     console.error('Error fetching latest case:', error);
@@ -44,7 +44,12 @@ const update = async (caseNumber, updatedCaseData) => {
     if (!existingCase) {
       throw new Error('Case not found');
     }
-    existingCase.caseAssignee = updatedCaseData.caseAssignee;
+    console.log(existingCase);
+
+    // existingCase.caseAssignee = updatedCaseData.caseAssignee;
+    Object.assign(existingCase, updatedCaseData);
+    console.log(updatedCaseData);
+
     const updatedCase = await existingCase.save();
     return updatedCase;
   } catch (error) {
@@ -61,8 +66,9 @@ const findByNo = async (caseNo) => {
   }
 };
 
+
 module.exports = {
-  findById,
+  // findById,
   findLast,
   add,
   getAll,

@@ -35,6 +35,10 @@ const caseRoutes = require('./modules/case/routes/case.routes');
 app.use('/cases', caseRoutes);
 const documentRoutes = require('./modules/document/routes/document.routes');
 app.use('/docs', documentRoutes);
+const trialRoutes = require('./modules/trial/routes/trial.routes');
+app.use('/trials', trialRoutes);
+const lawRoutes = require('./modules/law/routes/law.routes');
+app.use('/laws', lawRoutes);
 
 // mongoose.connect("mongodb+srv://admin:" + process.env.MONGO_PASS + "@backenddb.asaeiqd.mongodb.net/Node-API?retryWrites=true&w=majority&appName=BackendDB")
 // .then(() => {

@@ -7,6 +7,8 @@ router.get('/check-auth', userController.checkAccountConfig);
 router.get('/account-config', userController.checkAccountConfig);
 router.post('/register', userController.register);
 router.get('/prosecutors', userController.findProsecutors);
+router.get('/user/:UPIN', userController.getUser);
+// router.get('/trials/:UPIN', userController.getUserTrials);
 
 
 

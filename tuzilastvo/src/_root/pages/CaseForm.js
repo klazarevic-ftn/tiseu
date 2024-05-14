@@ -80,12 +80,12 @@ const CaseForm = () => {
     
     const validateForm = () => {
       const { caseTitle, caseDescription, caseType, plaintiffUPIN, defendantUPIN, witnessUPIN } = formData;
-      console.log('Case Title:', caseTitle);
-      console.log('Case Description:', caseDescription);
-      console.log('Case Type:', caseType);
-      console.log('Plaintiff UPIN:', plaintiffUPIN);
-      console.log('Defendant UPIN:', defendantUPIN);
-      console.log('Witness UPIN:', witnessUPIN);
+      // console.log('Case Title:', caseTitle);
+      // console.log('Case Description:', caseDescription);
+      // console.log('Case Type:', caseType);
+      // console.log('Plaintiff UPIN:', plaintiffUPIN);
+      // console.log('Defendant UPIN:', defendantUPIN);
+      // console.log('Witness UPIN:', witnessUPIN);
     
       const upinRegex = /^\d{13}$/;
     
@@ -165,6 +165,7 @@ const CaseForm = () => {
               value={formData.caseType}
               onChange={handleInputChange}
           >
+              <option className="text-gray-500 " value="">Select Case Type</option>
               <option className="text-gray-500 " value="criminal">Criminal case</option>
               <option className="text-gray-500 " value="civil">Civil case</option>
               <option className="text-gray-500 " value="family">Family case</option>

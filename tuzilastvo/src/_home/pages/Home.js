@@ -53,22 +53,9 @@ const Home = () => {
 
 
   return (
-    <div className="home-wrap w-full h-screen relative">
+    <div className="home-wrap w-full h-screen relative " >
       <div className="home-container h-2/3 relative">
         <img className="w-full h-full object-cover" src="/court_photo7.jpg" alt="" />
-
-        {/* <div className="absolute inset-0 flex justify-start items-end ">
-          <div className="updates-div hidden lg:flex w-36 md:w-72 h-26 md:h-28 mb-2 ml-10 md:ml-32 bg-white rounded-sm shadow-blue-300">
-
-            <div className="updates-container flex flex-col p-4 rounded-sm bg-gray-50 text-center text-sm shadow-lg">
-                <h2 className="notification-title text-base text-gray-900 mb-2">Notifications</h2>
-                <div className="notification-content flex flex-col text-gray-800">
-                  <div>{notificationContent.caseNo}</div>
-                  <div>{notificationContent.date}</div>
-                </div>
-              </div>
-          </div>
-        </div> */}
           <div  className="updates-wrapper absolute inset-0 flex justify-start items-end ">
             <div className="updates-container hidden lg:flex 
             max-w-72 min-w-72
@@ -83,9 +70,6 @@ const Home = () => {
               </div>
             </div>
           </div>
-          
-        
-      
         <div className="notification-wrapper absolute inset-0 flex justify-end items-end ">
           <div className="notification-container 
           px-6 py-4 pb-5 md:px-8 md:py-5 md:pb-6

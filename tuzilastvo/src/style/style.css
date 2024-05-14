@@ -45,3 +45,33 @@
     border: 1px solid #c89c64;
 }
 
+.trial-card {
+    /* background-color: #171a29; */
+    border: 1px solid #c89c64;
+    color: #3d372f;
+}
+
+.trial-card:hover {
+    border: 1px solid #00ca4e;
+}
+
+.txt-wht  {
+    color: black;
+}
+
+
+.right-section {
+    display: none;
+  }
+  
+.trial-card:hover .right-section {
+display: flex;
+}
+
+.trial-card {
+transition: transform 0.3s ease;
+}
+
+.trial-card:hover {
+transform: translateY(-2px); 
+}

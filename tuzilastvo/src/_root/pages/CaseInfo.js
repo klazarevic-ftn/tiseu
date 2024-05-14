@@ -3,52 +3,136 @@ import { useParams } from 'react-router-dom';
 import { Notification } from '../../components';
 
 const CaseInfo = () => {
-    const { caseNo } = useParams();
-    const [currentStep, setCurrentStep] = useState(1); 
-    const [caseInfo, setCaseInfo] = useState({
-        caseNo: "54321",
-        caseTitle: "Sample Case Title 2",
-        caseDescription: "Lorem ipsum dolor sit amet, consectetur adipiscing elrem ipsum dolor sit amet, consectetur adipiscing elrem ipsum dolor sit amet, consectetur adipiscing elrem ipsum dolor sit amet, consectetur adipiscing elrem ipsum dolor sit amet, consectetur adipiscing elit.",
-        caseType: "Criminal",
-        plaintiff: "Alice Smith",
-        plaintiffUPIN: "UPIN123",
-        defendant: "Bob Johnson",
-        defendantUPIN: "UPIN456",
-        witness: "Aa BBBbb",
-        witnessUPIN: "UPIN456",
-        createdAt: new Date().toISOString(), // Format: 2024-04-27T14:01:56.708+00:00
-        caseAssignee: "Bob Bobovich",
-        documents: []
-    });
+    const [caseInfo, setCaseInfo] = useState(null);
 
-    const createdAt = new Date(caseInfo.createdAt);
-    const formattedDate = createdAt.toDateString(); // Format: Thu Apr 27 2024
-    const formattedTime = createdAt.toLocaleTimeString(); // Format: 2:01:56 PM
-    const [showAssignCase, setShowAssignCase] = useState(null);
+    const [caseNumb, setCaseNumb] = useState(null);
+    const params = useParams();
+    const caseNo = params.caseNo;
+    // console.log("Case number:", caseNo);
+ 
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            // console.log("Fetching case info...");
+            await fetchCaseInfo();
+            await fetchDocuments();
+            // console.log("cased", documents);
 
-    const [documents, setDocuments] = useState([
-        {
-            docNo: 1,
-            docTitle: "Document 1",
-            docDescription: "Description of Document 1",
-            docType: "Type A",
-        },
-        {
-            docNo: 2,
-            docTitle: "Document 2",
-            docDescription: "Description of Document 2",
-            docType: "Type B",
-        },
-        {
-            docNo: 3,
-            docTitle: "Document 3",
-            docDescription: "Description of Document 3",
-            docType: "Type C",
+          } catch (error) {
+            console.error('Error fetching data:', error);
+          }
+        };
+      
+        fetchData();
+      }, []);
+
+    const fetchCaseInfo = async () => {
+        try {
+
+            // console.log("Fetching case info from API...");
+            const response = await fetch(`http://localhost:8010/cases/case/${caseNo}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch case info');
+            }
+            const data = await response.json();
+            setCaseInfo(data.caseInfo);
+            // console.log("BBB", data.caseInfo);
+            // console.log("AAA", data.caseInfo.caseTitle);
+
+            const createdOn = new Date(data.caseInfo.createdOn);
+            const formattedDate = createdOn.toDateString();
+            const formattedTime = createdOn.toLocaleTimeString(); 
+            setFormattedDate(formattedDate);
+            setFormattedTime(formattedTime);
+            // console.log("docssss",data.caseInfo.documents);
+
+            setCaseDocuments(data.caseInfo.documents);
+            // console.log("docsss", caseDocuments);
+            // console.log("sdaasd", data.caseInfo.documents);
+            // console.log("CASE DOCUMENTS: ", data.caseInfo.documents);
+
+        } catch (error) {
+            setError(error.message);
         }
-    ]);
+    };
 
     
+    const fetchDocuments = async () => {
+        try {
+          const response = await fetch("http://localhost:8010/docs/", {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Cache-Control": "no-cache",
+            },
+          });
+      
+          if (!response.ok) {
+            throw new Error('Failed to fetch cases');
+          }
+          
+          const data = await response.json();
+          setDocuments(data.documents);
+          console.log("ALL DOCUMENTS: ", data.documents); 
+          // console.log(data.cases.caseAssignee); 
+        } catch (error) {
+          console.error('Error fetching documents:', error);
+        }
+      };
+
+      const [caseDocuments, setCaseDocuments] = useState([]); 
+      const [documents, setDocuments] = useState([]); 
+      // const [documents, setDocuments] = useState([
+      //     {
+      //         docNo: 1,
+      //         docTitle: "Document 1",
+      //         docDescription: "Description of Document 1",
+      //         docType: "Type A",
+      //     },
+      //     {
+      //         docNo: 2,
+      //         docTitle: "Document 2",
+      //         docDescription: "Description of Document 2",
+      //         docType: "Type B",
+      //     },
+      //     {
+      //         docNo: 3,
+      //         docTitle: "Document 3",
+      //         docDescription: "Description of Document 3",
+      //         docType: "Type C",
+      //     }
+      // ]);
     
+      
+
+    const [currentStep, setCurrentStep] = useState(1); 
+    // const [caseInfo, setCaseInfo] = useState({
+    //     caseNo: "54321",
+    //     caseTitle: "Sample Case Title 2",
+    //     caseDescription: "Lorem ipsum dolor sit amet, consectetur adipiscing elrem ipsum dolor sit amet, consectetur adipiscing elrem ipsum dolor sit amet, consectetur adipiscing elrem ipsum dolor sit amet, consectetur adipiscing elrem ipsum dolor sit amet, consectetur adipiscing elit.",
+    //     caseType: "Criminal",
+    //     plaintiff: "Alice Smith",
+    //     plaintiffUPIN: "UPIN123",
+    //     defendant: "Bob Johnson",
+    //     defendantUPIN: "UPIN456",
+    //     witness: "Aa BBBbb",
+    //     witnessUPIN: "UPIN456",
+    //     createdAt: new Date().toISOString(), // Format: 2024-04-27T14:01:56.708+00:00
+    //     caseAssignee: "Bob Bobovich",
+    //     documents: []
+    // });
+
+    const [formattedDate, setFormattedDate] = useState(null);
+    const [formattedTime, setFormattedTime] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    
+
+
+
+    const [showAssignDocument, setShowAssignDocument] = useState(null);
+
+
     const handleNextStep = () => {
         setCurrentStep(currentStep + 1);
     };
@@ -61,69 +145,74 @@ const CaseInfo = () => {
     const [selectedDocument, setSelectedDocument] = useState(null);
 
     const handleRowClick = (document, index) => {
-        console.log(document)
+        // console.log(document)
         setSelectedDocRow(index);
         setSelectedDocument(document);
     };
 
     const handleClose = () => {
-        setShowAssignCase(false);
+        setShowAssignDocument(false);
         setSelectedDocRow(null);
         setSelectedDocument(null);
       };
 
-    // const handleConfirm = async () => {
-    // console.log(selectedDocRow);
-    // console.log(selectedDocument);
-
-    // // if (selectedDocRow && selectedDocument) {
-    // //     try {
-    // //         const response = await fetch(`http://localhost:8010/cases/case/caseNo/add-doc`, {
-    // //             method: 'PATCH',
-    // //             headers: {
-    // //                 'Content-Type': 'application/json',
-    // //             },
-    // //             body: JSON.stringify({
-    // //                 caseNumber: caseNo,
-    // //                 document: selectedDocument.docNo,
-    // //             }),
-    // //         });
-
-    // //         if (!response.ok) {
-    // //             throw new Error('Failed to assign case');
-    // //         }
-    // //         console.log('Case assigned successfully'); // Log to confirm reaching this point
-
-    // //         setMessage('Case assigned successfully');
-    // //         setShowNotification(true);
-    // //         setShowAssignCase(false);
-    // //         selectedDocRow(null);
-    // //         selectedDocument(null); 
-
-    // //         } catch (error) {
-    // //         console.error('Error assigning case:', error);
-
-    // //         }
-    // // }
-    // };
 
     const [showNotification, setShowNotification] = useState(false);
     const [message, setMessage] = useState(null);
 
-    const handleConfirm = () => {
+    const handleConfirm = async () => {
         if (selectedDocRow !== null && selectedDocument !== null) {
-            const updatedCaseInfo = { ...caseInfo };
-            updatedCaseInfo.documents.push(selectedDocument);
-            setCaseInfo(updatedCaseInfo);
+            try {
+                const assignmentResult = await assignDocumentToCase(caseNo, selectedDocument.docNo);
+                if (assignmentResult && assignmentResult.case) {
+
+
+                    setMessage('Document added to case successfully');
+                    setShowNotification(true);
+                    setShowAssignDocument(false);
+                    setSelectedDocRow(null);
+                    setSelectedDocument(null);
+
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                } else {
+                    console.error('Failed to assign document to case:', assignmentResult.error);
+                }
     
-            setMessage('Document added to case successfully');
-            setShowNotification(true);
-            setShowAssignCase(false);
-            setSelectedDocRow(null);
-            setSelectedDocument(null);
+            } catch (error) {
+                console.error('Error handling confirm:', error);
+            }
         }
     };
+
+    const assignDocumentToCase = async (caseNo, documentNo) => {
+        // console.log("aaa", caseNo); 
+        // console.log("bcvfdg", documentNo); 
+        try {
+            const response = await fetch(`http://localhost:8010/cases/case/assign-doc`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    caseNo: caseNo,
+                    documentNo: documentNo,
+                }),
+            });
     
+            if (!response.ok) {
+                throw new Error('Failed to assign document to case');
+            }
+    
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('Error assigning document to case:', error);
+            throw error;
+        }
+    };
+
     return (
         <div className="flex flex-col shadow-inner">
           <div className="title-container w-full border-b">
@@ -136,48 +225,40 @@ const CaseInfo = () => {
               </div>
             </div>
           </div>
-          {/* <div className="form-wrap flex flex-col md:flex-row"> */}
+
           {currentStep === 1 && (
       
             <div className="form-container-1 w-full  flex flex-col justify-center items-center bg-white px-0 rounded-sm  lg:mx-0 ">
                 <div className="content-containter w-full md:w-2/3 lg:w-1/2 flex flex-col px-10 pt-6">
                     <div className="field-wrap flex flex-col w-full text-sm mb-4">
                         <label htmlFor="caseNo" className=" text-gray-500 text-xs font-medium	mb-1">Case No</label>
-                        <p>{caseInfo.caseNo}</p>
+                        <p>{caseInfo && caseInfo.caseNo}</p>
                     </div>
                     <div className="field-wrap flex flex-col w-full text-sm mb-4">
                         <label htmlFor="caseTitle" className=" text-gray-500 text-xs font-medium	mb-1">Case Title</label>
-                        <p>{caseInfo.caseTitle}</p>
+                        <p>{caseInfo && caseInfo.caseTitle}</p>
                     </div>
                     <div className="field-wrap flex flex-col w-full text-sm mb-4">
                         <label htmlFor="caseType" className=" text-gray-500 text-xs font-medium	mb-1">Case Type</label>
-                        <p>{caseInfo.caseType}</p>
+                        <p>{caseInfo && caseInfo.caseType}</p>
                     </div>
                     <div className="field-wrap flex flex-col w-full text-sm mb-4">
                         <label htmlFor="caseDescription" className=" text-gray-500 text-xs font-medium	mb-1">Case Description</label>
-                        <p>{caseInfo.caseDescription}</p>
+                        <p>{caseInfo && caseInfo.caseDescription}</p>
                     </div>
                     <div className="field-wrap flex flex-col w-full text-sm mb-4">
                         <label htmlFor="caseAssignee" className=" text-gray-500 text-xs font-medium	mb-1">Case Assignee</label>
-                        <p>{caseInfo.caseAssignee}</p>
+                        <p>{caseInfo && caseInfo.caseAssignee}</p>
                     </div>
                     <div className="field-wrap flex flex-col w-full text-sm mb-4">
-                        <label htmlFor="createdAt" className=" text-gray-500 text-xs font-medium	mb-1">Date and Time of Creation</label>
+                        <label htmlFor="createdOn" className=" text-gray-500 text-xs font-medium	mb-1">Date and Time of Creation</label>
+
                         <p>{formattedDate} {formattedTime}</p>
                     </div>
                 </div>
             <div className="buttons-containter-wrap w-full flex my-3 lg:mt-3 justify-center border-t border-b ">
               <div className="buttons-content w-full md:w-2/3 lg:w-1/2 flex justify-end px-10 pt-6 pb-9 " >
-                  {/* <button 
-                  className="px-4 py-2 w-1/5 lg:h-1/4 bg-white text-gray-600 rounded hover:bg-gray-50  focus:outline-none border hover:border-green-200"
-                  onClick={(e) => handleSubmit(e, false)} 
-                  >Ok
-                  </button>
-                  <button 
-                  className="px-4 py-2 w-1/4 lg:w-3/12 bg-white text-gray-600 rounded hover:bg-gray-50  focus:outline-none border hover:border-red-200"
-                  onClick={handleClose} 
-                  >Cancel
-                  </button> */}
+        
                   <button onClick={handleNextStep} className=" h-full px-10 py-2 text-sm rounded bg-white text-gray-600  hover:bg-gray-50 border focus:outline-none hover:border-gray-300 hover:text-w">
                         Next
                       </button>
@@ -249,7 +330,7 @@ const CaseInfo = () => {
                     <h1 className="text-center py-5">Documents</h1>
                     <button
                         className="text-blue-600 hover:text-blue-900 mt-3 mb-5 border py-1 px-2 rounded text-sm"
-                        onClick={() => setShowAssignCase(caseNo)}
+                        onClick={() => setShowAssignDocument(caseNo)}
                         >
                         Attach Documents
                     </button>
@@ -264,15 +345,20 @@ const CaseInfo = () => {
                                 </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200 border-r">
-                                {caseInfo.documents.map((document, index) => (
-                                    <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}`}>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{document.docNo}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{document.docTitle}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{document.docDescription}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{document.docType}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
+                            {caseDocuments.map((docNo, index) => {
+    // Find the document object that matches the docNo from caseDocuments
+    const document = documents.find(doc => doc.docNo === parseInt(docNo));
+    if (!document) return null; // Skip if document not found
+    return (
+        <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}`}>
+            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{document.docNo}</td>
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{document.docTitle}</td>
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{document.docDescription}</td>
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{document.docType}</td>
+        </tr>
+    );
+})}
+</tbody>
                         </table>
                     </div>
                 </div>
@@ -287,20 +373,14 @@ const CaseInfo = () => {
                                 Previous
                             </button>
                         </div>
-                        {/* <div className="buttons-2 w-1/2 h-1/2 flex justify-end">
-                            <button onClick={handleNextStep} 
-                                className=" h-full px-10 py-2 text-sm bg-white text-gray-600 rounded 
-                                hover:bg-gray-50 border focus:outline-none hover:border-gray-300 hover:text-w">
-                                Next
-                            </button>
-                        </div> */}
+                
                     </div>
                 </div>
             </div>
 
         )}
             
-            {showAssignCase && ( 
+            {showAssignDocument && ( 
                 <div className="confirmation-wrap fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center text-black">
                     <div className="confirmation-container w-11/12 md:w-1/2 flex flex-col justify-center items-center bg-white rounded-sm text-gray-600">
                         <h2 className="confirmation-title w-full px-8 md:px-16 py-8 text-center text-xl md:text-2xl border-b text-gray-600">
@@ -321,22 +401,25 @@ const CaseInfo = () => {
                                         </tr>
                                     </thead>
                                     <tbody className="bg-white divide-y divide-gray-200 border-r">
-                                    {documents.map((document, index) => (
-                                                <tr 
-                                                    key={index} 
-                                                    onClick={() => handleRowClick(document, index)}
-                                                    className={`document-item ${
-                                                        index % 2 === 0 ? 'bg-gray-50 hover:bg-red-100' : 'bg-white hover:bg-red-100'
-                                                    } ${
-                                                        index === selectedDocRow ? 'selected-row bg-red-300 text-white' : ''
-                                                    }`}>
-                                                    <td className={`px-6 text-xs md:text-sm xl:text-base text-gray-500 ${ index === selectedDocRow ? ' bg-red-100' : '' }`}>{document.docNo}</td>                         
-                                                    <td className={`px-6 text-xs md:text-sm xl:text-base text-gray-500 ${ index === selectedDocRow ? ' bg-red-100' : '' }`}>{document.docTitle}</td>                         
-                                                    <td className={`px-6 text-xs md:text-sm xl:text-base text-gray-500 ${ index === selectedDocRow ? ' bg-red-100' : '' }`}>{document.docDescription}</td>                         
-                                                    <td className={`px-6 text-xs md:text-sm xl:text-base text-gray-500 ${ index === selectedDocRow ? ' bg-red-100' : '' }`}>{document.docType}</td>                         
-                                                </tr>
-                                        ))}
-                                    </tbody>
+                            {documents
+    .filter(document => !caseDocuments.includes(document.docNo.toString()))
+    .map((document, index) => (
+                                    <tr 
+                                        key={index} 
+                                        onClick={() => handleRowClick(document, index)}
+                                        className={`document-item ${
+                                            index % 2 === 0 ? 'bg-gray-50 hover:bg-red-100' : 'bg-white hover:bg-red-100'
+                                        } ${
+                                            index === selectedDocRow ? 'selected-row bg-red-300 text-white' : ''
+                                        }`}
+                                    >
+                                        <td className={`px-6 text-xs md:text-sm xl:text-base text-gray-500 ${ index === selectedDocRow ? ' bg-red-100' : '' }`}>{document.docNo}</td>                         
+                                        <td className={`px-6 text-xs md:text-sm xl:text-base text-gray-500 ${ index === selectedDocRow ? ' bg-red-100' : '' }`}>{document.docTitle}</td>                         
+                                        <td className={`px-6 text-xs md:text-sm xl:text-base text-gray-500 ${ index === selectedDocRow ? ' bg-red-100' : '' }`}>{document.docDescription}</td>                         
+                                        <td className={`px-6 text-xs md:text-sm xl:text-base text-gray-500 ${ index === selectedDocRow ? ' bg-red-100' : '' }`}>{document.docType}</td>                         
+                                    </tr>
+                                ))}
+                        </tbody>
                                 </table>
                             </div>
                         </div>
@@ -352,10 +435,7 @@ const CaseInfo = () => {
                         
                         <div className="buttons-containter-wrap w-full lg:mt-3 pr-8 border-t">
                             <div className="flex justify-end gap-6 py-3 md:py-6">
-                                {/* <button className="px-4 py-2 bg-white text-black rounded hover:bg-gray-100 hover:text-gray-800 focus:outline-none border" onClick={handleConfirm}>{button1}
-                                </button>
-                                <button className="px-4 py-2 bg-white text-black rounded hover:bg-gray-100 hover:text-gray-800  focus:outline-none border" onClick={handleClose}>{button2}
-                                </button> */}
+                         
                                 <button 
                                 className="px-4 py-2 text-xs md:text-base bg-white text-gray-500 rounded hover:bg-gray-50  hover:border-green-100 focus:outline-none border"
                                 onClick={handleConfirm}

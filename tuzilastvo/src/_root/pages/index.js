@@ -8,4 +8,7 @@ export { default as CaseForm } from "./CaseForm";
 export { default as DocForm } from "./DocForm";
 export { default as TrialForm } from "./TrialForm";
 export { default as CaseInfo } from "./CaseInfo";
+export { default as Trials } from "./Trials";
+export { default as TrialInfo } from "./TrialInfo";
 export { default as LawForm } from "./LawForm";
+export { default as Laws } from "./Laws";

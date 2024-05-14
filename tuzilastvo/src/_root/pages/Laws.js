@@ -1,33 +1,31 @@
 import React, { useState, useEffect } from 'react';
 
-const Orders = () => {
+const Laws = () => {
   const [orderId, setOrderId] = useState('');
   const [caseId, setCaseId] = useState('');
-  const [orders, setOrders] = useState([]);
+  const [laws, setLaws] = useState([]);
 
   useEffect(() => {
-    const fetchOrders = async () => {
+    const fetchLaws = async () => {
       try {
-        const response = await fetch('http://localhost:8010/orders/all');
+        const response = await fetch('http://localhost:8010/laws/');
         if (response.ok) {
           const data = await response.json();
-          setOrders(data.orders); 
-          console.log(data.orders); 
-
+          setLaws(data.laws); 
+        //   console.log(data.laws); 
         } else {
-          console.error('Failed to fetch orders');
+          console.error('Failed to fetch laws');
         }
       } catch (error) {
-        console.error('Error fetching orders:', error.message);
+        console.error('Error fetching laws:', error.message);
       }
     };
 
-    fetchOrders();
+    fetchLaws();
   }, []);
 
 
-  const headerTitles = ['#', 'Order NO', 'Case No', 'Creation Date', 'Last Update', 'Status'
-  // , 'Action'
+  const headerTitles = ['#', 'Legislation NO', 'Title', 'Type', 'Authority', 'Creation Date', 'Last Update'
 ];
 
 
@@ -38,7 +36,7 @@ const Orders = () => {
     <div  className="section-side-right  h-full flex-grow order-1 md:order-2 ">
         <div className="title-filter1-wrap w-full flex flex-row pl-4 md:pl-10 pr-7 md:pr-10 lg:pr-20 ">
             <div className="title-filter1 flex py-6 pl-2 md:pl-0 md:py-10 ">
-                <h1 className="text-2xl md:text-3xl text-gray-700">ORDERS</h1>
+                <h1 className="text-2xl md:text-3xl text-gray-700">LEGISLATIONS</h1>
             </div>
             {/* <div className="buttons-wrap w-full flex flex-row pl-8 justify-between items-center">
                 <div className="flex flex-row items-center md:ml-5">
@@ -101,26 +99,31 @@ const Orders = () => {
                 </tr>
                 </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                        {orders.map((orderItem, index) => (
+                        {laws.map((lawItem, index) => (
                             <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-600">
                                     {index + 1}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-500">
-                                    {orderItem.orderNo.toString().padStart(7, '0')}
+                                    {lawItem.lawNo.toString().padStart(7, '0')}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-500">
-                                    {orderItem.caseNo.toString().padStart(7, '0')}
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    {new Date(orderItem.createdOn).toLocaleString()}
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    {new Date(orderItem.updatedOn).toLocaleString()}
+                                    {`${lawItem.lawTitle.charAt(0).toUpperCase() + lawItem.lawTitle.slice(1)}`.substring(0, 10)}
+                                    {lawItem.lawTitle.length > 10 && '...'}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-500">
-                                    {orderItem.status}
+                                    {lawItem.lawType.charAt(0).toUpperCase() + lawItem.lawType.slice(1)}
                                 </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-500">
+                                    {lawItem.authority.charAt(0).toUpperCase() + lawItem.authority.slice(1)}
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    {new Date(lawItem.createdOn).toLocaleString()}
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    {new Date(lawItem.updatedOn).toLocaleString()}
+                                </td>
+                       
         
                                 {/* <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                     <button 
@@ -148,4 +151,4 @@ const Orders = () => {
   );
 }
 
-export default Orders
+export default Laws

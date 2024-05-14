@@ -1,45 +1,43 @@
-const axios = require('axios');
 const Order = require('../models/order.model');
 const orderService = require('../services/order.service');
 
-const add = async (req, res) => {
+const create = async (caseNo) => {
   try {
-    const { orderId, caseId } = req.body;
-
-    // const existingCase = await caseService.findById(caseId);
-    // if (!existingCase) {
-    //   return res.status(404).json({ message: `Case with given ID was not found` });
-    // }
-    // const existingOrder = await orderService.findById(orderId);
-    // if (existingOrder) {
-    //   return res.status(400).json({ message: 'Order with the given ID already exists' });
-    // }
-
-
-    //MUP
-    // const externalResponse = await axios.post('external_server_url', { orderId, caseId });
-
-    // if (externalResponse.status === 200) {
-    //   const newOrder = new Order({
-    //     orderId,
-    //     caseId,
-    //     status: 'PENDING',
-    //   });
-    //   const savedOrder = await orderService.add(newOrder);
-    //   return res.status(201).json(savedOrder);
-    // } else {
-
+    const latestOrder = await orderService.findLast();
+    
+    let orderNo = 1;
+    if (latestOrder && latestOrder.orderNo) {
+      orderNo = parseInt(latestOrder.orderNo) + 1;
+    }
     const newOrder = new Order({
-        orderId,
-        caseId,
-        status: 'ISSUED',
-      });
-      const savedOrder = await orderService.add(newOrder);
-      // return res.status(201).json(savedOrder);
-      return res.status(201).json({ message: 'Order added successfully', order: savedOrder });
-      // }
+      orderNo,
+      caseNo,
+      status: 'ISSUED',
+      createdOn: Date.now(),
+      updatedOn: Date.now(),
+    });
+    const savedOrder = await orderService.add(newOrder);
+
+    // ORDER CREATION ON :8086
+  
+    // const postData = {
+    //   orderNo: savedOrder.orderNo,
+    //   caseNo: savedOrder.caseNo
+    // };
+
+    // await fetch('http://localhost:8086/order', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify(postData)
+    // });
+
+
+    return savedOrder;
   } catch (error) {
-    return res.status(500).json({ message: 'Failed to add order', error: error.message });
+    console.error('Failed to add order:', error);
+    throw new Error('Failed to add order');
   }
 };
 
@@ -53,24 +51,23 @@ const all = async (req, res) => {
 };
 
 const executeOrder = async (req, res) => {
-  const orderId = req.params.id;
-
+  const orderNo = req.params.orderNo;
   try {
-    const order = await orderService.findByOrderId(orderId);
+    const order = await orderService.findByNo(orderNo);
     if (!order) {
       return res.status(404).json({ message: 'Order not found' });
     }
     order.status = 'EXECUTED';
-    
+    order.updatedOn = Date.now();
     await order.save();
 
-    return res.status(200).json({ message: `Order with ID ${orderId} has been successfully executed.`, order });
+    return res.status(200).json({ message: `Order with No ${orderNo} has been successfully executed.`, order });
   } catch (error) {
-    return res.status(500).json({ message: `Failed to execute order with ID ${orderId}.`, error: error.message });
+    return res.status(500).json({ message: `Failed to execute order with No ${orderNo}.`, error: error.message });
   }
 };
 module.exports = {
-  add,
+  create,
   all,
   executeOrder,
 };

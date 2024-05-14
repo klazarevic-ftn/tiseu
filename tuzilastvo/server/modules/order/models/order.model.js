@@ -3,12 +3,12 @@ const mongoose = require('mongoose');
 const statusEnum = ['ISSUED', 'PENDING', 'EXECUTED'];
 
 const orderSchema = new mongoose.Schema({
-  orderId: {
+  orderNo: {
     type: String,
     required: true,
     unique: true,
   },
-  caseId: {
+  caseNo: {
     type: String,
     required: true,
   },
@@ -16,6 +16,14 @@ const orderSchema = new mongoose.Schema({
     type: String,
     enum: statusEnum,
     default: 'ISSUED',
+  },
+  createdOn: {
+    type: Date,
+    default: Date.now 
+  },
+  updatedOn: {
+    type: Date,
+    default: Date.now 
   },
 }, { timestamps: true });
 

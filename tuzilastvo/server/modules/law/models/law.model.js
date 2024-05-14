@@ -1,22 +1,26 @@
 const mongoose = require('mongoose');
 
-const documentSchema = new mongoose.Schema({
-  docNo: {
+const lawSchema = new mongoose.Schema({
+  lawNo: {
     type: Number,
     required: true,
     unique: true
   },
-  docTitle: {
+  lawTitle: {
     type: String,
     required: true
   },
-  docDescription: {
+  fullLawText: {
     type: String,
     required: true
   },
-  docType: {
+  lawType: {
     type: String,
     required: true
+  },
+  authority: {
+    type: String,
+    default: '' 
   },
   createdOn: {
     type: Date,
@@ -25,9 +29,9 @@ const documentSchema = new mongoose.Schema({
   updatedOn: {
     type: Date,
     default: Date.now 
-  }
+  },
 });
 
-const Document = mongoose.model('Document', documentSchema, 'docs');
+const Law = mongoose.model('Law', lawSchema, 'laws');
 
-module.exports = Document;
+module.exports = Law;

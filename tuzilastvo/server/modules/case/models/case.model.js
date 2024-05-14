@@ -34,13 +34,17 @@ const caseSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  createdAt: {
+  createdOn: {
     type: Date,
     default: Date.now 
   },
-  updatedAt: {
+  updatedOn: {
     type: Date,
     default: Date.now 
+  },
+  documents: {
+    type: [String], 
+    default: []    
   }
 });
 

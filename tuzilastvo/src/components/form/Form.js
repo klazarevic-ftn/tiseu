@@ -79,7 +79,7 @@ const Form = ({ onClose, formType }) => {
       userEmail: (userData && userData.email) ? userData.email : '',
     };
 
-    console.log("AAAA" + formData.userEmail);
+    // console.log("AAAA" + formData.userEmail);
     if (isSecondForm) {
       formData.accountType = 'PROSECUTOR';
       const specialization = document.getElementById('specialization').value;
@@ -112,7 +112,7 @@ const Form = ({ onClose, formType }) => {
       return response.json();
     })
     .then(data => {
-      console.log('Success:', data);
+      // console.log('Success:', data);
       // setShowPopup(true);
       // setErrorMessage('Form submitted successfully.');
       navigate("/profile");
@@ -122,7 +122,7 @@ const Form = ({ onClose, formType }) => {
       // setShowPopup(true);
       // setErrorMessage('An error occurred while submitting the form.');
     });
-   console.log(formData); 
+  //  console.log(formData); 
 
     onClose(); 
   };

@@ -10,46 +10,46 @@ const Cases = () => {
     const { configured } = useConfigContext();
     const navigate = useNavigate();
     const [showAssignCase, setShowAssignCase] = useState(null);
-    // const [cases, setCases] = useState([]); 
+    const [cases, setCases] = useState([]); 
     // const [selectedCase, setSelectedCase] = useState(null);
     const [selectedProsecutor, setSelectedProsecutor] = useState(null);
     const [selectedAssigneeRow, setSelectedAssigneeRow] = useState(null);
     const [showNotification, setShowNotification] = useState(false);
     const [message, setMessage] = useState(null);
-    
-    // const [prosecutors, setProsecutors] = useState([]);
-    const [prosecutors, setProsecutors] = useState([
-      { firstName: 'John', lastName: 'Doe', specialization: 'Criminal Law' },
-      { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
-      { firstName: 'Alice', lastName: 'Johnson', specialization: 'Family Law' },
-      { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
-      { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
-      { firstName: 'Alice', lastName: 'Johnson', specialization: 'Family Law' },
-      { firstName: 'John', lastName: 'Doe', specialization: 'Criminal Law' },
-      { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
-      { firstName: 'Alice', lastName: 'Johnson', specialization: 'Family Law' },
-      { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
-      { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
-      { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
-      { firstName: 'Alice', lastName: 'Johnson', specialization: 'Family Law' },
-      { firstName: 'John', lastName: 'Doe', specialization: 'Criminal Law' },
-      { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
-      { firstName: 'Alice', lastName: 'Johnson', specialization: 'Family Law' },
-      { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
-      { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
-      { firstName: 'Alice', lastName: 'Johnson', specialization: 'Family Law' },
-      { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
-      { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
-      { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
-      { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
-      { firstName: 'Alice', lastName: 'Johnson', specialization: 'Family Law' }
-  ]);
+
+    const [prosecutors, setProsecutors] = useState([]);
+  //   const [prosecutors, setProsecutors] = useState([
+  //     { firstName: 'John', lastName: 'Doe', specialization: 'Criminal Law' },
+  //     { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
+  //     { firstName: 'Alice', lastName: 'Johnson', specialization: 'Family Law' },
+  //     { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
+  //     { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
+  //     { firstName: 'Alice', lastName: 'Johnson', specialization: 'Family Law' },
+  //     { firstName: 'John', lastName: 'Doe', specialization: 'Criminal Law' },
+  //     { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
+  //     { firstName: 'Alice', lastName: 'Johnson', specialization: 'Family Law' },
+  //     { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
+  //     { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
+  //     { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
+  //     { firstName: 'Alice', lastName: 'Johnson', specialization: 'Family Law' },
+  //     { firstName: 'John', lastName: 'Doe', specialization: 'Criminal Law' },
+  //     { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
+  //     { firstName: 'Alice', lastName: 'Johnson', specialization: 'Family Law' },
+  //     { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
+  //     { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
+  //     { firstName: 'Alice', lastName: 'Johnson', specialization: 'Family Law' },
+  //     { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
+  //     { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
+  //     { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
+  //     { firstName: 'Jane', lastName: 'Smith', specialization: 'Corporate Law' },
+  //     { firstName: 'Alice', lastName: 'Johnson', specialization: 'Family Law' }
+  // ]);
 
     useEffect(() => {
         const fetchData = async () => {
           try {
-            // await fetchCases();
-            // await fetchProsecutorsInfo();
+            await fetchProsecutorsInfo();
+            await fetchCases();
           } catch (error) {
             console.error('Error fetching data:', error);
           }
@@ -58,51 +58,51 @@ const Cases = () => {
         fetchData();
       }, []);
 
-      // const fetchCases = async () => {
-      //   try {
-      //     const response = await fetch("http://localhost:8010/cases/", {
-      //       method: "GET",
-      //       credentials: "include",
-      //       headers: {
-      //         "Cache-Control": "no-cache",
-      //       },
-      //     });
+      const fetchCases = async () => {
+        try {
+          const response = await fetch("http://localhost:8010/cases/", {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Cache-Control": "no-cache",
+            },
+          });
       
-      //     if (!response.ok) {
-      //       throw new Error('Failed to fetch cases');
-      //     }
+          if (!response.ok) {
+            throw new Error('Failed to fetch cases');
+          }
           
-      //     const data = await response.json();
-      //     setCases(data.cases);
-      //     console.log(data); 
-      //     // console.log(data.cases.caseAssignee); 
+          const data = await response.json();
+          setCases(data.cases);
+          console.log(data); 
+          // console.log(data.cases.caseAssignee); 
 
-      //   } catch (error) {
-      //     console.error('Error fetching cases:', error);
-      //   }
-      // };
+        } catch (error) {
+          console.error('Error fetching cases:', error);
+        }
+      };
 
-      // const fetchProsecutorsInfo = async () => {
-      //   try {
-      //     const response = await fetch("http://localhost:8010/users/prosecutors", {
-      //       method: "GET",
-      //       credentials: "include",
-      //       headers: {
-      //         "Cache-Control": "no-cache",
-      //       },
-      //     });
+      const fetchProsecutorsInfo = async () => {
+        try {
+          const response = await fetch("http://localhost:8010/users/prosecutors", {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Cache-Control": "no-cache",
+            },
+          });
       
-      //     if (!response.ok) {
-      //       throw new Error('Failed to fetch prosecutors info');
-      //     }
+          if (!response.ok) {
+            throw new Error('Failed to fetch prosecutors info');
+          }
       
-      //     const data = await response.json();
-      //     setProsecutors(data);
-      //       console.log(data);
-      //   } catch (error) {
-      //     console.error('Error fetching prosecutors info:', error);
-      //   }
-      // };
+          const data = await response.json();
+          setProsecutors(data);
+            console.log(data);
+        } catch (error) {
+          console.error('Error fetching prosecutors info:', error);
+        }
+      };
 
 
     // useEffect(() => {
@@ -133,7 +133,7 @@ const Cases = () => {
     // }, []);
 
     const routes = [
-        { path: '/case', label: 'Case', },
+        { path: '/cases/new-case', label: 'Case', },
     ];
 
     const handleRouteClick = (path) => {
@@ -150,10 +150,10 @@ const Cases = () => {
         { icon: require('../../icons/case5.svg').default, text: "Unassigned" }
       ];
       
-      const headerTitles = ['#', 'Case NO', 'Case Title', 'Type', 'Created At', 'Last Update', 'Assignee', 'Action'];
+      const headerTitles = ['#', 'Case NO', 'Case Title', 'Type', 'Creation Date', 'Last Update', 'Assignee', 'Action'];
 
 
-      const cases = [
+      // const cases = [
         // { id: 56456, status: "New", createdAt: "2024-04-20 T08:00:00", lastUpdate: "2024-04-21 T10:30:00", caseAssignee: "John Doe" },
         // { id: 5645, status: "InProgress", createdAt: "2024-04-19 T09:15:00", lastUpdate: "2024-04-20 T11:45:00", responsible: "Jane Smith" },
         // { id: 564, status: "Resolved", createdAt: "2024-04-18 T10:45:00", lastUpdate: "2024-04-19 T12:20:00", responsible: "Alex Johnson" },
@@ -166,29 +166,29 @@ const Cases = () => {
         // { id: 1, status: "New", createdAt: "2024-04-20 T08:00:00", lastUpdate: "2024-04-21 T10:30:00", responsible: "John Doe" },
         // { id: 2, status: "InProgress", createdAt: "2024-04-19 T09:15:00", lastUpdate: "2024-04-20 T11:45:00", responsible: "Jane Smith" },
         // { id: 3, status: "Resolved", createdAt: "2024-04-18 T10:45:00", lastUpdate: "2024-04-19 T12:20:00", responsible: "Alex Johnson" },
-        { 
-          caseNo: "12345", caseTitle: "Sample Case Title 2", caseDescription: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", caseType: "Civil", 
-          plaintiff: "Eve Johnson", defendant: "Charlie Brown", witness: ["Witness 3", "Witness 4"], 
-          createdAt: "2024-05-03T10:45:00.123+00:00", updatedAt: "2024-05-06T08:20:00.456+00:00", caseAssignee: "" 
-        },
-        { 
-          caseNo: "12345", caseTitle: "Sample Case Title 2", caseDescription: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", caseType: "Civil", 
-          plaintiff: "Eve Johnson", defendant: "Charlie Brown", witness: ["Witness 3", "Witness 4"], 
-          createdAt: "2024-05-03T10:45:00.123+00:00", updatedAt: "2024-05-06T08:20:00.456+00:00", caseAssignee: "Jane Smith" 
-        }
+      //   { 
+      //     caseNo: "12345", caseTitle: "Sample Case Title 2", caseDescription: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", caseType: "Civil", 
+      //     plaintiff: "Eve Johnson", defendant: "Charlie Brown", witness: ["Witness 3", "Witness 4"], 
+      //     createdAt: "2024-05-03T10:45:00.123+00:00", updatedAt: "2024-05-06T08:20:00.456+00:00", caseAssignee: "" 
+      //   },
+      //   { 
+      //     caseNo: "12345", caseTitle: "Sample Case Title 2", caseDescription: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", caseType: "Civil", 
+      //     plaintiff: "Eve Johnson", defendant: "Charlie Brown", witness: ["Witness 3", "Witness 4"], 
+      //     createdAt: "2024-05-03T10:45:00.123+00:00", updatedAt: "2024-05-06T08:20:00.456+00:00", caseAssignee: "Jane Smith" 
+      //   }
     
-      ];
+      // ];
     
     const handleRowClick = (prosecutor, index) => {
-      console.log(prosecutor)
+      // console.log(prosecutor)
       setSelectedAssigneeRow(index);
       setSelectedProsecutor(prosecutor);
   };
 
   const handleAssignConfirm = async () => {
-    console.log(selectedAssigneeRow);
-    console.log(selectedProsecutor.UPIN);
-    console.log(showAssignCase);
+    // console.log(selectedAssigneeRow);
+    // console.log(selectedProsecutor.UPIN);
+    // console.log(showAssignCase);
 
     if (selectedProsecutor && showAssignCase) {
         try {
@@ -206,13 +206,17 @@ const Cases = () => {
             if (!response.ok) {
                 throw new Error('Failed to assign case');
             }
-            console.log('Case assigned successfully'); // Log to confirm reaching this point
+            // console.log('Case assigned successfully'); 
 
             setMessage('Case assigned successfully');
             setShowNotification(true);
             setShowAssignCase(false);
             setSelectedProsecutor(null);
             setSelectedAssigneeRow(null); 
+
+            setTimeout(() => {
+              window.location.reload();
+          }, 5000);
 
           } catch (error) {
             console.error('Error assigning case:', error);
@@ -227,27 +231,23 @@ const Cases = () => {
     setShowAssignCase(null);
   };
 
+
+
   const extractNameFromAssignee = (assignee) => {
-    console.log("assignee",assignee); 
-    // console.log("AAAAAAA" , assignee.firstName); 
-    // console.log("AAAAAAA" , assignee.lastName); 
-
-    const [firstName, lastName] = assignee.split(' ');
-    console.log("AAAAAAA", firstName); 
-    console.log("BBBBBBB", lastName); 
-
     if (!assignee) return null;
-    try {
-
-      const { firstName, lastName } = assignee;
-      return `${firstName} ${lastName}`;
-    } catch (error) {
-      console.error('Error extracting name from assignee:', error);
-      return null;
+    const UPIN = assignee;
+    if (!UPIN) return null;
+    const prosecutor = prosecutors.find(prosecutor => prosecutor.UPIN === UPIN);
+    if (prosecutor) {
+        return `${prosecutor.firstName} ${prosecutor.lastName}`;
+    } else {
+        return null;
     }
-  };
+};
 
-
+const handleInspect = (caseNo) => {
+  navigate(`/cases/case/${caseNo}`);
+};
 
   return (
     <div className="cases-wrap h-full w-full flex flex-col md:flex-row justify-center 
@@ -384,19 +384,19 @@ const Cases = () => {
                                 {index + 1}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-500">
-                                {caseItem.caseNo}
+                                {caseItem.caseNo.toString().padStart(7, '0')}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 {caseItem.caseTitle}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-    {caseItem.caseType ? caseItem.caseType.charAt(0).toUpperCase() + caseItem.caseType.slice(1) : "None"}
-</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {caseItem.createdAt}
+                                {caseItem.caseType ? caseItem.caseType.charAt(0).toUpperCase() + caseItem.caseType.slice(1) : "None"}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {caseItem.updatedAt}
+                                {new Date(caseItem.createdOn).toLocaleString()} 
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {new Date(caseItem.updatedOn).toLocaleString()} 
                             </td>
 
 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -425,9 +425,14 @@ const Cases = () => {
     </button>
   )}
 </td> */}
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                <button className="text-blue-600 hover:text-blue-900">Inspect</button>
-                            </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                  <button 
+                                      className="text-blue-600 hover:text-blue-900"
+                                      onClick={() => handleInspect(caseItem.caseNo)}
+                                  >
+                                      Inspect
+                                  </button>
+                              </td>
                             </tr>
                         ))}
                         </tbody>

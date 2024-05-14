@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Notification } from '../../components';
 import DatePicker from 'react-datepicker';
@@ -8,27 +8,115 @@ const TrialForm = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [validationErrorMessage, setValidationErrorMessage] = useState('');
   const [selectedCase, setSelectedCase] = useState('');
+  const [cases, setCases] = useState([]); 
+
+  // const cases = [
+  //   { caseNo: '12345', caseTitle: 'Case Title 1' },
+  //   { caseNo: '54321', caseTitle: 'Case Title 2' },
+  //   { caseNo: '98765', caseTitle: 'Case Title 3' },
+  // ];
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await fetchCases();
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
   
-  const cases = [
-    { caseNo: '12345', caseTitle: 'Case Title 1' },
-    { caseNo: '54321', caseTitle: 'Case Title 2' },
-    { caseNo: '98765', caseTitle: 'Case Title 3' },
-  ];
+    fetchData();
+  }, []);
+
+  const fetchCases = async () => {
+    try {
+      const response = await fetch("http://localhost:8010/cases/", {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Cache-Control": "no-cache",
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to fetch cases');
+      }
+      
+      const data = await response.json();
+      setCases(data.cases);
+      // console.log(data); 
+
+    } catch (error) {
+      console.error('Error fetching cases:', error);
+    }
+  };
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setSelectedCase(value);
   };
 
-  const handleSubmit = (event) => {
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    if (selectedCase === '') {
-      setValidationErrorMessage('Please select a case');
+    const validationError = validateForm();
+  
+    if (validationError !== '') {
+      setValidationErrorMessage(validationError);
       setShowPopup(true);
+
+      
     } else {
-      // Your submit logic here
+      try {
+        const response = await fetch("http://localhost:8010/trials/create", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            caseNo: selectedCase,
+            date: selectedDate,
+            location: selectedLocation, 
+          }),
+        });
+        // console.log("TRRRR:", selectedCase);
+        // console.log("TRRRR:", selectedDate);
+        // console.log("TRRRR:", selectedLocation);
+  
+        if (!response.ok) {
+          throw new Error('Failed to create trial');
+        }
+  
+        // navigate("/");
+      } catch (error) {
+        console.error('Error creating trial:', error);
+        setValidationErrorMessage('Failed to create trial');
+        setShowPopup(true);
+      }
     }
   };
+
+  const validateForm = () => {
+    const today = new Date();
+    const selectedDateTime = selectedDate.getTime();
+    let errorMessage = '';
+  
+    if (selectedCase === '') {
+      errorMessage = 'Please select a case. ';
+    }
+  
+    if (selectedLocation === '') {
+      errorMessage = 'Please select a location. ';
+    }
+  
+    if (selectedDateTime < today.getTime()) {
+      errorMessage = 'Trial date must not be before today. ';
+    }
+  
+    return errorMessage.trim();
+  };
+  
+
 
   const handleClose = () => {
     navigate("/");
@@ -59,9 +147,13 @@ const TrialForm = () => {
   ];
 
   const [selectedLocation, setSelectedLocation] = useState('');
+
   const handleLocationChange = (event) => {
     const { value } = event.target;
-    setSelectedLocation(value);
+    // console.log("handleLocationChange"); 
+    // console.log("AAAAAAAAA", value); 
+
+    setSelectedLocation(locations[value]);
   };
 
   return (
@@ -85,7 +177,9 @@ const TrialForm = () => {
             >
               <option value="">Select a case</option>
               {cases.map((c) => (
-                <option key={c.caseNo} value={c.caseNo}>{c.caseTitle}</option>
+                <option key={c.caseNo} value={c.caseNo}>
+                  Case No: {c.caseNo}; Title: {c.caseTitle};
+                  </option>
               ))}
             </select>
           </div>

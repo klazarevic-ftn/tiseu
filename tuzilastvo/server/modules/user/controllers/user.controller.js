@@ -4,69 +4,39 @@ const userService = require('../services/user.service');
 async function checkAuthentication(req, res) {
   try {
     if (!req.oidc.user) {
-      // console.log('CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC');
-      // console.log('CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC:');
       return res.status(401).json({ isAuthenticated: false, message: "User is not authenticated." });
     }
     const userEmail = req.oidc.user.email;
     let user = await User.findOne({ email: userEmail });
     if (user) {
-      // console.log('User already exists in the database:', user);
-      // console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA:');
-      // console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
-      // console.log('RES:', res);
+
       return res.status(200).json({ isAuthenticated: true, user });
     }
     user = await User.create({
       nickname: req.oidc.user.nickname,
       name: req.oidc.user.name,
       email: req.oidc.user.email,
-      // type: 'CIVIL', 
+      type: 'CIVIL', 
       configured: false 
     });
-    // console.log('New user created:', user);
     return res.status(200).json({ isAuthenticated: true, user });
   } catch (error) {
-    // console.log('bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb:');
-    // console.log('BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB');
-    // console.error('Error while checking authentication:', error);
+
     return res.status(500).json({ isAuthenticated: false, message: "Error while checking authentication." });
   }
 }
-
-
-// async function checkAccountConfig(req, res) {
-//   try {
-//     if (!req.oidc.user) {
-//       return res.status(401).json({ message: "User is not authenticated." });
-//     }
-//     const userEmail = req.oidc.user.email;
-//     const result = await userService.checkAccountConfig(userEmail);
-//     return res.status(200).json(result);
-//   } catch (error) {
-//     console.error("Error while checking account:", error);
-//     return res.status(500).json({ message: "Error while checking account." });
-//   }
-// }
 
 async function checkAccountConfig(req, res) {
   try {
     if (!req.oidc.user) {
       return res.status(401).json({ message: "User is not authenticated." });
     }
-    // console.log(req.oidc.user)
     const userEmail = req.oidc.user.email;
     let user = await User.findOne({ email: userEmail });
-        // console.log(user)
     if (!user) {
-      // console.log(req.oidc.user)
-      // console.log(req.oidc.user.email)
-
       return res.status(404).json({ message: "User not found." });
     }
     if (!user.configured) {
-      // console.log(user.configured)
-      // console.log(user)
       return res.status(201).json({ configured: false, user });
     }
     return res.status(200).json({ configured: true, user });
@@ -149,12 +119,42 @@ async function findProsecutors(req, res) {
   }
 }
 
+// async function getUser(req, res) {
+//   try {
+//     const { UPIN } = req.params;
+//     console.log("UPIN param from fron: ", UPIN)
+//     const result = await userService.findByUPIN(UPIN);
+//     console.log("response from service: ", result)
+
+//     if (!result.success) {
+//       return res.status(404).json({ message: result.message });
+//     }
+//     return res.status(200).json(result.user);
+//   } catch (error) {
+//     console.error("Error while getting user:", error);
+//     return res.status(500).json({ message: "Error while getting user." });
+//   }
+// }
 
 
+const getUser = async (req, res) => {
+  try {
+    const { UPIN } = req.params;
+    const userInfo = await userService.findByUPIN(UPIN);
+    if (!userInfo) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.status(200).json({ userInfo });
+  } catch (error) {
+    console.error('Error getting user information:', error);
+    res.status(500).json({ message: 'Failed to get user information', error: error.message });
+  }
+};
 
 module.exports = { 
   checkAuthentication,
   checkAccountConfig,
   register,
   findProsecutors,
+  getUser,
 };
