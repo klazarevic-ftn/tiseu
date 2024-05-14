@@ -42,6 +42,7 @@ ENGINE_URL = 'mysql+pymysql://root:root@localhost:8888'
 DATABASE_NAME = 'mup'
 CREATE_DB_DDL = DDL(f'CREATE DATABASE IF NOT EXISTS `{DATABASE_NAME}`')
 DROP_DB_DDL = DDL(f'DROP DATABASE IF EXISTS `{DATABASE_NAME}`')
+QUERY_DB = DDL('SHOW DATABASES LIKE \'mup\'')
 
 
 def init_db():
@@ -49,8 +50,9 @@ def init_db():
     try:
         with engine_with_no_db.connect() as conn:
             with conn.begin():
-                conn.execute(DROP_DB_DDL)
-                conn.execute(CREATE_DB_DDL)
+                if not conn.execute(QUERY_DB).rowcount:
+                    conn.execute(CREATE_DB_DDL)
+                # conn.execute(DROP_DB_DDL)
             conn.close()
     except Exception as ex:
         print(ex)
