@@ -37,21 +37,29 @@ class Form(Base):
     form_type = Column(SQLEnum(FormType, length=10), name='form_type')
 
 
-ENGINE_URL = 'mysql+pymysql://root:root@localhost:8888'
-# ENGINE_URL = 'mysql+pymysql://root:root@10.5.0.2:3333'
+LOCAL_ENGINE_URL = 'mysql+pymysql://root:root@localhost:8888'
+DOCKER_ENGINE_URL = 'mysql+pymysql://root:root@10.5.0.2:3306'
 DATABASE_NAME = 'mup'
 CREATE_DB_DDL = DDL(f'CREATE DATABASE IF NOT EXISTS `{DATABASE_NAME}`')
 DROP_DB_DDL = DDL(f'DROP DATABASE IF EXISTS `{DATABASE_NAME}`')
+QUERY_DB = DDL('SHOW DATABASES LIKE \'mup\'')
 
 
 def init_db():
-    engine_with_no_db = create_engine(ENGINE_URL, future=True)
+    try:
+        engine_with_no_db = create_engine(DOCKER_ENGINE_URL, future=True)
+    except:
+        engine_with_no_db = create_engine(LOCAL_ENGINE_URL, future=True)
 
-    with engine_with_no_db.connect() as conn:
-        with conn.begin():
-            conn.execute(DROP_DB_DDL)
-            conn.execute(CREATE_DB_DDL)
-        conn.close()
+    try:
+        with engine_with_no_db.connect() as conn:
+            with conn.begin():
+                if not conn.execute(QUERY_DB).rowcount:
+                    conn.execute(CREATE_DB_DDL)
+                # conn.execute(DROP_DB_DDL)
+            conn.close()
+    except Exception as ex:
+        print(ex)
 
     engine = create_engine(f'{ENGINE_URL}/{DATABASE_NAME}', future=True)
 

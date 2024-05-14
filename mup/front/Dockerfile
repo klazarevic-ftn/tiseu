@@ -1,17 +1,13 @@
-FROM node
+FROM node:latest
 
-RUN npm install -g pnpm
+WORKDIR /app
 
-ENV NODE_ENV development
+COPY package.json .
 
-WORKDIR /usr/src/app
-
-COPY package*.json pnpm-lock.yaml* ./
-
-RUN pnpm i
+RUN npm install
 
 COPY . .
 
 EXPOSE 5173
 
-CMD pnpm run dev
+CMD [ "npm", "run", "dev", "--host"]

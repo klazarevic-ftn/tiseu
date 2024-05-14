@@ -1,0 +1,16 @@
+{
+  "url": "http://localhost:9000/",
+  "realm": "tiseu",
+  "clientId": "mup",
+  "authServerUrl": "http://localhost:9000/",
+  "sslRequired": "none",
+  "resource": "mup",
+  "verifyTokenAudience": true,
+  "credentials": {
+    "secret": "Sa1mBEAdpgpqfBubhzGNb4QpuQ3b29ea"
+  },
+  "confidentialPort": 0,
+  "policyEnforcer": {
+    "credentials": {}
+  }
+}
