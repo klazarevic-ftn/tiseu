@@ -28,19 +28,19 @@ services:
       mupnet:
         ipv4_address: 10.5.0.3
 
-  # front:
-  #   container_name: mup_front_c
-  #   build:
-  #     context: ./front
-  #     dockerfile: ./Dockerfile
-  #   command: 'npm run dev -- --host'
-  #   ports:
-  #     - 8999:5173
-  #   expose: 
-  #     - 5173
-  #   networks:
-  #     mupnet:
-  #       ipv4_address: 10.5.0.4
+  front:
+    container_name: mup_front_c
+    build:
+      context: ./front
+      dockerfile: ./Dockerfile
+    command: 'npm run dev -- --host'
+    ports:
+      - 8999:5173
+    expose: 
+      - 5173
+    networks:
+      mupnet:
+        ipv4_address: 10.5.0.4
 
   # keycloak:
   #   container_name: mup_sso_c

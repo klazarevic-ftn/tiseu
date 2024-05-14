@@ -20,7 +20,7 @@ async def execute_order(form_id):
     exec_order(form_id)
     order = get_order_by_form_id(form_id)
     try:
-        requests.put(f'http://localhost:8010/orders/{order.order_id}/execute')
+        requests.patch(f'http://localhost:8010/orders/order/{order.order_id}/execute')
     except Exception as e:
         return Response(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, content=str(e))
 

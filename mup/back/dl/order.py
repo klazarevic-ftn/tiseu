@@ -32,7 +32,7 @@ def get_order_by_form_id(form_id):
 
 def create_order(order: OrderDTO):
     form = Form()
-    form.foreign_id = order.orderId
+    form.foreign_id = order.orderNo
     form.content = to_json(order)
     form.form_type = FormType.ORDER.value
 

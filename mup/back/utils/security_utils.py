@@ -1,7 +1,9 @@
 from typing import Annotated
 from fastapi.security import OAuth2AuthorizationCodeBearer
 from jwt import PyJWKClient
+
 import jwt
+
 from fastapi import HTTPException, Depends
 
 oauth_2_scheme = OAuth2AuthorizationCodeBearer(

@@ -2,6 +2,6 @@ from pydantic import BaseModel
 
 
 class OrderDTO(BaseModel):
-    orderId: str
+    orderNo: str
     caseNo: str
     executed: bool = False
