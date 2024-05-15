@@ -2,23 +2,29 @@
     import flag_pattern_img from '$lib/assets/flag-pattern.png';
     import grb_srbije_img from '$lib/assets/grb-srbije.png';
     import keycloak_json from '$lib/keycloak.json';
-
     import Keycloak from 'keycloak-js';
+    import { Calendar } from '@fullcalendar/core';
+    import dayGridPlugin from '@fullcalendar/daygrid';
+    import timeGridPlugin from '@fullcalendar/timegrid';
+    import listPlugin from '@fullcalendar/list';
 
-    import { onMount } from "svelte";
+    import {onMount, tick} from "svelte";
 
     let keycloak;
+    let calendar;
 
     $: stage = 'pocetna'; //pocetna, izrada, uvid, podnosenje, obrada
+
     const port = '5173'
-    onMount(_ => {
+
+    onMount(async _ => {
         try {
             keycloak = new Keycloak(keycloak_json);
-            keycloak.init({ onLoad: "check-sso", checkLoginIframe: false, redirectUri: `http://localhost:${port}/`})
+            keycloak.init({onLoad: "check-sso", checkLoginIframe: false, redirectUri: `http://localhost:${port}/`})
                 .then(_ => {
                     keycloak.loadUserInfo();
                     keycloak = keycloak;
-                    console.log(keycloak);
+                    // console.log(keycloak);
                 })
                 .catch(error => {
                     console.log('caught error: ', error);
@@ -29,17 +35,25 @@
 
         let url = new URLSearchParams(window.location.search);
         let newStage = url.has('stage');
-        console.log('newStage: ', newStage);
-        if(newStage) {
+
+        if (newStage) {
             stage = url.get('stage');
         }
     });
+
     function changeStage(event) {
-        console.log('auth: ', keycloak?.authenticated, ' stage: ', stage !== 'pocetna')
-        if(!keycloak?.authenticated && event.currentTarget.dataset.stage !== 'pocetna')
-            keycloak.login({ redirectUri: `http://localhost:${port}/?stage=${event.currentTarget.dataset.stage}`});
+        if (!keycloak?.authenticated && event.currentTarget.dataset.stage !== 'pocetna')
+            keycloak.login({redirectUri: `http://localhost:${port}/?stage=${event.currentTarget.dataset.stage}`});
         else
             stage = event.currentTarget.dataset.stage;
+
+        if(stage === 'izrada') {
+            calendar = new Calendar(document.getElementById('calendar'), {
+                plugins: [timeGridPlugin],
+                initialView: 'timeGridWeek'
+            });
+            calendar.render();
+        }
     }
 </script>
 
@@ -67,7 +81,7 @@
 
 <div id="nav_bar" style="display: flex; justify-content: center; border: 2px solid lightgray; padding: 0 20px;">
     <div class="dropdown">
-        <button class="drop_btn" data-stage="pocetna" on:click={changeStage} >Pocetna</button>
+        <button class="drop_btn" data-stage="pocetna" on:click={changeStage}>Pocetna</button>
     </div>
 
     <div class="dropdown">
@@ -102,18 +116,26 @@
         <!-- Content -->
         {#if stage === 'pocetna' }
             <h2 style="color: #c7363d;">Надлежност</h2>
-            <p>У Републици Србији послове државне управе утврђене законом и прописима донетим на основу закона обављају министарства. Она примењују законе и друге прописе и опште акте Народне скупштине и Владе Србије, као и опште акте председника Републике; решавају у управним стварима; врше управни надзор над обављањем поверених послова и др.</p>
+            <p>У Републици Србији послове државне управе утврђене законом и прописима донетим на основу закона обављају
+                министарства. Она примењују законе и друге прописе и опште акте Народне скупштине и Владе Србије, као и
+                опште акте председника Републике; решавају у управним стварима; врше управни надзор над обављањем
+                поверених послова и др.</p>
 
-            <p>Унутрашњи послови су законом утврђени послови чијим обављањем надлежни републички органи остварују безбедност Републике и њених грађана и обезбеђују остваривање њихових Уставом и законом утврђених права.</p>
+            <p>Унутрашњи послови су законом утврђени послови чијим обављањем надлежни републички органи остварују
+                безбедност Републике и њених грађана и обезбеђују остваривање њихових Уставом и законом утврђених
+                права.</p>
 
             <p>Унутрашње послове државне управе обавља Министарство унутрашњих послова.</p>
 
-            <p>Унутрашњи послови обављају се на начин којим се сваком човеку и грађанину обезбеђује једнака заштита и остваривање његових Уставом утврђених слобода и права.</p>
+            <p>Унутрашњи послови обављају се на начин којим се сваком човеку и грађанину обезбеђује једнака заштита и
+                остваривање његових Уставом утврђених слобода и права.</p>
 
-            <p>У обављању унутрашњих послова могу се примењивати само мере принуде које су предвиђене законом и којима се са најмање штетних последица по грађане, као и њихове организације, предузећа, установе и друге организације, постиже извршење послова.</p>
-            {:else if stage === 'izrada' }
-            <div>Test izrada</div>
+            <p>У обављању унутрашњих послова могу се примењивати само мере принуде које су предвиђене законом и којима
+                се са најмање штетних последица по грађане, као и њихове организације, предузећа, установе и друге
+                организације, постиже извршење послова.</p>
+        {:else if stage === 'izrada' }
         {/if}
+            <div id='calendar' style="height: {stage === 'izrada' ? 800 : 0}px; overflow: hidden; margin-top: 15px;}" ></div>
     </div>
 </div>
 
@@ -170,7 +192,7 @@
         position: absolute;
         background-color: #f1f1f1;
         min-width: 160px;
-        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
         z-index: 1;
     }
 
@@ -190,7 +212,9 @@
     }
 
     /* Show the dropdown menu on hover */
-    .dropdown:hover .drop_content {display: block;}
+    .dropdown:hover .drop_content {
+        display: block;
+    }
 
     /* Change the background color of the dropdown button when the dropdown content is shown */
     .dropdown:hover .drop_btn {

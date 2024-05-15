@@ -5,11 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="728b6576-de7b-4f74-86ec-a0da09a897d1" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../back/dl/order.py" beforeDir="false" afterPath="$PROJECT_DIR$/../back/dl/order.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../back/dto.py" beforeDir="false" afterPath="$PROJECT_DIR$/../back/dto.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../back/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../back/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../back/routers/order.py" beforeDir="false" afterPath="$PROJECT_DIR$/../back/routers/order.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../back/utils/security_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/../back/utils/security_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/../back/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/+page.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/+page.svelte" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,22 +47,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "test",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "S:/workspace/tiseu/mup/front/src/lib",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "ts.external.directory.path": "U:\\JetBrains\\IntelliJ IDEA Ultimate\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;test&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;S:/workspace/tiseu/mup/front/src/lib&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;U:\\JetBrains\\IntelliJ IDEA Ultimate\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="S:\workspace\tiseu\mup\front\src\lib" />
@@ -97,6 +97,7 @@
       <workItem from="1715545295267" duration="7000" />
       <workItem from="1715665984945" duration="1200000" />
       <workItem from="1715689814866" duration="881000" />
+      <workItem from="1715756339984" duration="7026000" />
     </task>
     <servers />
   </component>
