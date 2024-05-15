@@ -13,32 +13,32 @@ const RequireAuth = () => {
     const [authStatus, setAuthStatus] = useState(null);
     const [configStatus, setConfigStatus] = useState(null);
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             const status = await checkAuth();
-    //             setAuthStatus(status);
-    //             if (status) {
-    //                 const configStatus = await checkConfig();
-    //                 if (!configStatus.configured) {
-    //                     setConfigStatus(false);
-    //                     console.log("cccccCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC: " + false);
-    //                 } else {
-    //                     console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAconfigStatusAAAAAA: " + configStatus);
-    //                     console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA: " + true);
-    //                     setConfigStatus(true);
-    //                     console.log("cccccccccccc: " + configStatus.configured);
-    //                 }
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const status = await checkAuth();
+                setAuthStatus(status);
+                if (status) {
+                    const configStatus = await checkConfig();
+                    if (!configStatus.configured) {
+                        setConfigStatus(false);
+                        // console.log("cccccCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC: " + false);
+                    } else {
+                        // console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAconfigStatusAAAAAA: " + configStatus);
+                        // console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA: " + true);
+                        setConfigStatus(true);
+                        // console.log("cccccccccccc: " + configStatus.configured);
+                    }
 
-    //             }
-    //         } catch (error) {
-    //             console.error('Error while checking authentication:', error);
-    //             setAuthStatus(false); // Set authentication status to false if there's an error
-    //         }
-    //     };
+                }
+            } catch (error) {
+                console.error('Error while checking authentication:', error);
+                setAuthStatus(false); // Set authentication status to false if there's an error
+            }
+        };
 
-    //     fetchData();
-    // }, [authStatus, configStatus]);
+        fetchData();
+    }, [authStatus, configStatus]);
 
     return (
         <>

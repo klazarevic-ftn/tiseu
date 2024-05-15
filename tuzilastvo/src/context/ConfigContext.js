@@ -115,7 +115,7 @@ export const ConfigProvider = ({ children }) => {
 
           // navigate("/account-config");
           // return false;
-          return { configured: false, userData: null };
+          return { configured: false, userData: data.user };
 
         }
       } else {

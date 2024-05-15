@@ -13,29 +13,31 @@ const RequireConfig = () => {
     const CIVIL_ = ['/profile', '/cases'];
     const PROSECUTOR_ = ['/profile', '/cases', '/new-case', '/new-document', '/new-trial'];
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             const { configured, userData } = await checkConfig(); 
-    //             console.log(configured);
-    //             console.log(userData.type);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const { configured, userData } = await checkConfig(); 
+                // console.log(configured);
+                // console.log('configured :', configured);
+                // console.log('userData :', userData);
+                // console.log(userData.type);
 
-    //             setConfigStatus(configured);
+                setConfigStatus(configured);
+                
+                const userRoutes = getUserRoutes(userData.type);
+                const routes = userRoutes.map(route => route.toLowerCase());
+                setAllowedRoutes(routes);
+                // console.log('Allowed Routes:', routes);
+                // console.log('Current Route:', location.pathname.toLowerCase());
 
-    //             const userRoutes = getUserRoutes(userData.type);
-    //             const routes = userRoutes.map(route => route.toLowerCase());
-    //             setAllowedRoutes(routes);
-    //             console.log('Allowed Routes:', routes);
-    //             console.log('Current Route:', location.pathname.toLowerCase());
+            } catch (error) {
+                console.error('Error while checking configuration:', error);
+                setConfigStatus(false); 
+            }
+        };
 
-    //         } catch (error) {
-    //             console.error('Error while checking configuration:', error);
-    //             setConfigStatus(false); 
-    //         }
-    //     };
-
-    //     fetchData();
-    // }, []);
+        fetchData();
+    }, [configStatus, allowedRoutes]);
 
     const getUserRoutes = (userType) => {
         switch (userType) {
@@ -59,17 +61,16 @@ const RequireConfig = () => {
             <div className="root-layout h-screen flex flex-col">
                 <Header />
                 <section className="flex-grow overflow-hidden">
-                    <Outlet className="flex-grow" />
-                    {/* {configStatus === true ? (
+                    {/* <Outlet className="flex-grow" /> */}
+                     {configStatus === true ? (
                         allowedRoutes.length > 0 && isRouteAllowed(location.pathname) ? (
                             <Outlet className="flex-grow" />
-
                             ) : (
                             <Navigate to="/" state={{ from: location }} replace />
                         )
                     ) : configStatus === false ? (
                         <Navigate to="/" state={{ from: location }} replace />
-                    ) : null} */}
+                    ) : null} 
                 </section>
             </div>
         </>

@@ -67,8 +67,6 @@ const Profile = () => {
         }
         const data = await response.json();
         setData(data.userInfo);
-        // console.log("uuuuuuuuuuuuu ser: ", data.userInfo);
-
     } catch (error) {
         setError(error.message);
     }
@@ -82,7 +80,6 @@ const fetchUserTrials = async (UPIN) => {
     }
     const trialsData = await response.json();
     setTrialsData(trialsData);
-    console.log("uuuuuuuuuuuuu ser: ", trialsData);
 
   } catch (error) {
     setError(error.message);
