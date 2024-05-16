@@ -20,6 +20,7 @@
     onMount(async _ => {
         try {
             keycloak = new Keycloak(keycloak_json);
+            // keycloak.init({onLoad: "check-sso", checkLoginIframe: false, redirectUri: `http://172.23.133.60:${port}/`})
             keycloak.init({onLoad: "check-sso", checkLoginIframe: false, redirectUri: `http://localhost:${port}/`})
                 .then(_ => {
                     keycloak.loadUserInfo();

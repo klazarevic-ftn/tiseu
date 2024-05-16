@@ -5,10 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="728b6576-de7b-4f74-86ec-a0da09a897d1" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../back/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/../back/model.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/routes/+page.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/+page.svelte" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -98,6 +95,8 @@
       <workItem from="1715665984945" duration="1200000" />
       <workItem from="1715689814866" duration="881000" />
       <workItem from="1715756339984" duration="7026000" />
+      <workItem from="1715804981841" duration="1938000" />
+      <workItem from="1715844247926" duration="250000" />
     </task>
     <servers />
   </component>
