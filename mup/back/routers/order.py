@@ -4,7 +4,7 @@ import requests
 
 from dto import OrderDTO
 from utils.security_utils import has_role
-from dl.order import create_order, exec_order, get_order_by_foreign_id, get_order_by_form_id
+from dl.order import create_order, exec_order, get_order_by_foreign_id, get_order_by_form_id, get_all
 
 router = APIRouter()
 
@@ -20,7 +20,7 @@ async def execute_order(form_id):
     exec_order(form_id)
     order = get_order_by_form_id(form_id)
     try:
-        requests.patch(f'http://localhost:8010/orders/order/{order.order_id}/execute')
+        requests.patch(f'http://localhost:8010/orders/order/{order['foreign_id']}/execute')
     except Exception as e:
         return Response(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, content=str(e))
 
@@ -31,3 +31,8 @@ async def execute_order(form_id):
 async def get_order_status(order_id):
     order_obj = get_order_by_foreign_id(order_id)
     return Response(status_code=status.HTTP_200_OK, content=order_obj)
+
+
+@router.get('/order')
+async def get_all_orders():
+    return get_all()
