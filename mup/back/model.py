@@ -30,7 +30,7 @@ class Form(Base):
     __tablename__ = 'forms'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    foreign_id = Column(String(36))
+    foreign_id = Column(String(36), unique=True)
     content = Column(Text)
     date_created = Column(DateTime, server_default=text('(NOW())'))
     date_fulfilled = Column(DateTime)
@@ -49,12 +49,8 @@ def init_db():
     ENGINE_URL = ''
 
     try:
-        engine_with_no_db = create_engine(DOCKER_ENGINE_URL, future=True)
-        ENGINE_URL = f'{DOCKER_ENGINE_URL}/mup'
-    except:
         engine_with_no_db = create_engine(LOCAL_ENGINE_URL, future=True)
         ENGINE_URL = f'{LOCAL_ENGINE_URL}/mup'
-    try:
         with engine_with_no_db.connect() as conn:
             with conn.begin():
                 if not conn.execute(QUERY_DB).rowcount:
@@ -63,6 +59,16 @@ def init_db():
                     Base.metadata.create_all(engine)
                 # conn.execute(DROP_DB_DDL)
             conn.close()
-    except Exception as ex:
-        print(ex)
+
+    except:
+        engine_with_no_db = create_engine(DOCKER_ENGINE_URL, future=True)
+        ENGINE_URL = f'{DOCKER_ENGINE_URL}/mup'
+        with engine_with_no_db.connect() as conn:
+            with conn.begin():
+                if not conn.execute(QUERY_DB).rowcount:
+                    conn.execute(CREATE_DB_DDL)
+                    engine = create_engine(ENGINE_URL, future=True)
+                    Base.metadata.create_all(engine)
+                # conn.execute(DROP_DB_DDL)
+            conn.close()
 

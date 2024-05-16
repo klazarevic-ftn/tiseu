@@ -1,6 +1,5 @@
 from typing import Annotated
 from fastapi.security import OAuth2AuthorizationCodeBearer
-from jwt import PyJWKClient
 
 import jwt
 
@@ -18,7 +17,7 @@ async def valid_access_token(
 ):
     url = "http://localhost:9000/realms/tiseu/protocol/openid-connect/certs"
     optional_custom_headers = {"User-agent": "custom-user-agent"}
-    jwks_client = PyJWKClient(url, headers=optional_custom_headers)
+    jwks_client = jwt.PyJWKClient(url, headers=optional_custom_headers)
     try:
         signing_key = jwks_client.get_signing_key_from_jwt(access_token)
         data = jwt.decode(

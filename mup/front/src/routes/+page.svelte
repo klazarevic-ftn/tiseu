@@ -12,14 +12,17 @@
 
     let keycloak;
     let calendar;
+    let orders = [];
 
     $: stage = 'pocetna'; //pocetna, izrada, uvid, podnosenje, obrada
 
-    const port = '5173'
+    // const port = '5173'
+    const port = '8999'
 
     onMount(async _ => {
         try {
             keycloak = new Keycloak(keycloak_json);
+            // keycloak.init({onLoad: "check-sso", checkLoginIframe: false, redirectUri: `http://172.23.133.60:${port}/`})
             keycloak.init({onLoad: "check-sso", checkLoginIframe: false, redirectUri: `http://localhost:${port}/`})
                 .then(_ => {
                     keycloak.loadUserInfo();
@@ -53,7 +56,20 @@
                 initialView: 'timeGridWeek'
             });
             calendar.render();
+        } else if(stage === 'obrada') {
+            getOrders()
         }
+    }
+
+    async function getOrders() {
+        const response = await fetch(
+            'http://localhost:8086/order',
+            {
+                method: 'GET'
+            }
+        );
+
+        orders = await response.json();
     }
 </script>
 
@@ -133,7 +149,26 @@
             <p>У обављању унутрашњих послова могу се примењивати само мере принуде које су предвиђене законом и којима
                 се са најмање штетних последица по грађане, као и њихове организације, предузећа, установе и друге
                 организације, постиже извршење послова.</p>
-        {:else if stage === 'izrada' }
+        {:else if stage === 'obrada' }
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Date/time</th>
+                        <th>Executed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {#each orders as order}
+                        <tr>
+                            <td>{order.foreign_id}</td>
+                            <td>{order.date_created.replace('T', ' ')}</td>
+                            <td>{order.date_fulfilled ? order.date_fulfilled.replace('T', ' ') : 'Not finalized'}</td>
+                            <td><button data-id={order.id} disabled={order.date_fulfilled !== null}>Execute</button></td>
+                        </tr>
+                    {/each}
+                </tbody>
+            </table>
         {/if}
             <div id='calendar' style="height: {stage === 'izrada' ? 800 : 0}px; overflow: hidden; margin-top: 15px;}" ></div>
     </div>
@@ -238,5 +273,9 @@
     .redirect_nav a:hover {
         cursor: pointer;
         color: black;
+    }
+
+    td {
+       padding: 3px;
     }
 </style>
