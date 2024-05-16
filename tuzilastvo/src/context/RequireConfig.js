@@ -11,24 +11,24 @@ const RequireConfig = () => {
 
     const ADMIN_ = ['/cases'];
     const CIVIL_ = ['/profile', '/cases'];
-    const PROSECUTOR_ = ['/profile', '/cases', '/new-case', '/new-document', '/new-trial'];
+    const PROSECUTOR_ = ['/profile', '/orders', '/cases/all', '/cases/new-case', '/cases/case/:caseNo', '/docs/new-document', '/trials/new-trial', '/trials/all', '/trials/trial/:trialNo', '/laws/new-law', '/laws/all'];
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const { configured, userData } = await checkConfig(); 
                 // console.log(configured);
-                // console.log('configured :', configured);
-                // console.log('userData :', userData);
-                // console.log(userData.type);
+                console.log('configured :', configured);
+                console.log('userData :', userData);
+                console.log(userData.type);
 
                 setConfigStatus(configured);
                 
                 const userRoutes = getUserRoutes(userData.type);
                 const routes = userRoutes.map(route => route.toLowerCase());
                 setAllowedRoutes(routes);
-                // console.log('Allowed Routes:', routes);
-                // console.log('Current Route:', location.pathname.toLowerCase());
+                console.log('Allowed Routes:', routes);
+                console.log('Current Route:', location.pathname.toLowerCase());
 
             } catch (error) {
                 console.error('Error while checking configuration:', error);
@@ -37,7 +37,7 @@ const RequireConfig = () => {
         };
 
         fetchData();
-    }, [configStatus, allowedRoutes]);
+    }, []);
 
     const getUserRoutes = (userType) => {
         switch (userType) {

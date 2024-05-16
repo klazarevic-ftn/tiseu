@@ -33,12 +33,12 @@ const RequireAuth = () => {
                 }
             } catch (error) {
                 console.error('Error while checking authentication:', error);
-                setAuthStatus(false); // Set authentication status to false if there's an error
+                setAuthStatus(false); 
             }
         };
 
         fetchData();
-    }, [authStatus, configStatus]);
+    }, []);
 
     return (
         <>
