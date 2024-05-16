@@ -128,6 +128,7 @@ const Trials = () => {
 
 
 const handleInspect = (trialNo) => {
+  console.log(trialNo)
   navigate(`/trials/trial/${trialNo}`);
 };
 

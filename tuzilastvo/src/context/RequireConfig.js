@@ -18,17 +18,17 @@ const RequireConfig = () => {
             try {
                 const { configured, userData } = await checkConfig(); 
                 // console.log(configured);
-                console.log('configured :', configured);
-                console.log('userData :', userData);
-                console.log(userData.type);
+                // console.log('configured :', configured);
+                // console.log('userData :', userData);
+                // console.log(userData.type);
 
                 setConfigStatus(configured);
                 
                 const userRoutes = getUserRoutes(userData.type);
                 const routes = userRoutes.map(route => route.toLowerCase());
                 setAllowedRoutes(routes);
-                console.log('Allowed Routes:', routes);
-                console.log('Current Route:', location.pathname.toLowerCase());
+                // console.log('Allowed Routes:', routes);
+                // console.log('Current Route:', location.pathname.toLowerCase());
 
             } catch (error) {
                 console.error('Error while checking configuration:', error);
@@ -53,9 +53,11 @@ const RequireConfig = () => {
     };
 
     const isRouteAllowed = (route) => {
+        if (route.startsWith('/cases/case/') || route.startsWith('/trials/trial/')) {
+            return true;
+        }
         return allowedRoutes.includes(route.toLowerCase());
     };
-
     return (
         <>
             <div className="root-layout h-screen flex flex-col">
