@@ -17,11 +17,12 @@ async def receive_order(order_dto: OrderDTO):
 
 @router.patch('/order/{form_id}')
 async def execute_order(form_id):
-    exec_order(form_id)
-    order = get_order_by_form_id(form_id)
     try:
-        requests.patch(f'http://localhost:8010/orders/order/{order['foreign_id']}/execute')
+        exec_order(form_id)
+        order = get_order_by_form_id(form_id)
+        requests.patch(f'http://10.5.0.7:8010/orders/order/{order['foreign_id']}/execute')
     except Exception as e:
+        print(e)
         return Response(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, content=str(e))
 
     return Response(status_code=status.HTTP_200_OK)
