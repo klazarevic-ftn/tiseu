@@ -20,18 +20,18 @@ const create = async (caseNo) => {
 
     // ORDER CREATION ON :8086
   
-    // const postData = {
-    //   orderNo: savedOrder.orderNo,
-    //   caseNo: savedOrder.caseNo
-    // };
+    const postData = {
+      orderNo: savedOrder.orderNo,
+      caseNo: savedOrder.caseNo
+    };
 
-    // await fetch('http://localhost:8086/order', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify(postData)
-    // });
+    await fetch('http://10.5.0.3:8086/order', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(postData)
+    });
 
 
     return savedOrder;

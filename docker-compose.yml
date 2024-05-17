@@ -13,7 +13,8 @@ services:
     env_file:
       - ./sso_test/.env
     networks:
-      - app-network
+      mup_mupnet:
+        ipv4_address: 10.5.0.9
   tuzilastvo_server:
     image:   tuzilastvo_server
     container_name:   tuzilastvo_server
@@ -26,7 +27,8 @@ services:
     env_file:
       - ./tuzilastvo/server/.env
     networks:
-      - app-network
+      mup_mupnet:
+        ipv4_address: 10.5.0.7
   tuzilastvo:
     image: tuzilastvo
     container_name: tuzilastvo
@@ -39,7 +41,8 @@ services:
     env_file:
       - ./tuzilastvo/server/.env
     networks:
-      - app-network
+      mup_mupnet:
+        ipv4_address: 10.5.0.8
 networks:
-  app-network:
-    driver: bridge
+  mup_mupnet:
+    external: true
