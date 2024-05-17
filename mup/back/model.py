@@ -53,22 +53,27 @@ def init_db():
         ENGINE_URL = f'{LOCAL_ENGINE_URL}/mup'
         with engine_with_no_db.connect() as conn:
             with conn.begin():
-                if not conn.execute(QUERY_DB).rowcount:
-                    conn.execute(CREATE_DB_DDL)
-                    engine = create_engine(ENGINE_URL, future=True)
-                    Base.metadata.create_all(engine)
+                # if not conn.execute(QUERY_DB).rowcount:
+                # conn.execute(CREATE_DB_DDL)
+                engine = create_engine(ENGINE_URL, future=True)
+                Base.metadata.create_all(engine)
                 # conn.execute(DROP_DB_DDL)
             conn.close()
 
-    except:
+    except Exception as ex:
+        print('Local: ', ex)
+        return
+    try:
         engine_with_no_db = create_engine(DOCKER_ENGINE_URL, future=True)
         ENGINE_URL = f'{DOCKER_ENGINE_URL}/mup'
         with engine_with_no_db.connect() as conn:
             with conn.begin():
-                if not conn.execute(QUERY_DB).rowcount:
-                    conn.execute(CREATE_DB_DDL)
-                    engine = create_engine(ENGINE_URL, future=True)
-                    Base.metadata.create_all(engine)
+                # if not conn.execute(QUERY_DB).rowcount:
+                # conn.execute(CREATE_DB_DDL)
+                engine = create_engine(ENGINE_URL, future=True)
+                Base.metadata.create_all(engine)
                 # conn.execute(DROP_DB_DDL)
             conn.close()
-
+    except Exception as ex:
+        print('Docker: ', ex)
+        return
