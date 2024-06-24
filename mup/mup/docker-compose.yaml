@@ -1,0 +1,55 @@
+services:
+  db:
+    container_name: mup_db  
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_DATABASE: mup
+      MYSQL_ROOT_PASSWORD: root
+    command:
+      '--bind-address=10.5.0.5'
+    ports:
+      - 8888:3306
+    expose:
+      - 3306
+    volumes:
+      - db:/var/lib/mysql
+    networks:
+      main_network:
+        ipv4_address: 10.5.0.5
+
+  back:
+    container_name: mup_back
+    build:
+      context: ./back
+      dockerfile: ./Dockerfile
+    depends_on: 
+      - db
+    ports: 
+      - 8777:8086
+    expose:
+      - 8086
+    networks:
+      main_network:
+        ipv4_address: 10.5.0.6
+
+  front:
+    container_name: mup_front
+    build:
+      context: ./front
+      dockerfile: ./Dockerfile
+    command: 'npm run dev -- --host'
+    ports:
+      - 8999:5173
+    expose: 
+      - 5173
+    networks:
+      main_network:
+        ipv4_address: 10.5.0.7
+
+networks:
+  main_network:
+    name: sso_euprava
+    external: true
+volumes:
+  db:

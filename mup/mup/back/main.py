@@ -3,6 +3,7 @@ import uvicorn
 from model import init_db
 from routers.user import router as user_router
 from routers.order import router as order_router
+from routers.appointment import router as appointment_router
 from utils.security_utils import valid_access_token
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -22,6 +23,7 @@ app.add_middleware(
 
 app.include_router(user_router)
 app.include_router(order_router)
+app.include_router(appointment_router)
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)

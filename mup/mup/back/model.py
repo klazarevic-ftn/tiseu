@@ -17,6 +17,12 @@ class FormType(PythonEnum):
     REQUEST = 'REQUEST'
 
 
+class AppointmentType(PythonEnum):
+    ID = 'ID'
+    PASSPORT = 'Passport'
+    DRIVERS_LICENCE = 'Driver\'s licence'
+
+
 class User(Base):
     __tablename__ = 'users'
 
@@ -34,11 +40,20 @@ class Form(Base):
     content = Column(Text)
     date_created = Column(DateTime, server_default=text('(NOW())'))
     date_fulfilled = Column(DateTime)
-    form_type = Column(SQLEnum(FormType, length=10), name='form_type')
+    form_type = Column(SQLEnum(FormType, length=10, name='form_type'))
+
+
+class Appointment(Base):
+    __tablename__ = 'appointments'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    date = Column(DateTime)
+    length = Column(Integer)
+    user = Column(Integer)  # TODO: Povezi
+    type = Column(SQLEnum(AppointmentType, length=15))
 
 
 LOCAL_ENGINE_URL = 'mysql+pymysql://root:root@localhost:8888'
-DOCKER_ENGINE_URL = 'mysql+pymysql://root:root@10.5.0.2:3306'
+DOCKER_ENGINE_URL = 'mysql+pymysql://root:root@10.5.0.5:3306'
 DATABASE_NAME = 'mup'
 CREATE_DB_DDL = DDL(f'CREATE DATABASE IF NOT EXISTS `{DATABASE_NAME}`')
 DROP_DB_DDL = DDL(f'DROP DATABASE IF EXISTS `{DATABASE_NAME}`')
@@ -53,22 +68,27 @@ def init_db():
         ENGINE_URL = f'{LOCAL_ENGINE_URL}/mup'
         with engine_with_no_db.connect() as conn:
             with conn.begin():
-                if not conn.execute(QUERY_DB).rowcount:
-                    conn.execute(CREATE_DB_DDL)
-                    engine = create_engine(ENGINE_URL, future=True)
-                    Base.metadata.create_all(engine)
+                # if not conn.execute(QUERY_DB).rowcount:
+                # conn.execute(CREATE_DB_DDL)
+                engine = create_engine(ENGINE_URL, future=True)
+                Base.metadata.create_all(engine)
                 # conn.execute(DROP_DB_DDL)
             conn.close()
 
-    except:
+    except Exception as ex:
+        print('Local: ', ex)
+        return
+    try:
         engine_with_no_db = create_engine(DOCKER_ENGINE_URL, future=True)
         ENGINE_URL = f'{DOCKER_ENGINE_URL}/mup'
         with engine_with_no_db.connect() as conn:
             with conn.begin():
-                if not conn.execute(QUERY_DB).rowcount:
-                    conn.execute(CREATE_DB_DDL)
-                    engine = create_engine(ENGINE_URL, future=True)
-                    Base.metadata.create_all(engine)
+                # if not conn.execute(QUERY_DB).rowcount:
+                # conn.execute(CREATE_DB_DDL)
+                engine = create_engine(ENGINE_URL, future=True)
+                Base.metadata.create_all(engine)
                 # conn.execute(DROP_DB_DDL)
             conn.close()
-
+    except Exception as ex:
+        print('Docker: ', ex)
+        return

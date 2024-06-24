@@ -1,0 +1,17 @@
+services:
+  app:
+    container_name: maticar_app
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    ports:
+      - 7000:8086
+    expose:
+      - 8086
+    networks:
+        main_network:
+          ipv4_address: 10.5.0.4
+networks:
+  main_network:
+    name: sso_euprava
+    external: true

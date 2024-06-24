@@ -63,13 +63,22 @@
 
     async function getOrders() {
         const response = await fetch(
-            'http://localhost:8086/order',
+            'http://localhost:8777/order',
             {
                 method: 'GET'
             }
         );
 
         orders = await response.json();
+    }
+
+    async function executeOrder(event) {
+        event.currentTarget.disabled = true
+        const response = await fetch(
+        `http://localhost:8777/order/${event.currentTarget.dataset.id}`,
+        {
+            method: 'PATCH'
+        });
     }
 </script>
 
@@ -164,7 +173,7 @@
                             <td>{order.foreign_id}</td>
                             <td>{order.date_created.replace('T', ' ')}</td>
                             <td>{order.date_fulfilled ? order.date_fulfilled.replace('T', ' ') : 'Not finalized'}</td>
-                            <td><button data-id={order.id} disabled={order.date_fulfilled !== null}>Execute</button></td>
+                            <td><button data-id={order.id} disabled={order.date_fulfilled !== null} on:click={executeOrder}>Execute</button></td>
                         </tr>
                     {/each}
                 </tbody>

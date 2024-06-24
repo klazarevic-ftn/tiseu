@@ -1,0 +1,62 @@
+services:
+  db:
+    container_name: sso_db
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: keycloak
+    ports:
+      - 5555:5432
+    expose:
+      - 5432
+    volumes:
+      - db:/var/lib/postgresql/data
+    networks:
+      euprava:
+        ipv4_address: 10.5.0.2
+
+  keycloak:
+    container_name: sso_app
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    ports:
+        - 9000:8080
+        - 9111:8443
+        # - 9222:5432
+    expose:
+      - 8080
+      - 8443
+      # - 5432
+    environment:
+      - KC_DB=postgres
+      - KC-DB_URL=jdbc:postgresql://10.5.0.2:5432/keycloak
+      - KC_DB_USERNAME=postgres
+      - KC_DB_PASSWORD=root
+
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+
+      - KC_HTTP_ENABLED=true
+
+      - KC_HEALTH_ENABLED=true
+      - KC_METRICS_ENABLED=true
+    command: start-dev --verbose
+    restart: always
+    networks:
+      euprava:
+        ipv4_address: 10.5.0.3
+
+networks:
+  euprava:
+    driver: bridge
+    attachable: true
+    ipam:
+      config:
+        - subnet: 10.5.0.0/16
+          gateway: 10.5.0.1
+
+volumes:
+  db:

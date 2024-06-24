@@ -1,5 +1,5 @@
 # 
-FROM python:3.12
+FROM python:3.12.4-alpine
 
 # 
 COPY ./requirements.txt /requirements.txt
