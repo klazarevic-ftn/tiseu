@@ -1,29 +1,46 @@
+from sqlalchemy import delete, insert, update, values, select
+
 from dto import AppointmentDTO
-from model import Appointment
-from utils.db_utils import connection as func_conn
+from utils.db_utils import get_table, execute_statement, execute_select, convert_date
 from datetime import datetime
-connection = func_conn()
+
+TABLE_NAME = 'appointments'
+table = get_table(TABLE_NAME)
 
 
-def create_appointment(appointmentDTO: AppointmentDTO):
-    appointment = Appointment()
-    date_dict = appointmentDTO.date.split('T')
-    date_dict[1] = date_dict[1][:-1]
-    year, month, day = date_dict[0].split('-')
-    hours, minutes, _ = date_dict[1].split(':')
-    appointment.date = datetime(int(year), int(month), int(day), int(hours), int(minutes))
-    appointment.length = appointmentDTO.length
-    appointment.type = appointmentDTO.type
+def create_appointment(appointment_dto: AppointmentDTO):
+    date = convert_date(appointment_dto.date)
 
-    keys = [attr for attr in appointment.__dict__ if attr[0] != '_' and attr != 'id']
-    values = [getattr(appointment, attr) for attr in keys]
-    values_string = ", ".join(["'%s'" for _ in values]) % tuple(values)
-    query = f'INSERT INTO {appointment.__tablename__}({",".join(keys)}) VALUES ({values_string})'
+    statement = (insert(table).
+                 values(date=date, length=15, user_id=appointment_dto.user_id,type=appointment_dto.type))  # TODO: Add user
 
-    with connection.cursor() as cursor:
-        try:
-            cursor.execute(query)
-            connection.commit()
-        except Exception as err:
-            print(err)
-            connection.rollback()
+    execute_statement(statement)
+
+
+def delete_appointment(appointment_id: int):
+    statement = delete(table).where(table.c.id == appointment_id)
+    execute_statement(statement)
+
+
+def update_appointment(appointment_dto: AppointmentDTO):
+    statement = (update(table).
+                 where(table.columns.id == appointment_dto.id).
+                 values(date=appointment_dto.date))
+    execute_statement(statement)
+
+
+def get_appointment_by_id(appointment_id: int):
+    statement = select(table).where(table.c.id == appointment_id)
+    return execute_select(statement)
+
+
+def get_appointments_by_user_id(user_id: int):
+    statement = select(table).where(table.c.user_id == user_id)
+    return execute_select(statement)
+
+
+def get_appointments_by_date(from_date: str, to_date: str):
+    from_date_obj = convert_date(from_date)
+    to_date_obj = convert_date(to_date)
+    statement = (select(table).where(table.c.date.between(from_date_obj, to_date_obj)))
+    return execute_select(statement)

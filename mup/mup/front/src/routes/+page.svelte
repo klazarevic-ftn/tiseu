@@ -6,6 +6,7 @@
     import { Calendar } from '@fullcalendar/core';
     import dayGridPlugin from '@fullcalendar/daygrid';
     import timeGridPlugin from '@fullcalendar/timegrid';
+    import interactionPlugin from '@fullcalendar/interaction';
     import listPlugin from '@fullcalendar/list';
 
     import {onMount, tick} from "svelte";
@@ -13,11 +14,11 @@
     let keycloak;
     let calendar;
     let orders = [];
-
+    let selectedTime;
     $: stage = 'pocetna'; //pocetna, izrada, uvid, podnosenje, obrada
 
-    // const port = '5173'
-    const port = '8999'
+    const port = '5173'
+    // const port = '8999'
 
     onMount(async _ => {
         try {
@@ -52,12 +53,28 @@
 
         if(stage === 'izrada') {
             calendar = new Calendar(document.getElementById('calendar'), {
-                plugins: [timeGridPlugin],
-                initialView: 'timeGridWeek'
+                plugins: [timeGridPlugin, interactionPlugin ],
+                initialView: 'timeGridWeek',
+                selectable: true,
+                headerToolbar: {
+                    left: 'prev,next',
+                    center: 'title'
+                },
+                dateClick: function(info) {
+                    selectedTime = info;
+                },
+                businessHours: {
+                    daysOfWeek: [ 1, 2, 3, 4, 5 ],
+                    startTime: '07:00',
+                    endTime: '14:00',
+                },
+                eventOverlap: false,
+                weekends: false,
+                scrollTime: '06:00'
             });
             calendar.render();
         } else if(stage === 'obrada') {
-            getOrders()
+            getOrders();
         }
     }
 
@@ -79,6 +96,42 @@
         {
             method: 'PATCH'
         });
+    }
+
+    async function addEvent(_) {
+        console.log(selectedTime);
+
+        const response = await fetch(
+            'http://localhost:8777/appointment',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    date: selectedTime.date.toISOString(),
+                    length: 15,
+                    user_id: 1,
+                    type: 'ID'
+                })
+            }
+        );
+
+        let result = await response.json();
+        console.log(result);
+
+        // calendar.addEvent({
+        //     title: 'Test',
+        //     start: selectedTime.date.toISOString(),
+        //     end: (new Date(selectedTime.date.getTime() + 15*60000)).toISOString()
+        // });
+        console.log(calendar.getEvents())
+    }
+
+    async function populateCalendar(_) {
+        let result = await keycloak.loadUserProfile();
+        console.log(result.attributes['mup_id']);
+        console.log(calendar.view.currentStart.toISOString(), " : ", calendar.view.currentEnd.toISOString());
     }
 </script>
 
@@ -179,7 +232,11 @@
                 </tbody>
             </table>
         {/if}
+        <div>
+            <button on:click={addEvent} hidden={stage === 'izrada'}>Sakazi</button>
+            <button on:click={populateCalendar} hidden={stage === 'izrada'}>Pokazi</button>
             <div id='calendar' style="height: {stage === 'izrada' ? 800 : 0}px; overflow: hidden; margin-top: 15px;}" ></div>
+        </div>
     </div>
 </div>
 

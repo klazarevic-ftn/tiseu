@@ -1,6 +1,6 @@
 {
   "url": "http://localhost:9000/",
-  "realm": "tiseu",
+  "realm": "eUprava",
   "clientId": "mup",
   "authServerUrl": "http://localhost:9000/",
   "sslRequired": "none",

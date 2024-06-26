@@ -8,6 +8,7 @@ class OrderDTO(BaseModel):
 
 
 class AppointmentDTO(BaseModel):
+    id: int = None
     date: str
     length: int
     user_id: int

@@ -48,7 +48,7 @@ class Appointment(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     date = Column(DateTime)
     length = Column(Integer)
-    user = Column(Integer)  # TODO: Povezi
+    user_id = Column(Integer)  # TODO: Povezi
     type = Column(SQLEnum(AppointmentType, length=15))
 
 
