@@ -3,18 +3,13 @@
     import grb_srbije_img from '$lib/assets/grb-srbije.png';
     import keycloak_json from '$lib/keycloak.json';
     import Keycloak from 'keycloak-js';
-    import { Calendar } from '@fullcalendar/core';
-    import dayGridPlugin from '@fullcalendar/daygrid';
-    import timeGridPlugin from '@fullcalendar/timegrid';
-    import interactionPlugin from '@fullcalendar/interaction';
-    import listPlugin from '@fullcalendar/list';
 
     import {onMount, tick} from "svelte";
+    import Calendar from "../Calendar.svelte";
 
     let keycloak;
-    let calendar;
+    let userId;
     let orders = [];
-    let selectedTime;
     $: stage = 'pocetna'; //pocetna, izrada, uvid, podnosenje, obrada
 
     const port = '5173'
@@ -28,7 +23,10 @@
                 .then(_ => {
                     keycloak.loadUserInfo();
                     keycloak = keycloak;
-                    // console.log(keycloak);
+
+                    keycloak.loadUserProfile().then(object => {
+                        userId = object.attributes.mup_id[0];
+                    });
                 })
                 .catch(error => {
                     console.log('caught error: ', error);
@@ -36,7 +34,6 @@
         } catch (error) {
             console.log('error: ', error);
         }
-
         let url = new URLSearchParams(window.location.search);
         let newStage = url.has('stage');
 
@@ -51,29 +48,7 @@
         else
             stage = event.currentTarget.dataset.stage;
 
-        if(stage === 'izrada') {
-            calendar = new Calendar(document.getElementById('calendar'), {
-                plugins: [timeGridPlugin, interactionPlugin ],
-                initialView: 'timeGridWeek',
-                selectable: true,
-                headerToolbar: {
-                    left: 'prev,next',
-                    center: 'title'
-                },
-                dateClick: function(info) {
-                    selectedTime = info;
-                },
-                businessHours: {
-                    daysOfWeek: [ 1, 2, 3, 4, 5 ],
-                    startTime: '07:00',
-                    endTime: '14:00',
-                },
-                eventOverlap: false,
-                weekends: false,
-                scrollTime: '06:00'
-            });
-            calendar.render();
-        } else if(stage === 'obrada') {
+        if (stage === 'obrada') {
             getOrders();
         }
     }
@@ -92,46 +67,10 @@
     async function executeOrder(event) {
         event.currentTarget.disabled = true
         const response = await fetch(
-        `http://localhost:8777/order/${event.currentTarget.dataset.id}`,
-        {
-            method: 'PATCH'
-        });
-    }
-
-    async function addEvent(_) {
-        console.log(selectedTime);
-
-        const response = await fetch(
-            'http://localhost:8777/appointment',
+            `http://localhost:8777/order/${event.currentTarget.dataset.id}`,
             {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    date: selectedTime.date.toISOString(),
-                    length: 15,
-                    user_id: 1,
-                    type: 'ID'
-                })
-            }
-        );
-
-        let result = await response.json();
-        console.log(result);
-
-        // calendar.addEvent({
-        //     title: 'Test',
-        //     start: selectedTime.date.toISOString(),
-        //     end: (new Date(selectedTime.date.getTime() + 15*60000)).toISOString()
-        // });
-        console.log(calendar.getEvents())
-    }
-
-    async function populateCalendar(_) {
-        let result = await keycloak.loadUserProfile();
-        console.log(result.attributes['mup_id']);
-        console.log(calendar.view.currentStart.toISOString(), " : ", calendar.view.currentEnd.toISOString());
+                method: 'PATCH'
+            });
     }
 </script>
 
@@ -174,7 +113,8 @@
         <button data-stage="podnosenje" on:click={changeStage} class="drop_btn">Podnosenje prijave</button>
     </div>
 
-    {#if keycloak?.authenticated && keycloak?.resourceAccess.mup.roles.includes('mup_zaposleni')}
+    <!--{#if keycloak?.authenticated && keycloak?.resourceAccess?.mup.roles.includes('mup_zaposleni')}-->
+    {#if keycloak?.authenticated && keycloak?.getKeycloakInstance?.realmAccess.roles.includes('mup_zaposleni')}
         <div class="dropdown">
             <button data-stage="obrada" on:click={changeStage} class="drop_btn">Obrada</button>
         </div>
@@ -189,8 +129,8 @@
     </div>
 </div>
 
-<div style="width: 100%;">
-    <div style="width: 60%; margin: 0 auto;">
+<div style="width: 60%; margin: 0 auto;">
+    <div style="width: 100%;">
         <!-- Content -->
         {#if stage === 'pocetna' }
             <h2 style="color: #c7363d;">Надлежност</h2>
@@ -214,29 +154,30 @@
         {:else if stage === 'obrada' }
             <table>
                 <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Date/time</th>
-                        <th>Executed</th>
-                    </tr>
+                <tr>
+                    <th>ID</th>
+                    <th>Date/time</th>
+                    <th>Executed</th>
+                </tr>
                 </thead>
                 <tbody>
-                    {#each orders as order}
-                        <tr>
-                            <td>{order.foreign_id}</td>
-                            <td>{order.date_created.replace('T', ' ')}</td>
-                            <td>{order.date_fulfilled ? order.date_fulfilled.replace('T', ' ') : 'Not finalized'}</td>
-                            <td><button data-id={order.id} disabled={order.date_fulfilled !== null} on:click={executeOrder}>Execute</button></td>
-                        </tr>
-                    {/each}
+                {#each orders as order}
+                    <tr>
+                        <td>{order.foreign_id}</td>
+                        <td>{order.date_created.replace('T', ' ')}</td>
+                        <td>{order.date_fulfilled ? order.date_fulfilled.replace('T', ' ') : 'Not finalized'}</td>
+                        <td>
+                            <button data-id={order.id} disabled={order.date_fulfilled !== null} on:click={executeOrder}>
+                                Execute
+                            </button>
+                        </td>
+                    </tr>
+                {/each}
                 </tbody>
             </table>
+        {:else if stage === 'izrada'}
+            <Calendar userId={userId}/>
         {/if}
-        <div>
-            <button on:click={addEvent} hidden={stage === 'izrada'}>Sakazi</button>
-            <button on:click={populateCalendar} hidden={stage === 'izrada'}>Pokazi</button>
-            <div id='calendar' style="height: {stage === 'izrada' ? 800 : 0}px; overflow: hidden; margin-top: 15px;}" ></div>
-        </div>
     </div>
 </div>
 
@@ -342,6 +283,6 @@
     }
 
     td {
-       padding: 3px;
+        padding: 3px;
     }
 </style>

@@ -12,7 +12,7 @@ async def create_appointment_(appointment: AppointmentDTO):
     create_appointment(appointment)
 
 
-@router.post('/appointment/{id}')
+@router.delete('/appointment/')
 async def delete_appointment_(appointment_id: int):
     delete_appointment(appointment_id)
 

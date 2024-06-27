@@ -16,8 +16,8 @@ def connection():
                        cursorclass=DictCursor)
 
 
-engine = create_engine('mysql+pymysql://root:root@localhost:8888/mup')
-# engine = create_engine('mysql+pymysql://root:root@10.5.0.5:3306/mup')
+# engine = create_engine('mysql+pymysql://root:root@localhost:8888/mup')
+engine = create_engine('mysql+pymysql://root:root@10.5.0.5:3306/mup')
 connection_obj = connection()
 metadata = MetaData()
 
