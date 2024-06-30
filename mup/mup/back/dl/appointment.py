@@ -1,8 +1,7 @@
-from sqlalchemy import delete, insert, update, values, select
+from sqlalchemy import delete, insert, update, select
 
 from dto import AppointmentDTO
 from utils.db_utils import get_table, execute_statement, execute_select, convert_date
-from datetime import datetime
 
 TABLE_NAME = 'appointments'
 table = get_table(TABLE_NAME)
@@ -31,7 +30,7 @@ def update_appointment(appointment_dto: AppointmentDTO):
 
 def get_appointment_by_id(appointment_id: int):
     statement = select(table).where(table.c.id == appointment_id)
-    return execute_select(statement)
+    return execute_select(statement)[0]
 
 
 def get_appointments_by_user_id(user_id: int):

@@ -41,6 +41,7 @@ class Form(Base):
     date_created = Column(DateTime, server_default=text('(NOW())'))
     date_fulfilled = Column(DateTime)
     form_type = Column(SQLEnum(FormType, length=10, name='form_type'))
+    user_id = Column(Integer)
 
 
 class Appointment(Base):

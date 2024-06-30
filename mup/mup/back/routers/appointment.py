@@ -19,10 +19,10 @@ async def delete_appointment_(appointment_id: int):
 
 @router.get('/appointment/{id}')
 async def get_appointment_by_id_(appointment_id: int):
-    return get_appointment_by_id(appointment_id)[0]
+    return get_appointment_by_id(appointment_id)
 
 
-@router.get('/appointment/user/{id}')
+@router.get('/appointment/user/')
 async def get_appointments_by_user_id_(user_id: int):
     return get_appointments_by_user_id(user_id)
 
