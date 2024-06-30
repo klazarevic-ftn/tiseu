@@ -4,11 +4,13 @@
     import keycloak_json from '$lib/keycloak.json';
     import Keycloak from 'keycloak-js';
 
-    import {onMount, tick} from "svelte";
+    import { onMount } from "svelte";
     import Calendar from "../Calendar.svelte";
+    import Form from "../Form.svelte";
+    import Forms from "../Forms.svelte";
 
     let keycloak;
-    let userId;
+    let userAttributes;
     let orders = [];
     $: stage = 'pocetna'; //pocetna, izrada, uvid, podnosenje, obrada
 
@@ -20,13 +22,14 @@
             keycloak = new Keycloak(keycloak_json);
             // keycloak.init({onLoad: "check-sso", checkLoginIframe: false, redirectUri: `http://172.23.133.60:${port}/`})
             keycloak.init({onLoad: "check-sso", checkLoginIframe: false, redirectUri: `http://localhost:${port}/`})
-                .then(_ => {
-                    keycloak.loadUserInfo();
-                    keycloak = keycloak;
-
-                    keycloak.loadUserProfile().then(object => {
-                        userId = object.attributes.mup_id[0];
-                    });
+                .then(response => {
+                    if(response) {
+                        keycloak.loadUserInfo();
+                        keycloak = keycloak;
+                        keycloak.loadUserProfile().then(object => {
+                            userAttributes = object;
+                        });
+                    }
                 })
                 .catch(error => {
                     console.log('caught error: ', error);
@@ -43,7 +46,7 @@
     });
 
     function changeStage(event) {
-        if (!keycloak?.authenticated && event.currentTarget.dataset.stage !== 'pocetna')
+        if (!keycloak?.authenticated && event.currentTarget.dataset.stage !== 'pocetna' && event.currentTarget.dataset.stage !== 'podnosenje')
             keycloak.login({redirectUri: `http://localhost:${port}/?stage=${event.currentTarget.dataset.stage}`});
         else
             stage = event.currentTarget.dataset.stage;
@@ -66,7 +69,7 @@
 
     async function executeOrder(event) {
         event.currentTarget.disabled = true
-        const response = await fetch(
+        await fetch(
             `http://localhost:8777/order/${event.currentTarget.dataset.id}`,
             {
                 method: 'PATCH'
@@ -114,7 +117,7 @@
     </div>
 
     <!--{#if keycloak?.authenticated && keycloak?.resourceAccess?.mup.roles.includes('mup_zaposleni')}-->
-    {#if keycloak?.authenticated && keycloak?.getKeycloakInstance?.realmAccess.roles.includes('mup_zaposleni')}
+    {#if keycloak?.authenticated && keycloak.tokenParsed.realm_access.roles.includes('mup_zaposleni')}
         <div class="dropdown">
             <button data-stage="obrada" on:click={changeStage} class="drop_btn">Obrada</button>
         </div>
@@ -151,32 +154,12 @@
             <p>У обављању унутрашњих послова могу се примењивати само мере принуде које су предвиђене законом и којима
                 се са најмање штетних последица по грађане, као и њихове организације, предузећа, установе и друге
                 организације, постиже извршење послова.</p>
-        {:else if stage === 'obrada' }
-            <table>
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Date/time</th>
-                    <th>Executed</th>
-                </tr>
-                </thead>
-                <tbody>
-                {#each orders as order}
-                    <tr>
-                        <td>{order.foreign_id}</td>
-                        <td>{order.date_created.replace('T', ' ')}</td>
-                        <td>{order.date_fulfilled ? order.date_fulfilled.replace('T', ' ') : 'Not finalized'}</td>
-                        <td>
-                            <button data-id={order.id} disabled={order.date_fulfilled !== null} on:click={executeOrder}>
-                                Execute
-                            </button>
-                        </td>
-                    </tr>
-                {/each}
-                </tbody>
-            </table>
+        {:else if stage === 'podnosenje'}
+            <Form userAttributes={userAttributes}/>
         {:else if stage === 'izrada'}
-            <Calendar userId={userId}/>
+            <Calendar userId={userAttributes.attributes.mup_id[0]}/>
+        {:else if stage === 'obrada'}
+            <Forms />
         {/if}
     </div>
 </div>

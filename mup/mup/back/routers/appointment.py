@@ -1,7 +1,6 @@
 from fastapi import APIRouter
 
-from dl.appointment import create_appointment, delete_appointment, get_appointment_by_id, get_appointments_by_user_id, \
-    get_appointments_by_date
+import dl.appointment as dl
 from dto import AppointmentDTO
 
 router = APIRouter()
@@ -9,24 +8,24 @@ router = APIRouter()
 
 @router.post('/appointment')
 async def create_appointment_(appointment: AppointmentDTO):
-    create_appointment(appointment)
+    dl.create_appointment(appointment)
 
 
 @router.delete('/appointment/')
 async def delete_appointment_(appointment_id: int):
-    delete_appointment(appointment_id)
+    dl.delete_appointment(appointment_id)
 
 
 @router.get('/appointment/{id}')
 async def get_appointment_by_id_(appointment_id: int):
-    return get_appointment_by_id(appointment_id)
+    return dl.get_appointment_by_id(appointment_id)
 
 
 @router.get('/appointment/user/')
 async def get_appointments_by_user_id_(user_id: int):
-    return get_appointments_by_user_id(user_id)
+    return dl.get_appointments_by_user_id(user_id)
 
 
 @router.get('/appointment/dates/')
 async def get_appointments_by_dates_(from_date: str, to_date: str):
-    return get_appointments_by_date(from_date, to_date)
+    return dl.get_appointments_by_date(from_date, to_date)
