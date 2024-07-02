@@ -1,4 +1,5 @@
 from sqlalchemy import delete, insert, update, select
+from model import Appointment as selecting_class
 
 from dto import AppointmentDTO
 import utils.db_utils as db
@@ -30,16 +31,16 @@ def update_appointment(appointment_dto: AppointmentDTO):
 
 def get_appointment_by_id(appointment_id: int):
     statement = select(table).where(table.c.id == appointment_id)
-    return db.execute_select(statement)[0]
+    return db.execute_select(statement, selecting_class)[0]
 
 
 def get_appointments_by_user_id(user_id: int):
     statement = select(table).where(table.c.user_id == user_id)
-    return db.execute_select(statement)
+    return db.execute_select(statement, selecting_class)
 
 
 def get_appointments_by_date(from_date: str, to_date: str):
     from_date_obj = db.convert_date(from_date)
     to_date_obj = db.convert_date(to_date)
     statement = (select(table).where(table.c.date.between(from_date_obj, to_date_obj)))
-    return db.execute_select(statement)
+    return db.execute_select(statement, selecting_class)

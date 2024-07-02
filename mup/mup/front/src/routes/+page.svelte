@@ -50,30 +50,6 @@
             keycloak.login({redirectUri: `http://localhost:${port}/?stage=${event.currentTarget.dataset.stage}`});
         else
             stage = event.currentTarget.dataset.stage;
-
-        if (stage === 'obrada') {
-            getOrders();
-        }
-    }
-
-    async function getOrders() {
-        const response = await fetch(
-            'http://localhost:8777/order',
-            {
-                method: 'GET'
-            }
-        );
-
-        orders = await response.json();
-    }
-
-    async function executeOrder(event) {
-        event.currentTarget.disabled = true
-        await fetch(
-            `http://localhost:8777/order/${event.currentTarget.dataset.id}`,
-            {
-                method: 'PATCH'
-            });
     }
 </script>
 

@@ -3,6 +3,7 @@ from datetime import datetime
 from sqlalchemy import delete, insert, update, select
 from dto import FormDTO
 import utils.db_utils as db
+from model import Form as selecting_class
 
 TABLE_NAME = 'forms'
 table = db.get_table(TABLE_NAME)
@@ -31,9 +32,9 @@ def get_form_by_id(form_id: int):
 
 def get_forms_by_user_id(user_id: int):
     statement = select(table).where(table.c.user_id == user_id)
-    return db.execute_select(statement)
+    return db.execute_select(statement, selecting_class)
 
 
 def get_unfulfilled_forms():
     statement = select(table).where(table.c.date_fulfilled == None)
-    return db.execute_select(statement)
+    return db.execute_select(statement, selecting_class)

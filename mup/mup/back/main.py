@@ -6,9 +6,6 @@ from fastapi.middleware.cors import CORSMiddleware
 def create_app():
     import routers
     app_local = FastAPI()
-    app_local.include_router(routers.user.router)
-    app_local.include_router(routers.appointment.router)
-    app_local.include_router(routers.form.router)
 
     app_local.add_middleware(
         CORSMiddleware,
@@ -17,6 +14,10 @@ def create_app():
         allow_methods=["*"],
         allow_headers=["*"],
     )
+
+    app_local.include_router(routers.user.router)
+    app_local.include_router(routers.appointment.router)
+    app_local.include_router(routers.form.router)
 
     return app_local
 

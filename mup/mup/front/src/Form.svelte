@@ -33,16 +33,14 @@
             alertText += 'JMBG je obavezan. '
         if(text.length < 300)
             alertText += 'Prijava mora imati barem 300 karaktera. '
-        let body = JSON.stringify({
+        let body = {
             content: text,
             date_created: new Date(),
             form_type: 'REPORT'
-        });
+        };
 
         if(userAttributes)
             body.user_id = userAttributes.attributes.mup_id[0];
-
-        console.log(body);
 
         if(alertText)
             alert(alertText);
@@ -54,7 +52,7 @@
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: body
+                    body: JSON.stringify(body)
                 }
             ).then(_ => {
                 firstNameEl.value = '';
